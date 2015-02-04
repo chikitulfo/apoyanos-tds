@@ -1,6 +1,6 @@
 package tds.apoyanos.modelo;
 
-
+// BLABALBALBLABLABLABLA
 import java.util.Collection;
 import java.util.LinkedList;
 
