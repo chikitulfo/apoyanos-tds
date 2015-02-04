@@ -4,7 +4,8 @@ package tds.apoyanos.modelo;
 public enum Categoria {
     MUSICA("Música"),
     LIBROS("Libros"),
-    CINE("Social"),
+    CINE("Cine"),
+    SOCIAL("Social"),
     SOFTWARE("Software"),
     DEPORTES("Deportes");
 

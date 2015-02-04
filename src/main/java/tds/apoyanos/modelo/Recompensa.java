@@ -1,5 +1,8 @@
 package tds.apoyanos.modelo;
 
+import java.util.Collection;
+import java.util.LinkedList;
+
 public class Recompensa {
     private String nombre;
     private String descripcion;

@@ -1,13 +1,11 @@
 package tds.apoyanos.modelo;
 
-// BLABALBALBLABLABLABLA
 import java.util.Collection;
 import java.util.LinkedList;
 
 public class Usuario {
     private static int nextID;
 
-    private final int id;
     private String nombre;
     private String apellidos;
     private String dni;
@@ -21,8 +19,6 @@ public class Usuario {
 
 
     Usuario (String nombre, String apellidos, String dni, String email, String contraseña){
-        this.id=nextID;
-        nextID++;
         this.nombre=nombre;
         this.apellidos=apellidos;
         this.contraseña=contraseña;
@@ -57,7 +53,7 @@ public class Usuario {
     }
 
     public Collection<Notificacion> getNotificaciones() {
-        return notificaciones;
+        return new LinkedList<Notificacion>(notificaciones);
     }
 
 
