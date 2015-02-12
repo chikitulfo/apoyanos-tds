@@ -3,7 +3,7 @@ package tds.apoyanos.modelo;
 import java.util.Collection;
 import java.util.LinkedList;
 
-public class Recompensa {
+public class Recompensa implements Comparable<Recompensa>{
     private String nombre;
     private String descripcion;
     private int cantidadMinima;
@@ -11,18 +11,14 @@ public class Recompensa {
     private Collection<Apoyo> apoyos;
     private Proyecto proyecto;
 
-    public Recompensa (String nombre, String descripcion, Proyecto proyecto){
+    public Recompensa (String nombre, String descripcion, Proyecto proyecto, int cantidadMinima){
         this.nombre=nombre;
         this.descripcion=descripcion;
         this.proyecto=proyecto;
         this.apoyos = new LinkedList<Apoyo>();
-        this.cantidadMinima=0;
-        this.maximoParticipantes=0;
-    }
-
-    public Recompensa (String nombre, String descripcion, Proyecto proyecto, int cantidadMinima){
-        this(nombre, descripcion, proyecto);
         this.cantidadMinima=cantidadMinima;
+        this.maximoParticipantes=0;
+
     }
 
     public Recompensa (String nombre, String descripcion, Proyecto proyecto, int cantidadMinima, int maximoParticipantes){
@@ -47,7 +43,7 @@ public class Recompensa {
     }
 
     public Collection<Apoyo> getApoyos() {
-        return apoyos;
+        return new LinkedList<Apoyo>(apoyos);
     }
 
     public Proyecto getProyecto() {
@@ -64,5 +60,24 @@ public class Recompensa {
 
     public void setDescripcion(String descripcion) {
         this.descripcion = descripcion;
+    }
+
+
+    public Apoyo apoyar(int cantidad, String comentario) {
+        Apoyo apoyo= new Apoyo(); //FIXME COMPLETAR EL CONSTRUCTOR
+        apoyos.add(apoyo);
+        return apoyo;
+    }
+
+    /**
+     * @param r es una Recompensa no nula.
+     *
+     * @throws NullPointerException si r es nulo.
+     */
+    @Override
+    public int compareTo(Recompensa r) {
+        if ( this.cantidadMinima < r.cantidadMinima) return -1;
+        if ( this.cantidadMinima > r.cantidadMinima) return  1;
+        return 0;
     }
 }

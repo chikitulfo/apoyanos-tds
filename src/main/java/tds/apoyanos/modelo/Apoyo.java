@@ -2,6 +2,8 @@ package tds.apoyanos.modelo;
 
 import java.util.Date;
 
+//TODO Falta la cantidad
+//TODO Constructor que permita no usuario.
 
 public class Apoyo {
 	private final String comentario;
