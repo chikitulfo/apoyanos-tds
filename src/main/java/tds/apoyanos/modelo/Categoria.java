@@ -7,7 +7,8 @@ public enum Categoria {
     CINE("Cine"),
     SOCIAL("Social"),
     SOFTWARE("Software"),
-    DEPORTES("Deportes");
+    DEPORTES("Deportes"),
+    OTROS("Otros");
 
     private final String nombre;
 
