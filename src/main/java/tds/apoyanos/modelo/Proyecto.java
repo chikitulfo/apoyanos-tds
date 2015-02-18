@@ -101,6 +101,7 @@ public class Proyecto {
             if (r.getNombre().equals(nombreRecompensa)){
                 return r.apoyar(cantidad, comentario);
             }
+            
         }
         //FIXME lanzar excepción porque recompensa no existe
         throw new
