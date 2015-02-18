@@ -1,0 +1,32 @@
+package umu.tds.gui;
+
+import java.awt.BorderLayout;
+import java.awt.EventQueue;
+
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.border.EmptyBorder;
+import javax.swing.JLabel;
+import javax.swing.SwingConstants;
+import java.awt.Font;
+
+public class ApoyanosMainWindow extends JFrame {
+
+	private JPanel contentPane;
+	
+	public ApoyanosMainWindow() {
+		setTitle("Apoyanos Principal");
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setBounds(100, 100, 450, 300);
+		contentPane = new JPanel();
+		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+		contentPane.setLayout(new BorderLayout(0, 0));
+		setContentPane(contentPane);
+		
+		JLabel lblBienvenidosAApyanos = new JLabel("Bienvenidos a Ap\u00F3yanos");
+		lblBienvenidosAApyanos.setFont(new Font("Arial", Font.PLAIN, 30));
+		lblBienvenidosAApyanos.setHorizontalAlignment(SwingConstants.CENTER);
+		contentPane.add(lblBienvenidosAApyanos, BorderLayout.CENTER);
+	}
+
+}
