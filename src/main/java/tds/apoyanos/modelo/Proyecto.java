@@ -103,5 +103,6 @@ public class Proyecto {
             }
         }
         //FIXME lanzar excepción porque recompensa no existe
+        throw new
     }
 }

@@ -74,7 +74,6 @@ public class Recompensa implements Comparable<Recompensa>{
      *
      * @throws NullPointerException si r es nulo.
      */
-    @Override
     public int compareTo(Recompensa r) {
         if ( this.cantidadMinima < r.cantidadMinima) return -1;
         if ( this.cantidadMinima > r.cantidadMinima) return  1;
