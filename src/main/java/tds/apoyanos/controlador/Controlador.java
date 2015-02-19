@@ -1,13 +1,16 @@
-package tds.apoyanos.modelo;
+package tds.apoyanos.controlador;
 
-public final class ControladorUsuario {
+import tds.apoyanos.modelo.CatalogoUsuarios;
+import tds.apoyanos.modelo.Usuario;
+
+public final class Controlador {
 		
 	private Usuario usuario = null;
-	private static ControladorUsuario unicaInstancia = new ControladorUsuario();
-	
-	private ControladorUsuario() {	}
-	
-	public static ControladorUsuario getUnicaInstancia() {
+	private static Controlador unicaInstancia = new Controlador();
+
+	private Controlador() {	}
+
+	public static Controlador getUnicaInstancia() {
 		return unicaInstancia;
 	}
 	

@@ -1,7 +1,7 @@
 package tds.apoyanos.vista;
 /*Ventana de login*/
 
-import tds.apoyanos.modelo.ControladorUsuario;
+import tds.apoyanos.controlador.Controlador;
 
 import javax.swing.*;
 import java.awt.*;
@@ -63,7 +63,7 @@ public class LoginW {
 		btnLogin = new JButton("Login"); fixedSize(btnLogin,100,30);
 		btnLogin.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e) {
-				boolean login = ControladorUsuario.getUnicaInstancia().login(
+				boolean login = Controlador.getUnicaInstancia().login(
 						txtLogin.getText(), new String(txtPassword.getPassword()));
 				if (login) {
 					ApoyanosMainWindow window = new ApoyanosMainWindow();

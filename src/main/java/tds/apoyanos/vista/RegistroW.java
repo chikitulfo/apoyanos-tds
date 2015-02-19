@@ -1,6 +1,6 @@
 package tds.apoyanos.vista;
 
-import tds.apoyanos.modelo.ControladorUsuario;
+import tds.apoyanos.controlador.Controlador;
 
 import javax.swing.*;
 import java.awt.*;
@@ -175,7 +175,7 @@ public class RegistroW extends JPanel {
 				if (OK) {
 					//todo bien registrar
 						boolean registrado=false;
-						registrado = ControladorUsuario.getUnicaInstancia().registrarUsuario(
+						registrado = Controlador.getUnicaInstancia().registrarUsuario(
 										txtNombre.getText(),
 										txtApellidos.getText(),
 										txtDNI.getText(),
@@ -232,7 +232,7 @@ public class RegistroW extends JPanel {
 			lblPasswordError.setVisible(true); salida=false;
 		}
 		/* Comprobar que no exista otro usuario con igual login */
-		if (ControladorUsuario.getUnicaInstancia().esRegistrado(txtUsuario.getText())) {
+		if (Controlador.getUnicaInstancia().esRegistrado(txtUsuario.getText())) {
 			lblUsuarioError.setText("Ya existe ese usuario");
 			lblUsuarioError.setVisible(true); salida=false;
 		}
