@@ -24,7 +24,7 @@ public class LoginW {
 	private JButton btnSalir = new JButton("Salir");
 
 	
-	/*manejador eventos de bot�n*/
+	/*manejador eventos de botón*/
 	 /* Constructor */
 	public LoginW() { crearFrame(); /*crea la ventana*/ }
 
@@ -86,8 +86,8 @@ public class LoginW {
 		btnSalir = new JButton("Salir"); fixedSize(btnSalir,75,30);
 		btnSalir.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e) {
-					frame.dispose(); /*cuando se destruye la �ltima ventana termina la maquina virtual*/
-					System.exit(0);  /*no ser�a necesario en este caso*/
+					frame.dispose(); /*cuando se destruye la última ventana termina la maquina virtual*/
+					System.exit(0);  /*no sería necesario en este caso*/
 			}
 		});
 		
@@ -101,7 +101,7 @@ public class LoginW {
 	}
 	
 	/**
-	 * Fija el tama�o de un componente
+	 * Fija el tamaño de un componente
 	 */
 	private void fixedSize(JComponent o, int x, int y) {
 		Dimension d= new Dimension(x,y);

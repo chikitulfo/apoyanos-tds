@@ -17,7 +17,7 @@ public class ApoyanosMainWindow extends JFrame {
 		contentPane.setLayout(new BorderLayout(0, 0));
 		setContentPane(contentPane);
 		
-		JLabel lblBienvenidosAApyanos = new JLabel("Bienvenidos a Ap\u00F3yanos");
+		JLabel lblBienvenidosAApyanos = new JLabel("Bienvenidos a Apóyanos");
 		lblBienvenidosAApyanos.setFont(new Font("Arial", Font.PLAIN, 30));
 		lblBienvenidosAApyanos.setHorizontalAlignment(SwingConstants.CENTER);
 		contentPane.add(lblBienvenidosAApyanos, BorderLayout.CENTER);

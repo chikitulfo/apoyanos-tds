@@ -144,7 +144,7 @@ public class RegistroW extends JPanel {
 		ventana.setContentPane(this);
 		ventana.revalidate(); /*redibujar con el nuevo JPanel*/
 		
-		/*Manejador bot�n volver*/
+		/*Manejador botón volver*/
 		btnVolver.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				ventana.setContentPane(jpanelAnterior);
@@ -167,7 +167,7 @@ public class RegistroW extends JPanel {
 			}
 		});
 		
-		/*Manejador bot�n Registrar*/
+		/*Manejador botón Registrar*/
 		btnRegistrar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				boolean OK=false;
@@ -200,7 +200,7 @@ public class RegistroW extends JPanel {
 	} /*constructor*/
 	
 	/**
-	 * Comprueba que los campos de registro est�n bien
+	 * Comprueba que los campos de registro están bien
 	 */
 	private boolean checkFields() {
 		boolean salida=true;
@@ -251,7 +251,7 @@ public class RegistroW extends JPanel {
 		lblPasswordError.setVisible(false);
 	}
 	/**
-	 * Fija el tama�o de un componente
+	 * Fija el tamaño de un componente
 	 */
 	private void fixedSize(JComponent o, int x, int y) {
 		Dimension d= new Dimension(x,y);

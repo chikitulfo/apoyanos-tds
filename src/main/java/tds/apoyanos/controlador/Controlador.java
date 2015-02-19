@@ -15,8 +15,8 @@ public final class Controlador {
 	}
 	
 	/**
-	 * Comprueba si un usuario est� registrado en el sistema
-	 * (comprueba si est� en el cat�logo)
+	 * Comprueba si un usuario está registrado en el sistema
+	 * (comprueba si está en el catálogo)
 	 */
 	public boolean esRegistrado(String login) {
 		return CatalogoUsuarios.getUnicaInstancia().esRegistrado(login);
