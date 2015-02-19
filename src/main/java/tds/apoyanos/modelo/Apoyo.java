@@ -6,17 +6,24 @@ import java.util.Date;
 //TODO Constructor que permita no usuario.
 
 public class Apoyo {
-	private final String comentario;
-	private final Date fecha;
-	private final Usuario usuario;
-	private final Recompensa recompensa;
-	
-	public Apoyo(Usuario usuario, String comentario, Recompensa recompensa){
-		this.usuario = usuario;
-		this.comentario = comentario;
-		this.recompensa = recompensa;
-		this.fecha = new Date();
+	private String comentario;
+	private Date fecha;
+	private Usuario usuario;
+	private Recompensa recompensa;
+    private int cantidad;
+
+    public Apoyo(String comentario, Recompensa recompensa, int cantidad){
+        this.comentario = comentario;
+        this.recompensa = recompensa;
+        this.cantidad=cantidad;
+        this.fecha = new Date();
+    }
+
+	public Apoyo(Usuario usuario, String comentario, Recompensa recompensa, int cantidad){
+		this(comentario,recompensa, cantidad);
+        this.usuario = usuario;
 	}
+
 
 	public String getComentario() {
 		return comentario;

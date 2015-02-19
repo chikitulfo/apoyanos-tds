@@ -1,17 +1,15 @@
 package tds.apoyanos.persistencia;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
+import beans.Entidad;
+import beans.Propiedad;
+import tds.apoyanos.modelo.Usuario;
+import tds.driver.FactoriaServicioPersistencia;
+import tds.driver.ServicioPersistencia;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
-
-import umu.tds.modelo.Usuario;
-import tds.driver.FactoriaServicioPersistencia;
-import tds.driver.ServicioPersistencia;
-import beans.Entidad;
-import beans.Propiedad;
 
 /**
  * 

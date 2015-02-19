@@ -63,8 +63,8 @@ public class Recompensa implements Comparable<Recompensa>{
     }
 
 
-    public Apoyo apoyar(int cantidad, String comentario) {
-        Apoyo apoyo= new Apoyo(); //FIXME COMPLETAR EL CONSTRUCTOR
+    public Apoyo apoyar(Usuario usuario, int cantidad, String comentario) {
+        Apoyo apoyo= new Apoyo(usuario, comentario, this, cantidad); //FIXME COMPLETAR EL CONSTRUCTOR
         apoyos.add(apoyo);
         return apoyo;
     }

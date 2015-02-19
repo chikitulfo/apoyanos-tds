@@ -1,24 +1,12 @@
-package umu.tds.gui;
+package tds.apoyanos.vista;
 /*Ventana de login*/
 
-import java.awt.Dimension;
-import java.awt.FlowLayout;
+import tds.apoyanos.modelo.ControladorUsuario;
+
+import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
-import javax.swing.Box;
-import javax.swing.JButton;
-import javax.swing.JComponent;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JPasswordField;
-import javax.swing.JTextField;
-
-import javax.swing.JOptionPane; /*avisos de error*/
-
-import umu.tds.Constantes;
-import umu.tds.controlador.ControladorUsuario;
 
 
 public class LoginW {
@@ -36,7 +24,7 @@ public class LoginW {
 	private JButton btnSalir = new JButton("Salir");
 
 	
-	/*manejador eventos de botón*/
+	/*manejador eventos de botï¿½n*/
 	 /* Constructor */
 	public LoginW() { crearFrame(); /*crea la ventana*/ }
 
@@ -83,7 +71,7 @@ public class LoginW {
 					frame.dispose();
 				} else {
 					JOptionPane.showMessageDialog(frame,
-							"Nombre de usuario o contraseña no valido",
+							"Nombre de usuario o contraseï¿½a no valido",
 							"Error", JOptionPane.ERROR_MESSAGE);
 				}
 			} 
@@ -98,8 +86,8 @@ public class LoginW {
 		btnSalir = new JButton("Salir"); fixedSize(btnSalir,75,30);
 		btnSalir.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e) {
-					frame.dispose(); /*cuando se destruye la última ventana termina la maquina virtual*/
-					System.exit(0);  /*no sería necesario en este caso*/
+					frame.dispose(); /*cuando se destruye la ï¿½ltima ventana termina la maquina virtual*/
+					System.exit(0);  /*no serï¿½a necesario en este caso*/
 			}
 		});
 		
@@ -113,7 +101,7 @@ public class LoginW {
 	}
 	
 	/**
-	 * Fija el tamaño de un componente
+	 * Fija el tamaï¿½o de un componente
 	 */
 	private void fixedSize(JComponent o, int x, int y) {
 		Dimension d= new Dimension(x,y);

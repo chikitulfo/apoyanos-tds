@@ -5,7 +5,7 @@ import java.util.*;
 public class Proyecto {
     // Se utiliza una clase interna para representar el estado mediante un enum
     private enum Estado {
-        VOTACION, FINANCIACION, COMPLETADO, CANCELADO};
+        VOTACION, FINANCIACION, COMPLETADO, CANCELADO}
 
     private String nombre;
     private String descripcion;
@@ -96,14 +96,14 @@ public class Proyecto {
         }
     }
 
-    public Apoyo apoyar (String nombreRecompensa, int cantidad, String comentario){
+    public Apoyo apoyar (Usuario usuario, String nombreRecompensa, int cantidad, String comentario){
         for (Recompensa r : recompensas) {
             if (r.getNombre().equals(nombreRecompensa)){
-                return r.apoyar(cantidad, comentario);
+                return r.apoyar(usuario, cantidad, comentario);
             }
             
         }
         //FIXME lanzar excepción porque recompensa no existe
-        throw new
+        return null;
     }
 }

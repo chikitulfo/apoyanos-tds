@@ -2,7 +2,7 @@ package tds.apoyanos.persistencia;
 
 import java.util.List;
 
-import umu.tds.modelo.Usuario;
+import tds.apoyanos.modelo.Usuario;
 
 public interface UsuarioDAO {
 	

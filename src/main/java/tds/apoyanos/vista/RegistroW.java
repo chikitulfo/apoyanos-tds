@@ -1,27 +1,13 @@
-package umu.tds.gui;
+package tds.apoyanos.vista;
 
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.FlowLayout;
+import tds.apoyanos.modelo.ControladorUsuario;
+
+import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
-
-import javax.swing.Box;
-import javax.swing.BoxLayout;
-import javax.swing.JButton;
-import javax.swing.JCheckBox;
-import javax.swing.JComponent;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JPasswordField;
-import javax.swing.JTextField;
-
-import umu.tds.controlador.ControladorUsuario;
-import umu.tds.modelo.CatalogoUsuarios;
 
 
 @SuppressWarnings("serial")
@@ -127,7 +113,7 @@ public class RegistroW extends JPanel {
 		txtPassword = new JPasswordField(); fixedSize(txtPassword,100,20);
 		lblPasswordChk = new JLabel("Otra vez:",JLabel.RIGHT); fixedSize(lblPasswordChk,60,20);
 		txtPasswordChk = new JPasswordField(); fixedSize(txtPasswordChk,100,20);
-		lblPasswordError=new JLabel("Error al introducir las contraseñas",JLabel.CENTER); fixedSize(lblPasswordError,ANCHOW,15);
+		lblPasswordError=new JLabel("Error al introducir las contraseï¿½as",JLabel.CENTER); fixedSize(lblPasswordError,ANCHOW,15);
 		lblPasswordError.setForeground(Color.RED);
 		linea_6.add(lblPassword); linea_6.add(txtPassword); linea_6.add(lblPasswordChk); linea_6.add(txtPasswordChk); 
 		
@@ -158,7 +144,7 @@ public class RegistroW extends JPanel {
 		ventana.setContentPane(this);
 		ventana.revalidate(); /*redibujar con el nuevo JPanel*/
 		
-		/*Manejador botón volver*/
+		/*Manejador botï¿½n volver*/
 		btnVolver.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				ventana.setContentPane(jpanelAnterior);
@@ -181,7 +167,7 @@ public class RegistroW extends JPanel {
 			}
 		});
 		
-		/*Manejador botón Registrar*/
+		/*Manejador botï¿½n Registrar*/
 		btnRegistrar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				boolean OK=false;
@@ -214,7 +200,7 @@ public class RegistroW extends JPanel {
 	} /*constructor*/
 	
 	/**
-	 * Comprueba que los campos de registro estén bien
+	 * Comprueba que los campos de registro estï¿½n bien
 	 */
 	private boolean checkFields() {
 		boolean salida=true;
@@ -265,7 +251,7 @@ public class RegistroW extends JPanel {
 		lblPasswordError.setVisible(false);
 	}
 	/**
-	 * Fija el tamaño de un componente
+	 * Fija el tamaï¿½o de un componente
 	 */
 	private void fixedSize(JComponent o, int x, int y) {
 		Dimension d= new Dimension(x,y);

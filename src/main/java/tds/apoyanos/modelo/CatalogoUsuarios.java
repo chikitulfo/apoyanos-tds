@@ -1,12 +1,12 @@
-package umu.tds.modelo;
+package tds.apoyanos.modelo;
+
+import tds.apoyanos.Config;
+import tds.apoyanos.persistencia.DAOException;
+import tds.apoyanos.persistencia.FactoriaDAO;
+import tds.apoyanos.persistencia.UsuarioDAO;
 
 import java.util.HashMap;
 import java.util.List;
-
-import umu.tds.Constantes;
-import umu.tds.dao.DAOException;
-import umu.tds.dao.FactoriaDAO;
-import umu.tds.dao.UsuarioDAO;
 
 public class CatalogoUsuarios {
 
@@ -36,7 +36,7 @@ public class CatalogoUsuarios {
 	}
 	
 	private List<Usuario> recuperarUsuarios() throws DAOException {
-		return FactoriaDAO.getFactoriaDAO(Constantes.TipoDAO).getUsuarioDAO().getUsuarios();
+		return FactoriaDAO.getFactoriaDAO(Config.TipoDAO).getUsuarioDAO().getUsuarios();
 	}
 	
 	public Usuario getUsuario(String nombreUsuario) {
@@ -54,7 +54,7 @@ public class CatalogoUsuarios {
 	public void addUsuario(Usuario usuario) {
 		UsuarioDAO usuarioBD = null; /*Adaptador DAO para almacenar el nuevo usuario en la BD*/
 		try {
-			usuarioBD=FactoriaDAO.getFactoriaDAO(Constantes.TipoDAO).getUsuarioDAO();
+			usuarioBD=FactoriaDAO.getFactoriaDAO(Config.TipoDAO).getUsuarioDAO();
 		} catch (DAOException e) {
 			e.printStackTrace();
 		}
@@ -70,7 +70,7 @@ public class CatalogoUsuarios {
 		listaUsuarios.remove(usuario);
 		UsuarioDAO usuarioBD=null; /*Adaptador DAO para borrar el usuario de la BD*/
 		try {
-			usuarioBD=FactoriaDAO.getFactoriaDAO(Constantes.TipoDAO).getUsuarioDAO();
+			usuarioBD=FactoriaDAO.getFactoriaDAO(Config.TipoDAO).getUsuarioDAO();
 		} catch (DAOException e) {
 			e.printStackTrace();
 		}

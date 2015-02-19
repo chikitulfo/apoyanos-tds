@@ -1,7 +1,4 @@
-package umu.tds.controlador;
-
-import umu.tds.modelo.CatalogoUsuarios;
-import umu.tds.modelo.Usuario;
+package tds.apoyanos.modelo;
 
 public final class ControladorUsuario {
 		
@@ -15,8 +12,8 @@ public final class ControladorUsuario {
 	}
 	
 	/**
-	 * Comprueba si un usuario está registrado en el sistema
-	 * (comprueba si está en el catálogo)
+	 * Comprueba si un usuario estï¿½ registrado en el sistema
+	 * (comprueba si estï¿½ en el catï¿½logo)
 	 */
 	public boolean esRegistrado(String login) {
 		return CatalogoUsuarios.getUnicaInstancia().esRegistrado(login);

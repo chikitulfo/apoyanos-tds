@@ -10,20 +10,23 @@ public class Usuario {
     private String apellidos;
     private String dni;
     private String email;
-    private String contraseña;
+    private String password;
+    private String login;
     private Collection<Proyecto> votos;
     private Collection<Proyecto> proyectosCreados;
     private Collection<Apoyo> apoyos;
     private Collection<Notificacion> notificaciones;
+    private int id;
     //TODO: Mensajes
 
 
-    Usuario (String nombre, String apellidos, String dni, String email, String contraseña){
+    public Usuario (String nombre, String apellidos, String dni, String email, String login, String password){
         this.nombre=nombre;
         this.apellidos=apellidos;
-        this.contraseña=contraseña;
+        this.password = password;
         this.dni=dni;
         this.email=email;
+        this.login=login;
 
         this.votos=new LinkedList<Proyecto>();
         this.proyectosCreados = new LinkedList<Proyecto>();
@@ -48,13 +51,23 @@ public class Usuario {
         return email;
     }
 
-    public String getContraseña() {
-        return contraseña;
+    public String getPassword() {
+        return password;
     }
 
     public Collection<Notificacion> getNotificaciones() {
         return new LinkedList<Notificacion>(notificaciones);
     }
 
+    public int getId() {
+        return id;
+    }
 
+    public String getLogin() {
+        return login;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
 }
