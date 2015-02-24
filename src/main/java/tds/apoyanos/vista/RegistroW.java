@@ -225,7 +225,7 @@ public class RegistroW extends JPanel {
 		String password = new String(txtPassword.getPassword());
 		String password2 = new String(txtPasswordChk.getPassword());
 		if (password.equals("")) {
-			lblPasswordError.setText("El password no puede estar vacio");
+			lblPasswordError.setText("El password no puede estar vacío");
 			lblPasswordError.setVisible(true); salida=false;
 		} else if (!password.equals(password2)) {
 			lblPasswordError.setText("Los dos passwords no coinciden");

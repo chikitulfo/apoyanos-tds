@@ -6,16 +6,17 @@ import tds.apoyanos.persistencia.FactoriaDAO;
 import tds.apoyanos.persistencia.UsuarioDAO;
 
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 
 public class CatalogoUsuarios {
 
 	private HashMap<Integer, Usuario> usuarios_por_ID;
 	private HashMap<String, Usuario> usuarios_por_login;
-	
+    private List<Usuario> listaUsuarios;
 	
 	private static CatalogoUsuarios unicaInstancia = new CatalogoUsuarios();
-	private List<Usuario> listaUsuarios;
+
 
 	public static CatalogoUsuarios getUnicaInstancia() {
 		return unicaInstancia;
@@ -24,15 +25,16 @@ public class CatalogoUsuarios {
 	private CatalogoUsuarios (){
 		usuarios_por_ID = new HashMap<Integer, Usuario>();
 		usuarios_por_login = new HashMap<String, Usuario>();
-		try {
-			listaUsuarios = recuperarUsuarios();
-			for (Usuario usuario : listaUsuarios) {
-				usuarios_por_ID.put(new Integer(usuario.getId()), usuario);
-				usuarios_por_login.put(usuario.getLogin(), usuario);
-			}
-		} catch (DAOException eDAO) {
-			eDAO.printStackTrace();
-		}
+        listaUsuarios= new LinkedList<Usuario>();
+//		try {
+//			listaUsuarios = recuperarUsuarios();
+//			for (Usuario usuario : listaUsuarios) {
+//				usuarios_por_ID.put(new Integer(usuario.getId()), usuario);
+//				usuarios_por_login.put(usuario.getLogin(), usuario);
+//			}
+//		} catch (DAOException eDAO) {
+//			eDAO.printStackTrace();
+//		}
 	}
 	
 	private List<Usuario> recuperarUsuarios() throws DAOException {
@@ -52,13 +54,13 @@ public class CatalogoUsuarios {
 	}
 	
 	public void addUsuario(Usuario usuario) {
-		UsuarioDAO usuarioBD = null; /*Adaptador DAO para almacenar el nuevo usuario en la BD*/
-		try {
-			usuarioBD=FactoriaDAO.getFactoriaDAO(Config.TipoDAO).getUsuarioDAO();
-		} catch (DAOException e) {
-			e.printStackTrace();
-		}
-		usuarioBD.registrar(usuario);
+//		UsuarioDAO usuarioBD = null; /*Adaptador DAO para almacenar el nuevo usuario en la BD*/
+//		try {
+//			usuarioBD=FactoriaDAO.getFactoriaDAO(Config.TipoDAO).getUsuarioDAO();
+//		} catch (DAOException e) {
+//			e.printStackTrace();
+//		}
+//		usuarioBD.registrar(usuario);
 		usuarios_por_ID.put(new Integer(usuario.getId()), usuario);
 		usuarios_por_login.put(usuario.getLogin(), usuario);
 		listaUsuarios.add(usuario);

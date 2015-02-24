@@ -4,8 +4,6 @@ import java.util.Collection;
 import java.util.LinkedList;
 
 public class Usuario {
-    private static int nextID;
-
     private String nombre;
     private String apellidos;
     private String dni;
@@ -27,6 +25,7 @@ public class Usuario {
         this.dni=dni;
         this.email=email;
         this.login=login;
+        this.id = 0;  //FIXME: Temporal mientras no haya persistencia.
 
         this.votos=new LinkedList<Proyecto>();
         this.proyectosCreados = new LinkedList<Proyecto>();

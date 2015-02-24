@@ -71,7 +71,7 @@ public class LoginW {
 					frame.dispose();
 				} else {
 					JOptionPane.showMessageDialog(frame,
-							"Nombre de usuario o contrase�a no valido",
+							"Nombre de usuario o contraseña no válido",
 							"Error", JOptionPane.ERROR_MESSAGE);
 				}
 			} 
