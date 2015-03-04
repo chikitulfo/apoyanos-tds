@@ -17,19 +17,18 @@ public class Proyecto {
     private Estado estado;
     private Categoria categoria;
     //private PoliticaComisiones politicaComisiones;
-    private Collection<Recompensa> recompensas;
+    private List<Recompensa> recompensas;
 
     public Proyecto(String nombre, String descripcion, Usuario creador, int cantidadMinima, Date plazoFinanciacion,
-                    Categoria categoria, Collection<Recompensa> recompensas) {
+                    Categoria categoria) {
         this.nombre = nombre;
         this.descripcion = descripcion;
         this.creador = creador;
         this.cantidadMinima = cantidadMinima;
         this.plazoFinanciacion = plazoFinanciacion;
         this.categoria = categoria;
-        this.recompensas = new ArrayList<Recompensa>(recompensas); //FIXME ¿se le pasan al proyecto ya creadas, o las crea él?
-        this.estado = Estado.VOTACION;
-        this.numvotos = 0;
+
+        this.recompensas = new ArrayList<Recompensa>();
     }
 
     public void addVoto(){
@@ -84,16 +83,25 @@ public class Proyecto {
         return estado == Estado.COMPLETADO;
     }
 
-    public void addRecompensa(String nombre, String descripcion, int cantidadMinima, int maximoParticipantes){
-        //FIXME No indexamos por el nombre ¿chapuza?
-        boolean existeNombre=false;
+    public boolean addRecompensa(String nombre, String descripcion, int cantidadMinima, int maximoParticipantes){
         for (Recompensa r : recompensas) {
-            if (r.getNombre().equals(nombre)) existeNombre=true;
+            if (r.getNombre().equals(nombre)) return false;
         }
-        if (!existeNombre){
-            Recompensa r = new Recompensa(nombre, descripcion, this, cantidadMinima, maximoParticipantes);
-            recompensas.add(r);
+        Recompensa r = new Recompensa(nombre, descripcion, this, cantidadMinima, maximoParticipantes);
+        return recompensas.add(r);
+    }
+
+    /**
+     * Un proyecto se crea, se le añaden recompensas, y luego se valida para
+     * que entre en estado de votación.
+     * @return
+     */
+    public boolean validarProyecto() {
+        if (estado!=null && !recompensas.isEmpty()) {
+            estado = Estado.VOTACION;
+            Collections.sort(recompensas);
         }
+        return false;
     }
 
     public Apoyo apoyar (Usuario usuario, String nombreRecompensa, int cantidad, String comentario){
