@@ -78,10 +78,6 @@ public class ApoyanosMainWindow extends JFrame {
 		menuProyectosFinanciacion.add(jmiSocialPF);
 		menuProyectosFinanciacion.add(jmiLibrosPF);
 		
-		
-		
-		
-		
 		this.setJMenuBar(mb);
 		
 		//JPanel panelRegistro = new RegistroW(frame);
