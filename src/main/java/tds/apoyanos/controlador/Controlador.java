@@ -1,9 +1,6 @@
 package tds.apoyanos.controlador;
 
-import tds.apoyanos.modelo.CatalogoUsuarios;
-import tds.apoyanos.modelo.Categoria;
-import tds.apoyanos.modelo.Proyecto;
-import tds.apoyanos.modelo.Usuario;
+import tds.apoyanos.modelo.*;
 import tds.apoyanos.vista.RecompensaVista;
 
 import java.util.Collection;
@@ -54,11 +51,17 @@ public final class Controlador {
 	}
 
     public boolean crearProyecto (String nombre, String descripcion, int cantidadMinima, Date plazoFinanciacion, String categoria, Collection<RecompensaVista> recompensas) {
+        if (CatalogoProyectos.getUnicaInstancia().esRegistrado(nombre)) return false;
         Proyecto proyec = new Proyecto(nombre, descripcion, usuario, cantidadMinima, plazoFinanciacion, Categoria.valueOf(categoria));
         for (RecompensaVista r : recompensas) {
             proyec.addRecompensa(r.getNombre(), r.getDescripcion(), r.getCantidadMinima(), r.getMaximoParticipantes());
         }
-        return proyec.validarProyecto();
+        boolean creado = proyec.validarProyecto();
+        if (creado) {
+            CatalogoProyectos.getUnicaInstancia().addProyecto(proyec);
+            return true;
+        }
+        else return false;
     }
 	
 }

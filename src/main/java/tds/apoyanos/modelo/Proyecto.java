@@ -7,6 +7,8 @@ public class Proyecto {
     private enum Estado {
         VOTACION, FINANCIACION, COMPLETADO, CANCELADO}
 
+    private int id;
+
     private String nombre;
     private String descripcion;
     private Usuario creador;
@@ -21,6 +23,8 @@ public class Proyecto {
 
     public Proyecto(String nombre, String descripcion, Usuario creador, int cantidadMinima, Date plazoFinanciacion,
                     Categoria categoria) {
+        this.id = 0;  //FIXME: Temporal mientras no haya persistencia.
+
         this.nombre = nombre;
         this.descripcion = descripcion;
         this.creador = creador;
@@ -33,6 +37,14 @@ public class Proyecto {
 
     public void addVoto(){
         this.numvotos++;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getDescripcion() {
