@@ -3,8 +3,6 @@ package tds.apoyanos.vista;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
 
 public class ApoyanosMainWindow extends JFrame {
 
@@ -100,7 +98,7 @@ public class ApoyanosMainWindow extends JFrame {
 		setContentPane(contentPane);
 		
 		JLabel lblBienvenidosAApyanos = new JLabel("");
-		lblBienvenidosAApyanos.setIcon(new ImageIcon(ApoyanosMainWindow.class.getResource("/tds/apoyanos/recursos/apoyanos.png")));
+		lblBienvenidosAApyanos.setIcon(new ImageIcon(ApoyanosMainWindow.class.getResource("/apoyanos.png")));
 		lblBienvenidosAApyanos.setBackground(new Color(255, 255, 255));
 		lblBienvenidosAApyanos.setFont(new Font("Arial", Font.PLAIN, 30));
 		lblBienvenidosAApyanos.setHorizontalAlignment(SwingConstants.CENTER);
