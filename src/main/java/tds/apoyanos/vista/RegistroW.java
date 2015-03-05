@@ -45,31 +45,41 @@ public class RegistroW extends JPanel {
 	private boolean mostrarTerminos=true;
 	
 	public RegistroW(JFrame frame){
+		setBackground(Color.WHITE);
 		ventana=frame;
 		jpanelAnterior = (JPanel) ventana.getContentPane();
 		setLayout(new BoxLayout(this,BoxLayout.Y_AXIS));
-		JPanel linea_1=new JPanel(); /*Nombre*/
+		JPanel linea_1=new JPanel(); 
+		linea_1.setBackground(Color.WHITE);/*Nombre*/
 		linea_1.setLayout(new FlowLayout(FlowLayout.LEFT)); fixedSize(linea_1,ANCHOW,25);
 		linea_1.setAlignmentX(JLabel.LEFT_ALIGNMENT);
-		JPanel linea_2=new JPanel(); /*Apellidos*/
+		JPanel linea_2=new JPanel(); 
+		linea_2.setBackground(Color.WHITE);
+		linea_2.setToolTipText("Apellidos");/*Apellidos*/
 		linea_2.setLayout(new FlowLayout(FlowLayout.LEFT)); fixedSize(linea_2,ANCHOW,25);
 		linea_2.setAlignmentX(JLabel.LEFT_ALIGNMENT);
-		JPanel linea_3=new JPanel(); /*DNI*/
+		JPanel linea_3=new JPanel(); 
+		linea_3.setBackground(Color.WHITE);/*DNI*/
 		linea_3.setLayout(new FlowLayout(FlowLayout.LEFT)); fixedSize(linea_3,ANCHOW,25);
 		linea_3.setAlignmentX(JLabel.LEFT_ALIGNMENT);
-		JPanel linea_4=new JPanel(); /*Email*/ 
+		JPanel linea_4=new JPanel(); 
+		linea_4.setBackground(Color.WHITE);/*Email*/ 
 		linea_4.setLayout(new FlowLayout(FlowLayout.LEFT)); fixedSize(linea_4,ANCHOW,25);
 		linea_4.setAlignmentX(JLabel.LEFT_ALIGNMENT);
-		JPanel linea_5=new JPanel(); /*Usuario*/
+		JPanel linea_5=new JPanel(); 
+		linea_5.setBackground(Color.WHITE);/*Usuario*/
 		linea_5.setLayout(new FlowLayout(FlowLayout.LEFT)); fixedSize(linea_5,ANCHOW,25);
 		linea_5.setAlignmentX(JLabel.LEFT_ALIGNMENT);
-		JPanel linea_6=new JPanel(); /*Password y passwordchk*/
+		JPanel linea_6=new JPanel(); 
+		linea_6.setBackground(Color.WHITE);/*Password y passwordchk*/
 		linea_6.setLayout(new FlowLayout(FlowLayout.LEFT)); fixedSize(linea_6,ANCHOW,25);
 		linea_6.setAlignmentX(JLabel.LEFT_ALIGNMENT);
-		JPanel linea_7=new JPanel(); /*Terminos de uso*/
+		JPanel linea_7=new JPanel(); 
+		linea_7.setBackground(Color.WHITE);/*Terminos de uso*/
 		linea_7.setLayout(new FlowLayout(FlowLayout.CENTER)); fixedSize(linea_7,ANCHOW,25);
 		linea_7.setAlignmentX(JLabel.LEFT_ALIGNMENT);
-		JPanel linea_8=new JPanel(); /*Botones*/
+		JPanel linea_8=new JPanel(); 
+		linea_8.setBackground(Color.WHITE);/*Botones*/
 		linea_8.setLayout(new FlowLayout(FlowLayout.LEFT)); fixedSize(linea_8,ANCHOW,50);
 		linea_8.setAlignmentX(JLabel.LEFT_ALIGNMENT);
 		
@@ -113,7 +123,7 @@ public class RegistroW extends JPanel {
 		txtPassword = new JPasswordField(); fixedSize(txtPassword,100,20);
 		lblPasswordChk = new JLabel("Otra vez:",JLabel.RIGHT); fixedSize(lblPasswordChk,60,20);
 		txtPasswordChk = new JPasswordField(); fixedSize(txtPasswordChk,100,20);
-		lblPasswordError=new JLabel("Error al introducir las contrase�as",JLabel.CENTER); fixedSize(lblPasswordError,ANCHOW,15);
+		lblPasswordError=new JLabel("Error al introducir las contraseñas",JLabel.CENTER); fixedSize(lblPasswordError,ANCHOW,15);
 		lblPasswordError.setForeground(Color.RED);
 		linea_6.add(lblPassword); linea_6.add(txtPassword); linea_6.add(lblPasswordChk); linea_6.add(txtPasswordChk); 
 		

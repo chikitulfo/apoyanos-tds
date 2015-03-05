@@ -40,6 +40,7 @@ public class LoginW {
 	 */
 	private void crearFrame() {
 		frame = new JFrame();
+		frame.getContentPane().setBackground(Color.WHITE);
 		frame.setTitle("Acceso");
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setResizable(false);
