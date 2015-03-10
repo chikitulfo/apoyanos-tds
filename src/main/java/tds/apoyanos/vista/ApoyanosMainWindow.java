@@ -12,7 +12,6 @@ public class ApoyanosMainWindow extends JFrame {
 		
 		//TODO Solicitar al controlador las categorías y hacer los sub-menús automáticamente
 		
-		
 		//Menus
 		JMenuBar mb = new JMenuBar();
 		mb.setBorderPainted(false);
@@ -82,7 +81,7 @@ public class ApoyanosMainWindow extends JFrame {
 		
 		//JPanel panelRegistro = new RegistroW(frame);
 		
-		
+		//Características del JFrame
 		setBackground(new Color(255, 255, 255));
 		setTitle("Apóyanos - Tu plataforma crowdfunding para lanzar tus proyectos.");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -93,13 +92,24 @@ public class ApoyanosMainWindow extends JFrame {
 		contentPane.setLayout(new BorderLayout(0, 0));
 		setContentPane(contentPane);
 		
-		JLabel lblBienvenidosAApyanos = new JLabel("");
-		lblBienvenidosAApyanos.setIcon(new ImageIcon(ApoyanosMainWindow.class.getResource("/recursos/apoyanos.png")));
-		lblBienvenidosAApyanos.setBackground(new Color(255, 255, 255));
-		lblBienvenidosAApyanos.setFont(new Font("Arial", Font.PLAIN, 30));
-		lblBienvenidosAApyanos.setHorizontalAlignment(SwingConstants.CENTER);
-		contentPane.add(lblBienvenidosAApyanos, BorderLayout.CENTER);
-
+		JLabel lblInicioApoyanos = new JLabel("");
+		lblInicioApoyanos.setIcon(new ImageIcon(ApoyanosMainWindow.class.getResource("/recursos/apoyanos.png")));
+		lblInicioApoyanos.setBackground(new Color(255, 255, 255));
+		lblInicioApoyanos.setFont(new Font("Arial", Font.PLAIN, 30));
+		lblInicioApoyanos.setHorizontalAlignment(SwingConstants.CENTER);
+		contentPane.add(lblInicioApoyanos, BorderLayout.CENTER);
+		
+		JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
+		contentPane.add(tabbedPane, BorderLayout.NORTH);
+		lblInicioApoyanos.setVisible(true);
+		
+		tabbedPane = new JTabbedPane(JTabbedPane.TOP); 
+		tabbedPane.setTabLayoutPolicy(JTabbedPane.SCROLL_TAB_LAYOUT); 
+		this.getContentPane().add(tabbedPane);
+		JPanel panel = new JPanel(); 
+		panel.setLayout(new BorderLayout()); 
+		tabbedPane.addTab("Tab 1", null, panel, null);
+		
 	}
 
 }
