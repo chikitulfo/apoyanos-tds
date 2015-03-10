@@ -69,4 +69,22 @@ public class Usuario {
     public void setId(int id) {
         this.id = id;
     }
+
+    public Collection<Proyecto> getVotos() {
+        return new LinkedList<Proyecto>(votos);
+    }
+
+    public Collection<Apoyo> getApoyos() {
+        return new LinkedList<Apoyo>(apoyos);
+    }
+
+    public Collection<Proyecto> getProyectosCreados() {
+        return new LinkedList<Proyecto>(proyectosCreados);
+    }
+
+    public void addProyectoCreado(Proyecto proyecto) {
+        if (!proyectosCreados.contains(proyecto)) {
+            proyectosCreados.add(proyecto);
+        }
+    }
 }

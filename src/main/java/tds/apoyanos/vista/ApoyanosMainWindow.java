@@ -12,6 +12,7 @@ public class ApoyanosMainWindow extends JFrame {
 		
 		//TODO Solicitar al controlador las categorías y hacer los sub-menús automáticamente
 		
+		
 		//Menus
 		JMenuBar mb = new JMenuBar();
 		mb.setBorderPainted(false);

@@ -23,7 +23,7 @@ public class CatalogoProyectos {
     }
 
     public Proyecto getProyecto(String nombre) {
-        return proyectos_id.get(nombre);
+        return proyectos_nombre.get(nombre);
     }
 
     public void removeProyecto(Proyecto proyecto) {

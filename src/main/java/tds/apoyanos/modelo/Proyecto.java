@@ -14,14 +14,14 @@ public class Proyecto {
     private Usuario creador;
     private int cantidadMinima;
     private int cantidadRecaudada;
-    private Date plazoFinanciacion;
+    private Calendar plazoFinanciacion;
     private int numvotos;
     private Estado estado;
     private Categoria categoria;
     //private PoliticaComisiones politicaComisiones;
     private List<Recompensa> recompensas;
 
-    public Proyecto(String nombre, String descripcion, Usuario creador, int cantidadMinima, Date plazoFinanciacion,
+    public Proyecto(String nombre, String descripcion, Usuario creador, int cantidadMinima, Calendar plazoFinanciacion,
                     Categoria categoria) {
         this.id = 0;  //FIXME: Temporal mientras no haya persistencia.
 
@@ -71,7 +71,7 @@ public class Proyecto {
         return categoria;
     }
 
-    public Date getPlazoFinanciacion() {
+    public Calendar getPlazoFinanciacion() {
         return plazoFinanciacion;
     }
 
@@ -109,11 +109,14 @@ public class Proyecto {
      * @return
      */
     public boolean validarProyecto() {
-        if (estado!=null && !recompensas.isEmpty()) {
+        if (estado==null && !recompensas.isEmpty()) {
             estado = Estado.VOTACION;
             Collections.sort(recompensas);
+            return true;
         }
-        return false;
+        else {
+            return false;
+        }
     }
 
     public Apoyo apoyar (Usuario usuario, String nombreRecompensa, int cantidad, String comentario){

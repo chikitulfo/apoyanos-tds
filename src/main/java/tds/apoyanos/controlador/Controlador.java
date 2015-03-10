@@ -3,8 +3,8 @@ package tds.apoyanos.controlador;
 import tds.apoyanos.modelo.*;
 import tds.apoyanos.vista.RecompensaVista;
 
+import java.util.Calendar;
 import java.util.Collection;
-import java.util.Date;
 
 public final class Controlador {
     private static Controlador unicaInstancia = new Controlador();
@@ -50,14 +50,16 @@ public final class Controlador {
 		return false;
 	}
 
-    public boolean crearProyecto (String nombre, String descripcion, int cantidadMinima, Date plazoFinanciacion, String categoria, Collection<RecompensaVista> recompensas) {
+    public boolean crearProyecto (String nombre, String descripcion, int cantidadMinima, Calendar plazoFinanciacion, String categoria, Collection<RecompensaVista> recompensas) {
         if (CatalogoProyectos.getUnicaInstancia().esRegistrado(nombre)) return false;
+        if (recompensas.isEmpty()) return false;
+
         Proyecto proyec = new Proyecto(nombre, descripcion, usuario, cantidadMinima, plazoFinanciacion, Categoria.valueOf(categoria));
         for (RecompensaVista r : recompensas) {
             proyec.addRecompensa(r.getNombre(), r.getDescripcion(), r.getCantidadMinima(), r.getMaximoParticipantes());
         }
-        boolean creado = proyec.validarProyecto();
-        if (creado) {
+        if (proyec.validarProyecto()) {
+            usuario.addProyectoCreado(proyec);
             CatalogoProyectos.getUnicaInstancia().addProyecto(proyec);
             return true;
         }
