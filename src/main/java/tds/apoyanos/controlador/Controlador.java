@@ -50,6 +50,15 @@ public final class Controlador {
 		return false;
 	}
 
+    public boolean logout(){
+        if (usuario != null){
+            usuario = null;
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     public boolean crearProyecto (String nombre, String descripcion, int cantidadMinima, Calendar plazoFinanciacion, String categoria, Collection<RecompensaVista> recompensas) {
         if (CatalogoProyectos.getUnicaInstancia().esRegistrado(nombre)) return false;
         if (recompensas.isEmpty()) return false;
@@ -64,6 +73,17 @@ public final class Controlador {
             return true;
         }
         else return false;
+    }
+
+
+    public void votarProyecto (String nombreProyecto) {
+        Proyecto p = CatalogoProyectos.getUnicaInstancia().getProyecto(nombreProyecto);
+        usuario.votar(p);
+    }
+
+    public void apoyarProyecto(String nombreProyecto, String nRecompensa, int cantidad, String comentario){
+        Proyecto p = CatalogoProyectos.getUnicaInstancia().getProyecto(nombreProyecto);
+        usuario.apoyar(p,nRecompensa,cantidad, comentario);
     }
 	
 }

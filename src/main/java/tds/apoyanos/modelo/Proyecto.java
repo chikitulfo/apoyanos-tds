@@ -1,5 +1,7 @@
 package tds.apoyanos.modelo;
 
+import tds.apoyanos.Config;
+
 import java.util.*;
 
 public class Proyecto {
@@ -36,7 +38,12 @@ public class Proyecto {
     }
 
     public void addVoto(){
-        this.numvotos++;
+        if (estado == Estado.VOTACION) {
+            this.numvotos++;
+            if (numvotos >= Config.VOTOS_NECESARIOS) {
+                estado = Estado.FINANCIACION;
+            }
+        }
     }
 
     public int getId() {
@@ -120,13 +127,16 @@ public class Proyecto {
     }
 
     public Apoyo apoyar (Usuario usuario, String nombreRecompensa, int cantidad, String comentario){
-        for (Recompensa r : recompensas) {
-            if (r.getNombre().equals(nombreRecompensa)){
-                return r.apoyar(usuario, cantidad, comentario);
+        if (estado==Estado.FINANCIACION) {
+            for (Recompensa r : recompensas) {
+                if (r.getNombre().equals(nombreRecompensa)) {
+                    return r.apoyar(usuario, cantidad, comentario);
+                }
             }
-            
+            //FIXME lanzar excepción porque recompensa no existe
+            return null;
         }
-        //FIXME lanzar excepción porque recompensa no existe
+        //FIXME lanzar excepción porque el estado es inválido
         return null;
     }
 }

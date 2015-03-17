@@ -15,15 +15,18 @@ public class Apoyo {
     public Apoyo(String comentario, Recompensa recompensa, int cantidad){
         this.comentario = comentario;
         this.recompensa = recompensa;
-        this.cantidad=cantidad;
+        this.cantidad = cantidad;
         this.fecha = new Date();
     }
 
-	public Apoyo(Usuario usuario, String comentario, Recompensa recompensa, int cantidad){
+    public Apoyo(Usuario usuario, String comentario, Recompensa recompensa, int cantidad){
 		this(comentario,recompensa, cantidad);
         this.usuario = usuario;
 	}
 
+    public int getCantidad() {
+        return cantidad;
+    }
 
 	public String getComentario() {
 		return comentario;

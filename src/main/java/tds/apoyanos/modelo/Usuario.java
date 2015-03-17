@@ -87,4 +87,17 @@ public class Usuario {
             proyectosCreados.add(proyecto);
         }
     }
+
+    public void votar(Proyecto p) {
+        if (!votos.contains(p)){
+            if(votos.add(p)){
+                p.addVoto();
+            }
+        }
+    }
+
+    public void apoyar(Proyecto p, String nRecompensa, int cantidad, String comentario) {
+        Apoyo apoyo = p.apoyar(this,nRecompensa,cantidad,comentario);
+        apoyos.add(apoyo);
+    }
 }

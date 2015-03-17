@@ -64,9 +64,13 @@ public class Recompensa implements Comparable<Recompensa>{
 
 
     public Apoyo apoyar(Usuario usuario, int cantidad, String comentario) {
-        Apoyo apoyo= new Apoyo(usuario, comentario, this, cantidad); //FIXME COMPLETAR EL CONSTRUCTOR
-        apoyos.add(apoyo);
-        return apoyo;
+        if (maximoParticipantes == 0 || apoyos.size() < maximoParticipantes) {
+            Apoyo apoyo = new Apoyo(usuario, comentario, this, cantidad);
+            apoyos.add(apoyo);
+            return apoyo;
+        } else {
+            return null; // FIXME Lanzar excepción, no caben más participantes
+        }
     }
 
     /**
