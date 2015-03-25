@@ -40,17 +40,22 @@ public class CatalogoUsuarios {
 	private List<Usuario> recuperarUsuarios() throws DAOException {
 		return FactoriaDAO.getFactoriaDAO(Config.TipoDAO).getUsuarioDAO().getUsuarios();
 	}
-	
+
+    public boolean esRegistrado(String nombreUsuario) {
+        return usuarios_por_login.containsKey(nombreUsuario);
+    }
+
+    public boolean esRegistrado(int key) {
+        return usuarios_por_ID.containsKey(key);
+    }
+
 	public Usuario getUsuario(String nombreUsuario) {
-		return usuarios_por_login.get(nombreUsuario);
+        return usuarios_por_login.get(nombreUsuario);
 	}
 
-	public boolean esRegistrado(String nombreUsuario) {
-		return usuarios_por_login.containsKey(nombreUsuario);
-	}
 
 	public Usuario getUsuario(int key) {
-		return usuarios_por_ID.get(new Integer(key));
+        return usuarios_por_ID.get(new Integer(key));
 	}
 	
 	public void addUsuario(Usuario usuario) {

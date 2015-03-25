@@ -91,11 +91,10 @@ public class Usuario {
         }
     }
 
-    public void votar(Proyecto p) {
+    public void votar(Proyecto p) throws InvalidStateException {
         if (!votos.contains(p)){
-            if(votos.add(p)){
-                p.addVoto();
-            }
+            p.addVoto();
+            votos.add(p);
         }
     }
 

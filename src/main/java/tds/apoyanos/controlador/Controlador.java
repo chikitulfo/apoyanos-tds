@@ -78,14 +78,20 @@ public final class Controlador {
     }
 
 
-    public void votarProyecto (String nombreProyecto) {
+    public void votarProyecto (String nombreProyecto) throws InvalidStateException, InvalidArgumentException {
         Proyecto p = CatalogoProyectos.getUnicaInstancia().getProyecto(nombreProyecto);
+        if (p==null) {
+            throw new InvalidArgumentException("Proyecto inexistente");
+        }
         usuario.votar(p);
     }
 
     public void apoyarProyecto(String nombreProyecto, String nRecompensa, double cantidad, String comentario)
             throws InvalidStateException, InvalidArgumentException {
         Proyecto p = CatalogoProyectos.getUnicaInstancia().getProyecto(nombreProyecto);
+        if (p==null) {
+            throw new InvalidArgumentException("Proyecto inexistente");
+        }
         usuario.apoyar(p,nRecompensa,cantidad, comentario);
     }
 

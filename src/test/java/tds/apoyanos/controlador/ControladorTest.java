@@ -4,6 +4,8 @@ package tds.apoyanos.controlador;
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
+import tds.apoyanos.exceptions.InvalidArgumentException;
+import tds.apoyanos.exceptions.InvalidStateException;
 import tds.apoyanos.modelo.*;
 import tds.apoyanos.vista.RecompensaVista;
 
@@ -72,7 +74,7 @@ public class ControladorTest extends TestCase {
         return CatalogoProyectos.getUnicaInstancia().getProyecto(p);
     }
 
-    public void testVotarProyecto(){
+    public void testVotarProyecto() throws InvalidStateException {
         Proyecto p = registrarProyecto("tVP");
         assertTrue(p.estaEnVotacion());
         assertEquals(p.getNumvotos(), 0);
@@ -87,18 +89,14 @@ public class ControladorTest extends TestCase {
 
     }
 
-    public void testApoyarProyecto(){
+    public void testApoyarProyecto() throws InvalidStateException, InvalidArgumentException {
         Usuario u = registrarUsuario("UtAP");
         Proyecto p = registrarProyecto("tAP");
         Controlador.getUnicaInstancia().logout();
         Controlador.getUnicaInstancia().login(u.getLogin(), u.getPassword());
         while (!p.estaEnFinanciacion()) {p.addVoto();}
         assertTrue(u.getApoyos().isEmpty());
-        try {
-            Controlador.getUnicaInstancia().apoyarProyecto(p.getNombre(),"R1", 150,"Lalala");
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        Controlador.getUnicaInstancia().apoyarProyecto(p.getNombre(),"R1", 150,"Lalala");
         assertFalse(u.getApoyos().isEmpty());
         assertEquals( ((LinkedList<Apoyo>)u.getApoyos()).getFirst().getCantidad() , 150.0);
     }

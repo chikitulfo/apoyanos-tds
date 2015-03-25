@@ -49,12 +49,14 @@ public class Proyecto {
 
     }
 
-    public void addVoto(){
+    public void addVoto() throws InvalidStateException {
         if (estado == Estado.VOTACION) {
             this.numvotos++;
             if (numvotos >= Config.VOTOS_NECESARIOS) {
                 estado = Estado.FINANCIACION;
             }
+        } else {
+            throw new InvalidStateException("El proyecto no está en fase de votación");
         }
     }
 
