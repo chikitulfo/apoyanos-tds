@@ -94,8 +94,12 @@ public class ControladorTest extends TestCase {
         Controlador.getUnicaInstancia().login(u.getLogin(), u.getPassword());
         while (!p.estaEnFinanciacion()) {p.addVoto();}
         assertTrue(u.getApoyos().isEmpty());
-        Controlador.getUnicaInstancia().apoyarProyecto(p.getNombre(),"R1", 150,"Lalala");
+        try {
+            Controlador.getUnicaInstancia().apoyarProyecto(p.getNombre(),"R1", 150,"Lalala");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         assertFalse(u.getApoyos().isEmpty());
-        assertEquals( ((LinkedList<Apoyo>)u.getApoyos()).getFirst().getCantidad() , 150);
+        assertEquals( ((LinkedList<Apoyo>)u.getApoyos()).getFirst().getCantidad() , 150.0);
     }
 }

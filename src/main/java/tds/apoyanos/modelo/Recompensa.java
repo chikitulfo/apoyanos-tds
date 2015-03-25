@@ -1,17 +1,21 @@
 package tds.apoyanos.modelo;
 
+import com.sun.istack.internal.NotNull;
+import tds.apoyanos.exceptions.InvalidArgumentException;
+import tds.apoyanos.exceptions.InvalidStateException;
+
 import java.util.Collection;
 import java.util.LinkedList;
 
 public class Recompensa implements Comparable<Recompensa>{
     private String nombre;
     private String descripcion;
-    private int cantidadMinima;
+    private double cantidadMinima;
     private int maximoParticipantes;
     private Collection<Apoyo> apoyos;
     private Proyecto proyecto;
 
-    public Recompensa (String nombre, String descripcion, Proyecto proyecto, int cantidadMinima){
+    public Recompensa (String nombre, String descripcion, Proyecto proyecto, double cantidadMinima){
         this.nombre=nombre;
         this.descripcion=descripcion;
         this.proyecto=proyecto;
@@ -21,7 +25,7 @@ public class Recompensa implements Comparable<Recompensa>{
 
     }
 
-    public Recompensa (String nombre, String descripcion, Proyecto proyecto, int cantidadMinima, int maximoParticipantes){
+    public Recompensa (String nombre, String descripcion, Proyecto proyecto, double cantidadMinima, int maximoParticipantes){
         this(nombre, descripcion, proyecto, cantidadMinima);
         this.maximoParticipantes=maximoParticipantes;
     }
@@ -34,7 +38,7 @@ public class Recompensa implements Comparable<Recompensa>{
         return descripcion;
     }
 
-    public int getCantidadMinima() {
+    public double getCantidadMinima() {
         return cantidadMinima;
     }
 
@@ -63,17 +67,18 @@ public class Recompensa implements Comparable<Recompensa>{
     }
 
 
-    public Apoyo apoyar(Usuario usuario, int cantidad, String comentario) {
+    public Apoyo apoyar(Usuario usuario, double cantidad, String comentario)
+            throws InvalidArgumentException, InvalidStateException {
         if (maximoParticipantes == 0 || apoyos.size() < maximoParticipantes) {
             if (cantidad >= cantidadMinima) {
                 Apoyo apoyo = new Apoyo(usuario, comentario, this, cantidad);
                 apoyos.add(apoyo);
                 return apoyo;
             } else {
-                return null; //FIXME Lanzar excepción, cantidad menor que la mínima
+                throw new InvalidArgumentException("La cantidad es menor que la mínima para esta recompensa");
             }
         } else {
-            return null; // FIXME Lanzar excepción, no caben más participantes
+            throw new InvalidStateException("No se pueden añadir más apoyos a esta recompensa");
         }
     }
 
@@ -82,6 +87,7 @@ public class Recompensa implements Comparable<Recompensa>{
      *
      * @throws NullPointerException si r es nulo.
      */
+    @NotNull
     public int compareTo(Recompensa r) {
         if ( this.cantidadMinima < r.cantidadMinima) return -1;
         if ( this.cantidadMinima > r.cantidadMinima) return  1;

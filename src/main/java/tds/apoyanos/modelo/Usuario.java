@@ -1,5 +1,8 @@
 package tds.apoyanos.modelo;
 
+import tds.apoyanos.exceptions.InvalidArgumentException;
+import tds.apoyanos.exceptions.InvalidStateException;
+
 import java.util.Collection;
 import java.util.LinkedList;
 
@@ -96,7 +99,8 @@ public class Usuario {
         }
     }
 
-    public void apoyar(Proyecto p, String nRecompensa, int cantidad, String comentario) {
+    public void apoyar(Proyecto p, String nRecompensa, double cantidad, String comentario)
+            throws InvalidStateException, InvalidArgumentException {
         Apoyo apoyo = p.apoyar(this,nRecompensa,cantidad,comentario);
         apoyos.add(apoyo);
     }

@@ -1,6 +1,8 @@
 package tds.apoyanos.modelo;
 
 import tds.apoyanos.Config;
+import tds.apoyanos.exceptions.InvalidArgumentException;
+import tds.apoyanos.exceptions.InvalidStateException;
 
 import java.util.*;
 
@@ -23,7 +25,7 @@ public class Proyecto {
     private PoliticaComisiones politicaComisiones;
     private List<Recompensa> recompensas;
 
-    public Proyecto(String nombre, String descripcion, Usuario creador, int cantidadMinima, GregorianCalendar plazoFinanciacion,
+    public Proyecto(String nombre, String descripcion, Usuario creador, double cantidadMinima, GregorianCalendar plazoFinanciacion,
                     Categoria categoria) {
         this.id = 0;  //FIXME: Temporal mientras no haya persistencia.
 
@@ -116,7 +118,7 @@ public class Proyecto {
         return estado == Estado.CANCELADO;
     }
 
-    public boolean addRecompensa(String nombre, String descripcion, int cantidadMinima, int maximoParticipantes){
+    public boolean addRecompensa(String nombre, String descripcion, double cantidadMinima, int maximoParticipantes){
         for (Recompensa r : recompensas) {
             if (r.getNombre().equals(nombre)) return false;
         }
@@ -131,7 +133,7 @@ public class Proyecto {
     /**
      * Un proyecto se crea, se le añaden recompensas, y luego se valida para
      * que entre en estado de votación.
-     * @return
+     * @return True si el proyecto se ha podido validar
      */
     public boolean validarProyecto() {
         if (estado==null && !recompensas.isEmpty()) {
@@ -144,19 +146,17 @@ public class Proyecto {
         }
     }
 
-    public Apoyo apoyar (Usuario usuario, String nombreRecompensa, int cantidad, String comentario){
+    public Apoyo apoyar (Usuario usuario, String nombreRecompensa, double cantidad, String comentario)
+            throws InvalidArgumentException, InvalidStateException {
         if (estado==Estado.FINANCIACION) {
             for (Recompensa r : recompensas) {
                 if (r.getNombre().equals(nombreRecompensa)) {
-                    Apoyo apoyo = r.apoyar(usuario, cantidad, comentario);
-                    return apoyo;
+                    return r.apoyar(usuario, cantidad, comentario);
                 }
             }
-            //FIXME lanzar excepción porque recompensa no existe
-            return null;
+            throw new InvalidArgumentException("La recompensa indicada no existe en el proyecto");
         }
-        //FIXME lanzar excepción porque el estado es inválido
-        return null;
+        throw new InvalidStateException("El proyecto no está en fase de financiación");
     }
 
     public void comprobarPlazo() {

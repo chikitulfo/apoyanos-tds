@@ -8,10 +8,10 @@ package tds.apoyanos.vista;
 public class RecompensaVista {
     private String nombre;
     private String descripcion;
-    private int cantidadMinima;
+    private double cantidadMinima;
     private int maximoParticipantes;
 
-    public RecompensaVista(String nombre, String descripcion, int cantidadMinima, int maximoParticipantes) {
+    public RecompensaVista(String nombre, String descripcion, double cantidadMinima, int maximoParticipantes) {
         this.nombre = nombre;
         this.descripcion = descripcion;
         this.cantidadMinima = cantidadMinima;
@@ -26,7 +26,7 @@ public class RecompensaVista {
         return descripcion;
     }
 
-    public int getCantidadMinima() {
+    public double getCantidadMinima() {
         return cantidadMinima;
     }
 
