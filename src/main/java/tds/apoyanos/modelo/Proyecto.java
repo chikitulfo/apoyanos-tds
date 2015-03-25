@@ -14,16 +14,16 @@ public class Proyecto {
     private String nombre;
     private String descripcion;
     private Usuario creador;
-    private int cantidadMinima;
-    private int cantidadRecaudada;
-    private Calendar plazoFinanciacion;
+    private double cantidadMinima;
+    private double cantidadRecaudada;
+    private GregorianCalendar plazoFinanciacion;
     private int numvotos;
     private Estado estado;
     private Categoria categoria;
-    //private PoliticaComisiones politicaComisiones;
+    private PoliticaComisiones politicaComisiones;
     private List<Recompensa> recompensas;
 
-    public Proyecto(String nombre, String descripcion, Usuario creador, int cantidadMinima, Calendar plazoFinanciacion,
+    public Proyecto(String nombre, String descripcion, Usuario creador, int cantidadMinima, GregorianCalendar plazoFinanciacion,
                     Categoria categoria) {
         this.id = 0;  //FIXME: Temporal mientras no haya persistencia.
 
@@ -33,8 +33,18 @@ public class Proyecto {
         this.cantidadMinima = cantidadMinima;
         this.plazoFinanciacion = plazoFinanciacion;
         this.categoria = categoria;
-
+        this.cantidadRecaudada = 0;
         this.recompensas = new ArrayList<Recompensa>();
+
+        // Creación de la política de comisiones adecuada
+        if (categoria == Categoria.SOCIAL) {
+            politicaComisiones = new ComisionSocial();
+        } else if (categoria == Categoria.CINE && cantidadMinima >6000) {
+            politicaComisiones = new ComisionCinePlus();
+        } else {
+            politicaComisiones = new ComisionStandard();
+        }
+
     }
 
     public void addVoto(){
@@ -62,11 +72,11 @@ public class Proyecto {
         return nombre;
     }
 
-    public int getCantidadRecaudada() {
+    public double getCantidadRecaudada() {
         return cantidadRecaudada;
     }
 
-    public int getCantidadMinima() {
+    public double getCantidadMinima() {
         return cantidadMinima;
     }
 
@@ -102,12 +112,20 @@ public class Proyecto {
         return estado == Estado.COMPLETADO;
     }
 
+    public boolean esCancelado() {
+        return estado == Estado.CANCELADO;
+    }
+
     public boolean addRecompensa(String nombre, String descripcion, int cantidadMinima, int maximoParticipantes){
         for (Recompensa r : recompensas) {
             if (r.getNombre().equals(nombre)) return false;
         }
         Recompensa r = new Recompensa(nombre, descripcion, this, cantidadMinima, maximoParticipantes);
         return recompensas.add(r);
+    }
+
+    public double calcularComision(){
+        return politicaComisiones.calcular(cantidadRecaudada);
     }
 
     /**
@@ -130,7 +148,8 @@ public class Proyecto {
         if (estado==Estado.FINANCIACION) {
             for (Recompensa r : recompensas) {
                 if (r.getNombre().equals(nombreRecompensa)) {
-                    return r.apoyar(usuario, cantidad, comentario);
+                    Apoyo apoyo = r.apoyar(usuario, cantidad, comentario);
+                    return apoyo;
                 }
             }
             //FIXME lanzar excepción porque recompensa no existe
@@ -138,5 +157,16 @@ public class Proyecto {
         }
         //FIXME lanzar excepción porque el estado es inválido
         return null;
+    }
+
+    public void comprobarPlazo() {
+        if (plazoFinanciacion.before(new GregorianCalendar())) {
+            if ( estaEnVotacion() || estaEnFinanciacion()) {
+                estado = Estado.CANCELADO;
+                // TODO Notificar creador y usuarios de cancelación
+            } else if ( esFinanciado()) {
+                //TODO Notificar creador y usuarios de finalización exitosa
+            }
+        }
     }
 }

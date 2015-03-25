@@ -3,8 +3,8 @@ package tds.apoyanos.controlador;
 import tds.apoyanos.modelo.*;
 import tds.apoyanos.vista.RecompensaVista;
 
-import java.util.Calendar;
 import java.util.Collection;
+import java.util.GregorianCalendar;
 
 public final class Controlador {
     private static Controlador unicaInstancia = new Controlador();
@@ -59,7 +59,7 @@ public final class Controlador {
         }
     }
 
-    public boolean crearProyecto (String nombre, String descripcion, int cantidadMinima, Calendar plazoFinanciacion, String categoria, Collection<RecompensaVista> recompensas) {
+    public boolean crearProyecto (String nombre, String descripcion, int cantidadMinima, GregorianCalendar plazoFinanciacion, String categoria, Collection<RecompensaVista> recompensas) {
         if (CatalogoProyectos.getUnicaInstancia().esRegistrado(nombre)) return false;
         if (recompensas.isEmpty()) return false;
 
@@ -84,6 +84,13 @@ public final class Controlador {
     public void apoyarProyecto(String nombreProyecto, String nRecompensa, int cantidad, String comentario){
         Proyecto p = CatalogoProyectos.getUnicaInstancia().getProyecto(nombreProyecto);
         usuario.apoyar(p,nRecompensa,cantidad, comentario);
+    }
+
+    public void comprobarPlazoFinalizacionProyectos() {
+        Collection<Proyecto> proyectos = CatalogoProyectos.getUnicaInstancia().getAllProyectos();
+        for (Proyecto p : proyectos ) {
+            p.comprobarPlazo();
+        }
     }
 	
 }

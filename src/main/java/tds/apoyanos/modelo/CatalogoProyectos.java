@@ -1,5 +1,7 @@
 package tds.apoyanos.modelo;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 
 public class CatalogoProyectos {
@@ -33,5 +35,9 @@ public class CatalogoProyectos {
 
     public boolean esRegistrado(String nombre) {
         return proyectos_nombre.containsKey(nombre);
+    }
+
+    public Collection<Proyecto> getAllProyectos() {
+        return new ArrayList<Proyecto>(proyectos_id.values());
     }
 }
