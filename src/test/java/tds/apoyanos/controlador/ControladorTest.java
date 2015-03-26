@@ -74,7 +74,7 @@ public class ControladorTest extends TestCase {
         return CatalogoProyectos.getUnicaInstancia().getProyecto(p);
     }
 
-    public void testVotarProyecto() throws InvalidStateException {
+    public void testVotarProyecto() throws InvalidStateException, InvalidArgumentException {
         Proyecto p = registrarProyecto("tVP");
         assertTrue(p.estaEnVotacion());
         assertEquals(p.getNumvotos(), 0);

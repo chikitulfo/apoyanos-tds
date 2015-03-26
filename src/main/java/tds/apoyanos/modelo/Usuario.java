@@ -18,7 +18,8 @@ public class Usuario {
     private Collection<Apoyo> apoyos;
     private Collection<Notificacion> notificaciones;
     private int id;
-    //TODO: Mensajes
+    private Collection<Pregunta> preguntasEmitidas;
+    private Collection<Pregunta> preguntasRecibidas;
 
 
     public Usuario (String nombre, String apellidos, String dni, String email, String login, String password){
@@ -103,4 +104,38 @@ public class Usuario {
         Apoyo apoyo = p.apoyar(this,nRecompensa,cantidad,comentario);
         apoyos.add(apoyo);
     }
+
+    public void addPreguntaEmitida(Pregunta pregunta) throws InvalidArgumentException {
+        if (pregunta.getEmisor() == this) {
+            preguntasEmitidas.add(pregunta);
+        }
+        else {
+            throw new InvalidArgumentException("La pregunta no pertenece a este usuario");
+        }
+    }
+
+    public void addPreguntaRecibida(Pregunta pregunta) throws InvalidArgumentException {
+        if (pregunta.getReceptor() == this) {
+            preguntasRecibidas.add(pregunta);
+        }
+        else {
+            throw new InvalidArgumentException("La pregunta no pertenece a este usuario");
+        }
+    }
+
+    public void addNotificacion (Notificacion notificacion) {
+        notificaciones.add(notificacion);
+    }
+
+    public void marcarNotificacionLeida( int idNotifiacion) throws InvalidArgumentException {
+        for ( Notificacion n : notificaciones){
+            if (n.getId() == idNotifiacion) {
+                n.marcarLeida();
+                return;
+            }
+        }
+        throw new InvalidArgumentException("Notificación no encontrada");
+    }
+
+
 }

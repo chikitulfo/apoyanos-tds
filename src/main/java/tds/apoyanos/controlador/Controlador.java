@@ -101,6 +101,27 @@ public final class Controlador {
             p.comprobarPlazo();
         }
     }
+
+    public void hacerPregunta(String nombreProyecto, String asunto, String cuerpo) throws InvalidArgumentException {
+        Proyecto p = CatalogoProyectos.getUnicaInstancia().getProyecto(nombreProyecto);
+        if (p==null) {
+            throw new InvalidArgumentException("Proyecto inexistente");
+        }
+        p.hacerPregunta(usuario, asunto, cuerpo);
+    }
+
+    public void responderPregunta(String nombreProyecto, int idPregunta, String respuesta)
+            throws InvalidArgumentException, InvalidStateException {
+        Proyecto p = CatalogoProyectos.getUnicaInstancia().getProyecto(nombreProyecto);
+        if (p==null) {
+            throw new InvalidArgumentException("Proyecto inexistente");
+        }
+        p.responderPregunta(usuario, idPregunta, respuesta);
+    }
+
+    public void marcarNotificacionLeida (int idNotificacion) throws InvalidArgumentException {
+        usuario.marcarNotificacionLeida(idNotificacion);
+    }
 	
 }
 	

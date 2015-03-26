@@ -7,6 +7,9 @@ import tds.apoyanos.exceptions.InvalidStateException;
 import java.util.*;
 
 public class Proyecto {
+
+    //FIXME IMPORTANTE ¿La cantidad recaudada se actualiza al recibir un apoyo? ¿Debería?:
+
     // Se utiliza una clase interna para representar el estado mediante un enum
     private enum Estado {
         VOTACION, FINANCIACION, COMPLETADO, CANCELADO}
@@ -24,6 +27,7 @@ public class Proyecto {
     private Categoria categoria;
     private PoliticaComisiones politicaComisiones;
     private List<Recompensa> recompensas;
+    private Collection<Pregunta> preguntas;
 
     public Proyecto(String nombre, String descripcion, Usuario creador, double cantidadMinima, GregorianCalendar plazoFinanciacion,
                     Categoria categoria) {
@@ -37,6 +41,7 @@ public class Proyecto {
         this.categoria = categoria;
         this.cantidadRecaudada = 0;
         this.recompensas = new ArrayList<Recompensa>();
+        this.preguntas = new LinkedList<Pregunta>();
 
         // Creación de la política de comisiones adecuada
         if (categoria == Categoria.SOCIAL) {
@@ -165,9 +170,51 @@ public class Proyecto {
         if (plazoFinanciacion.before(new GregorianCalendar())) {
             if ( estaEnVotacion() || estaEnFinanciacion()) {
                 estado = Estado.CANCELADO;
-                // TODO Notificar creador y usuarios de cancelación
+                notificarUsuarios("El proyecto "+nombre+" ha sido cancelado antes de alcanzar su meta de "
+                        +cantidadMinima+"." +
+                        "\nLo sentimos");
             } else if ( esFinanciado()) {
-                //TODO Notificar creador y usuarios de finalización exitosa
+                estado = Estado.COMPLETADO;
+                notificarUsuarios("El proyecto "+nombre+" ha finalizado la campaña logrando recaudar un total de "
+                        +cantidadRecaudada+" sobre un mínimo de "+cantidadMinima+"." +
+                        "\n¡Fantásticas noticias!");
+            }
+        }
+    }
+
+    public void hacerPregunta(Usuario emisor, String asunto, String cuerpo) throws InvalidArgumentException {
+        Pregunta p = new Pregunta(emisor, this.creador, asunto, cuerpo, this);
+        emisor.addPreguntaEmitida(p);
+        creador.addPreguntaRecibida(p);
+        preguntas.add(p);
+    }
+
+    public void responderPregunta(Usuario usuario, int idPregunta, String respuesta)
+            throws InvalidArgumentException, InvalidStateException {
+        if ( usuario == creador) {
+            for (Pregunta p: preguntas) {
+                if (p.getId() == idPregunta) {
+                    p.addRespuesta(respuesta);
+                    return;
+                }
+            }
+            throw new InvalidArgumentException("La pregunta no se ha encontrado");
+        }
+        else {
+            throw new InvalidArgumentException("El usuario no puede responder preguntas de este proyecto");
+        }
+    }
+
+    private void notificarFinalizacionExito() {
+        notificarUsuarios("El proyecto "+nombre+" ha logrado alcanzar su meta de "+cantidadMinima+"." +
+                "\n¡Fantásticas noticias!");
+    }
+
+    private void notificarUsuarios(String Mensaje){
+        for (Recompensa r : recompensas) {
+            for ( Usuario u :r.getMecenas()) {
+                Notificacion notificacion = new Notificacion(this,Mensaje);
+                u.addNotificacion(notificacion);
             }
         }
     }

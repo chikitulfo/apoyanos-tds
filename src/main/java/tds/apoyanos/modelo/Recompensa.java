@@ -66,6 +66,13 @@ public class Recompensa implements Comparable<Recompensa>{
         this.descripcion = descripcion;
     }
 
+    public Collection<Usuario> getMecenas(){
+        LinkedList<Usuario> mecenas= new LinkedList<Usuario>();
+        for (Apoyo a : apoyos){
+            mecenas.add(a.getUsuario());
+        }
+        return mecenas;
+    }
 
     public Apoyo apoyar(Usuario usuario, double cantidad, String comentario)
             throws InvalidArgumentException, InvalidStateException {
