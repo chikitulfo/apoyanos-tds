@@ -15,7 +15,7 @@ public class Notificacion {
         this.proyecto=proyecto;
         this.tiempo= new GregorianCalendar();
         this.leida = false;
-        this.id = 0;
+        this.id = 0; // FIXME Temporal mientras no haya persistencia. Really needed?
     }
 
     public String getDescripcion() {

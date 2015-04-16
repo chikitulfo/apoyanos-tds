@@ -2,13 +2,13 @@ package tds.apoyanos.modelo;
 
 import tds.apoyanos.exceptions.InvalidStateException;
 
-import java.util.Date;
+import java.util.GregorianCalendar;
 
 public class Pregunta {
     private int id=0; // FIXME Temporal mientras no haya persistencia
 	private String asunto;
 	private String cuerpo;
-	private Date fecha;
+	private GregorianCalendar fecha;
 	private Usuario emisor;
 	private Usuario receptor;
 	private Proyecto proyecto;
@@ -19,7 +19,7 @@ public class Pregunta {
 		this.receptor = receptor;
 		this.asunto = asunto;
 		this.cuerpo = cuerpo;
-		this.fecha = new Date();
+		this.fecha = new GregorianCalendar();
 		this.proyecto = proyecto;
 	}
 
@@ -27,7 +27,7 @@ public class Pregunta {
         if (this.respuesta == null) {
             this.respuesta = respuesta;
         } else {
-            throw new InvalidStateException();
+            throw new InvalidStateException("La pregunta ya está contestada");
         }
     }
 
@@ -39,7 +39,7 @@ public class Pregunta {
 		return cuerpo;
 	}
 	
-	public Date getFecha() {
+	public GregorianCalendar getFecha() {
 		return fecha;
 	}
 

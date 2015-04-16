@@ -99,5 +99,6 @@ public class ControladorTest extends TestCase {
         Controlador.getUnicaInstancia().apoyarProyecto(p.getNombre(),"R1", 150,"Lalala");
         assertFalse(u.getApoyos().isEmpty());
         assertEquals( ((LinkedList<Apoyo>)u.getApoyos()).getFirst().getCantidad() , 150.0);
+        assertEquals( p.getCantidadRecaudada(), 150.0);
     }
 }

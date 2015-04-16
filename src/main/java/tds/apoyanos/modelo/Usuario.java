@@ -4,6 +4,7 @@ import tds.apoyanos.exceptions.InvalidArgumentException;
 import tds.apoyanos.exceptions.InvalidStateException;
 
 import java.util.Collection;
+import java.util.Deque;
 import java.util.LinkedList;
 
 public class Usuario {
@@ -16,7 +17,7 @@ public class Usuario {
     private Collection<Proyecto> votos;
     private Collection<Proyecto> proyectosCreados;
     private Collection<Apoyo> apoyos;
-    private Collection<Notificacion> notificaciones;
+    private Deque<Notificacion> notificaciones;
     private int id;
     private Collection<Pregunta> preguntasEmitidas;
     private Collection<Pregunta> preguntasRecibidas;
@@ -124,7 +125,7 @@ public class Usuario {
     }
 
     public void addNotificacion (Notificacion notificacion) {
-        notificaciones.add(notificacion);
+        notificaciones.addFirst(notificacion);
     }
 
     public void marcarNotificacionLeida( int idNotifiacion) throws InvalidArgumentException {

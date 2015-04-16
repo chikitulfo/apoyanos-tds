@@ -8,8 +8,6 @@ import java.util.*;
 
 public class Proyecto {
 
-    //FIXME IMPORTANTE ¿La cantidad recaudada se actualiza al recibir un apoyo? ¿Debería?:
-
     // Se utiliza una clase interna para representar el estado mediante un enum
     private enum Estado {
         VOTACION, FINANCIACION, COMPLETADO, CANCELADO}
@@ -158,7 +156,9 @@ public class Proyecto {
         if (estado==Estado.FINANCIACION) {
             for (Recompensa r : recompensas) {
                 if (r.getNombre().equals(nombreRecompensa)) {
-                    return r.apoyar(usuario, cantidad, comentario);
+                    Apoyo a =  r.apoyar(usuario, cantidad, comentario);
+                    addFinanciacion(cantidad);
+                    return a;
                 }
             }
             throw new InvalidArgumentException("La recompensa indicada no existe en el proyecto");
@@ -174,7 +174,6 @@ public class Proyecto {
                         +cantidadMinima+"." +
                         "\nLo sentimos");
             } else if ( esFinanciado()) {
-                estado = Estado.COMPLETADO;
                 notificarUsuarios("El proyecto "+nombre+" ha finalizado la campaña logrando recaudar un total de "
                         +cantidadRecaudada+" sobre un mínimo de "+cantidadMinima+"." +
                         "\n¡Fantásticas noticias!");
@@ -205,9 +204,14 @@ public class Proyecto {
         }
     }
 
-    private void notificarFinalizacionExito() {
-        notificarUsuarios("El proyecto "+nombre+" ha logrado alcanzar su meta de "+cantidadMinima+"." +
-                "\n¡Fantásticas noticias!");
+    private void addFinanciacion (double cantidad){
+        cantidadRecaudada += cantidad;
+        if (cantidadRecaudada >= cantidadMinima) {
+            estado = Estado.COMPLETADO;
+            notificarUsuarios("El proyecto "+nombre+" acaba de alcanzar su objetivo de "+cantidadMinima+"." +
+                    "\n¡Fantásticas noticias!" +
+                    "\nLa campaña continúa hasta vencer el plazo.");
+        }
     }
 
     private void notificarUsuarios(String Mensaje){
