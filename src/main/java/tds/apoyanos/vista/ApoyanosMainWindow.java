@@ -2,34 +2,59 @@ package tds.apoyanos.vista;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
+
 import java.awt.*;
 
 public class ApoyanosMainWindow extends JFrame {
 
-	private JPanel contentPane;
+	private JMenuBar mb;
+	private JMenu menuInicio;
+	private JMenu menuCrearProyecto;
+	private JMenu menuProyectos;
+	private JMenu menuProyectosVotacion; 
+	private JMenu menuProyectosFinanciacion;
+	private JMenu menuAyuda;
+
+	private JPanel panelContenidos;
+	
+	private JLabel lblInicioApoyanos;
+	private JTable table;
 	
 	public ApoyanosMainWindow() {
 		
 		//TODO Solicitar al controlador las categorías y hacer los sub-menús automáticamente
 		
+		//Características del JFrame
+		setBackground(new Color(255, 255, 255));
+		setTitle("Apóyanos - Tu plataforma crowdfunding para lanzar tus proyectos.");
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setBounds(100, 100, 1024, 600);
+		
+		//Panel Inicial
+		panelContenidos = new JPanel();
+		panelContenidos.setBackground(new Color(255, 255, 255));
+		panelContenidos.setBorder(new EmptyBorder(5, 5, 5, 5));
+		setContentPane(panelContenidos);
 		
 		//Menus
-		JMenuBar mb = new JMenuBar();
+		mb = new JMenuBar();
 		mb.setBorderPainted(false);
-		JMenu menuInicio = new JMenu("Inicio");
+		menuInicio = new JMenu("Inicio");
 		mb.add(menuInicio); 
-		JMenu menuCrearProyecto = new JMenu("Crear Proyecto");
+		menuCrearProyecto = new JMenu("Crear Proyecto");
 		mb.add(menuCrearProyecto);
-		JMenu menuProyectos = new JMenu("Proyectos");
+		menuProyectos = new JMenu("Proyectos");
 		mb.add(menuProyectos);
-		JMenu menuProyectosVotacion = new JMenu("Proyectos Votación");
+		menuProyectosVotacion = new JMenu("Proyectos Votación");
 		mb.add(menuProyectosVotacion); 
-		JMenu menuProyectosFinanciacion = new JMenu("Proyectos Financiación");
+		menuProyectosFinanciacion = new JMenu("Proyectos Financiación");
 		mb.add(menuProyectosFinanciacion);
-		JMenu menuAyuda = new JMenu("Ayuda");
+		menuAyuda = new JMenu("Ayuda");
 		mb.add(menuAyuda); 
 		
 		//Submenus
+		//Pedir al controlador una lista con las categorías
+		//Por cada categoría crear un jmenuitem
 		JMenuItem jmiTodos = new JMenuItem("Todos");
 		JMenuItem jmiMusica = new JMenuItem("Música");
 		JMenuItem jmiDeportes = new JMenuItem("Deportes");
@@ -78,38 +103,57 @@ public class ApoyanosMainWindow extends JFrame {
 		menuProyectosFinanciacion.add(jmiSocialPF);
 		menuProyectosFinanciacion.add(jmiLibrosPF);
 		
-		this.setJMenuBar(mb);
+		setJMenuBar(mb);
+		panelContenidos.setLayout(new BoxLayout(panelContenidos, BoxLayout.X_AXIS));
 		
-		//JPanel panelRegistro = new RegistroW(frame);
-		
-		//Características del JFrame
-		setBackground(new Color(255, 255, 255));
-		setTitle("Apóyanos - Tu plataforma crowdfunding para lanzar tus proyectos.");
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 1024, 600);
-		contentPane = new JPanel();
-		contentPane.setBackground(new Color(255, 255, 255));
-		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-		contentPane.setLayout(new BorderLayout(0, 0));
-		setContentPane(contentPane);
-		
-		JLabel lblInicioApoyanos = new JLabel("");
+		lblInicioApoyanos = new JLabel("");
 		lblInicioApoyanos.setIcon(new ImageIcon(ApoyanosMainWindow.class.getResource("/recursos/apoyanos.png")));
 		lblInicioApoyanos.setBackground(new Color(255, 255, 255));
 		lblInicioApoyanos.setFont(new Font("Arial", Font.PLAIN, 30));
 		lblInicioApoyanos.setHorizontalAlignment(SwingConstants.CENTER);
-		contentPane.add(lblInicioApoyanos, BorderLayout.CENTER);
+		panelContenidos.add(lblInicioApoyanos);
+
+		//Cuando se pulse un botón del menu se lanzará un evento que sustiturira el contentpanel por el panel correspondiente
+		//Panel Inicial
+		//panelContenidos = new JPanelListado();
+		//por ejemplo
 		
-		JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
-		contentPane.add(tabbedPane, BorderLayout.NORTH);
-		lblInicioApoyanos.setVisible(true);
 		
-		tabbedPane = new JTabbedPane(JTabbedPane.TOP); 
-		tabbedPane.setTabLayoutPolicy(JTabbedPane.SCROLL_TAB_LAYOUT); 
-		this.getContentPane().add(tabbedPane);
-		JPanel panel = new JPanel(); 
-		panel.setLayout(new BorderLayout()); 
-		tabbedPane.addTab("Tab 1", null, panel, null);
+		
+		//Crear Proyecto
+		JTabbedPane tabbedPane;
+		JPanel panelProyecto;
+		
+		JPanel panelRecompensas;
+		JTextField txtDescripcionRecompensa;
+		JPanel panelRecompensasIzq;
+		JPanel panelRecompensasDer;
+		
+		JButton btnCrearProyecto = new JButton("Crear Proyecto");
+		panelContenidos.add(btnCrearProyecto);
+		btnCrearProyecto.setHorizontalAlignment(SwingConstants.LEFT);
+		
+
+		//Panel Proyecto
+		tabbedPane = new JTabbedPane(JTabbedPane.NORTH);
+		
+		//Panel Recompensas
+		panelRecompensas = new JPanel(); 
+		panelRecompensas.setLayout(new BorderLayout()); 
+		tabbedPane.addTab("Votados", null, panelRecompensas, null);
+		//Paneles Izquierdo y derecho de Recompensas
+		panelRecompensasIzq = new JPanel();
+		panelRecompensas.add(panelRecompensasIzq);
+		panelRecompensasDer = new JPanel();
+		panelRecompensas.add(panelRecompensasDer);
+		
+		table = new JTable(4,4);
+		
+		panelRecompensasDer.add(table);
+		panelProyecto = new JPanel(); 
+		panelProyecto.setLayout(new BorderLayout()); 
+		tabbedPane.addTab("Financiación", null, panelProyecto, null);
+		getContentPane().add(tabbedPane);
 		
 	}
 
