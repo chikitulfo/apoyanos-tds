@@ -8,6 +8,7 @@ import net.miginfocom.swing.MigLayout;
 
 import javax.swing.border.BevelBorder;
 import javax.swing.border.LineBorder;
+import javax.swing.table.DefaultTableModel;
 
 @SuppressWarnings("serial")
 public class VentanaCrearProyecto extends JDialog {
@@ -258,9 +259,68 @@ public class VentanaCrearProyecto extends JDialog {
 		panel_Der.add(panel_2);
 		panel_2.setLayout(null);
 		
-		table = new JTable();
-		table.setBounds(252, 5, 0, 0);
-		panel_2.add(table);
+		JScrollPane scrollPane = new JScrollPane();
+		scrollPane.setBounds(6, 6, 489, 115);
+		panel_2.add(scrollPane);
+		
+		
+		String[] columnas = new String[]{
+	            "Recompensa",
+	            "Cantidad (€)",
+	            "Editar",
+	            "Eliminar"};
+
+        
+        //Una única fila
+        Object[][] datos = new Object[][]{
+                {"Regalo de un DVD", 1000, new JButton("E"),new JButton("X")}};
+
+		
+	/////		
+			table = new JTable();
+			table.setRowSelectionAllowed(false);
+			table.setSelectionBackground(SystemColor.inactiveCaptionText);
+			table.setName("Listado de proyectos en votación");
+			table.setGridColor(Color.LIGHT_GRAY);
+	        // Defino el TableModel y le indico los datos y nombres de columnas
+	        table.setModel(new DefaultTableModel(
+	                datos,
+	                columnas) {
+	            
+	            Class[] tipos = new Class[]{
+	                    String.class,
+	                    int.class,
+	                    JButton.class,
+	                    JButton.class // <- noten que aquí se especifica que la última columna es un botón
+	                };
+
+	            @Override
+	            public Class getColumnClass(int columnIndex) {
+	                // Este método es invocado por el CellRenderer para saber que dibujar en la celda,
+	                // observen que estamos retornando la clase que definimos de antemano.
+	                return tipos[columnIndex];
+	            }
+	            
+				boolean[] columnEditables = new boolean[] {
+					false, false, false, false
+				};
+				public boolean isCellEditable(int row, int column) {
+					return columnEditables[column];
+				}
+			});
+			table.getColumnModel().getColumn(0).setResizable(false);
+			table.getColumnModel().getColumn(0).setPreferredWidth(150);
+			table.getColumnModel().getColumn(1).setResizable(false);
+			table.getColumnModel().getColumn(1).setPreferredWidth(50);
+			table.getColumnModel().getColumn(2).setResizable(false);
+			table.getColumnModel().getColumn(3).setResizable(false);
+			//scrollPane.setColumnHeaderView(table);
+			scrollPane.setViewportView(table);
+		
+		
+		
+		
+		
 		
 		JPanel panel_3 = new JPanel();
 		panel_Der.add(panel_3);

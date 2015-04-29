@@ -33,7 +33,7 @@ public class VentanaPrincipalApoyanos extends JDialog {
         Object[][] datos = new Object[][]{
                 {"El proyecto de pepito", "Un proyecto para hacer la casa de pepito", 24, 109, new JButton("Vótame")}};
 		
-		
+/////		
 		table = new JTable();
 		table.setRowSelectionAllowed(false);
 		table.setSelectionBackground(SystemColor.inactiveCaptionText);
@@ -75,7 +75,7 @@ public class VentanaPrincipalApoyanos extends JDialog {
 		table.getColumnModel().getColumn(4).setResizable(false);
 		//scrollPane.setColumnHeaderView(table);
 		scrollPane.setViewportView(table);
-		
+/////		
 				
 		//TODO Solicitar al controlador las categorías y hacer los sub-menús automáticamente
 		
