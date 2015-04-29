@@ -67,7 +67,7 @@ public class LoginW {
 				boolean login = Controlador.getUnicaInstancia().login(
 						txtLogin.getText(), new String(txtPassword.getPassword()));
 				if (login) {
-					ApoyanosMainWindow window = new ApoyanosMainWindow();
+					VentanaIntroApoyanos window = new VentanaIntroApoyanos();
 					window.setVisible(true);
 					frame.dispose();
 				} else {

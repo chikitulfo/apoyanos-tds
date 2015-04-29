@@ -1,22 +1,28 @@
 package tds.apoyanos.vista;
 
 import javax.swing.*;
-import javax.swing.border.EmptyBorder;
 
 import java.awt.*;
-import net.miginfocom.swing.MigLayout;
-import javax.swing.border.BevelBorder;
 
-public class MainWindows extends JFrame {
+import net.miginfocom.swing.MigLayout;
+
+import javax.swing.border.BevelBorder;
+import javax.swing.border.LineBorder;
+
+@SuppressWarnings("serial")
+public class VentanaCrearProyecto extends JDialog {
 	private JTextField textProyecto;
 	private JTextField textFechaFin;
 	private JTextField textImporte;
+	private JTextField txt_UsuarioCreador;
+	private JTable table;
 	private JTextField textField;
 	private JTextField textField_1;
 
 
 	
-	public MainWindows() {
+	public VentanaCrearProyecto() {
+		setResizable(false);
 		getContentPane().setBackground(SystemColor.window);
 		
 		JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
@@ -153,82 +159,126 @@ public class MainWindows extends JFrame {
 		flowLayout_9.setAlignment(FlowLayout.LEFT);
 		panelCategoria.add(panel_1);
 		
-		JList list = new JList();
-		panel_1.add(list);
+		JComboBox comboBox = new JComboBox();
+		//Se puede mejorar con un bucle y una lista que contenga las categorías
+		comboBox.addItem("Música");
+		comboBox.addItem("Libros");
+		comboBox.addItem("Cine");
+		comboBox.addItem("Social");
+		comboBox.addItem("Software");
+		comboBox.addItem("Deportes");
+		panel_1.add(comboBox);
 		
-		JPanel Recompensa = new JPanel();
-		tabbedPane.addTab("Recompensa", null, Recompensa, null);
-		Recompensa.setLayout(new BoxLayout(Recompensa, BoxLayout.X_AXIS));
+		JPanel panelUsuario = new JPanel();
+		Proyecto.add(panelUsuario);
+		panelUsuario.setLayout(new BoxLayout(panelUsuario, BoxLayout.Y_AXIS));
 		
-		JPanel panel_2 = new JPanel();
-		Recompensa.add(panel_2);
-		panel_2.setLayout(new MigLayout("", "[][][][grow]", "[][][][][][]"));
+		JPanel panel_4 = new JPanel();
+		FlowLayout flowLayout_10 = (FlowLayout) panel_4.getLayout();
+		flowLayout_10.setHgap(300);
+		flowLayout_10.setAlignment(FlowLayout.LEFT);
+		panelUsuario.add(panel_4);
+		
+		JLabel labelUsuario = new JLabel("Usuario que crea el proyecto: ");
+		panel_4.add(labelUsuario);
+		
+		JPanel panel_5 = new JPanel();
+		FlowLayout flowLayout_11 = (FlowLayout) panel_5.getLayout();
+		flowLayout_11.setHgap(350);
+		flowLayout_11.setAlignment(FlowLayout.LEFT);
+		panelUsuario.add(panel_5);
+		
+		txt_UsuarioCreador = new JTextField();
+		txt_UsuarioCreador.setEditable(false);
+		txt_UsuarioCreador.setForeground(Color.GRAY);
+		txt_UsuarioCreador.setText("Pepito Martínez");
+		txt_UsuarioCreador.setColumns(30);
+		panel_5.add(txt_UsuarioCreador);
+		
+		JPanel Recompensas = new JPanel();
+		tabbedPane.addTab("Recompensas", null, Recompensas, null);
+		Recompensas.setLayout(new BoxLayout(Recompensas, BoxLayout.X_AXIS));
+		
+		JPanel panel_Izq = new JPanel();
+		Recompensas.add(panel_Izq);
+		panel_Izq.setLayout(null);
 		
 		JLabel lblRecompensa = new JLabel("Recompensa:");
-		panel_2.add(lblRecompensa, "cell 1 1,alignx right");
+		lblRecompensa.setHorizontalAlignment(SwingConstants.RIGHT);
+		lblRecompensa.setBounds(67, 101, 100, 28);
+		panel_Izq.add(lblRecompensa);
 		
 		textField = new JTextField();
-		panel_2.add(textField, "cell 3 1,growx");
+		textField.setBounds(172, 101, 250, 28);
+		panel_Izq.add(textField);
 		textField.setColumns(10);
 		
 		JLabel lblCantidad = new JLabel("Cantidad:");
-		panel_2.add(lblCantidad, "cell 1 2,alignx right");
+		lblCantidad.setHorizontalAlignment(SwingConstants.RIGHT);
+		lblCantidad.setBounds(67, 131, 100, 28);
+		panel_Izq.add(lblCantidad);
 		
 		textField_1 = new JTextField();
-		panel_2.add(textField_1, "cell 3 2,growx");
 		textField_1.setColumns(10);
+		textField_1.setBounds(172, 131, 150, 28);
+		panel_Izq.add(textField_1);
 		
 		JLabel lblDescripcin = new JLabel("Descripción:");
-		panel_2.add(lblDescripcin, "cell 1 3,alignx right");
+		lblDescripcin.setHorizontalAlignment(SwingConstants.RIGHT);
+		lblDescripcin.setBounds(67, 160, 100, 28);
+		panel_Izq.add(lblDescripcin);
+		
+		JTextArea txtrDescripcion = new JTextArea();
+		txtrDescripcion.setWrapStyleWord(true);
+		txtrDescripcion.setLineWrap(true);
+		txtrDescripcion.setCaretColor(new Color(0, 0, 0));
+		txtrDescripcion.setBorder(new LineBorder(new Color(128, 128, 128)));
+		txtrDescripcion.setColumns(10);
+		txtrDescripcion.setBounds(175, 166, 245, 100);
+		panel_Izq.add(txtrDescripcion);
+		
+		JLabel label = new JLabel("€uros.");
+		label.setHorizontalAlignment(SwingConstants.LEFT);
+		label.setBounds(330, 131, 100, 28);
+		panel_Izq.add(label);
 		
 		JButton btnAadir = new JButton("Añadir");
-		panel_2.add(btnAadir, "flowx,cell 3 5,alignx center,aligny center");
+		btnAadir.setBounds(100, 306, 117, 29);
+		panel_Izq.add(btnAadir);
 		
 		JButton btnLimpiar = new JButton("Limpiar");
-		panel_2.add(btnLimpiar, "cell 3 5,alignx center,aligny center");
+		btnLimpiar.setBounds(297, 306, 117, 29);
+		panel_Izq.add(btnLimpiar);
+		
+		JPanel panel_Der = new JPanel();
+		Recompensas.add(panel_Der);
+		panel_Der.setLayout(new BoxLayout(panel_Der, BoxLayout.Y_AXIS));
+		
+		JPanel panel_2 = new JPanel();
+		panel_Der.add(panel_2);
+		panel_2.setLayout(null);
+		
+		table = new JTable();
+		table.setBounds(252, 5, 0, 0);
+		panel_2.add(table);
 		
 		JPanel panel_3 = new JPanel();
-		Recompensa.add(panel_3);
-		panel_3.setLayout(new MigLayout("", "[][][][][]", "[][][][][][][]"));
+		panel_Der.add(panel_3);
+		panel_3.setLayout(null);
 		
-		JLabel lblRecompensa_1 = new JLabel("Recompensa 1: ");
-		panel_3.add(lblRecompensa_1, "cell 0 0");
+		JButton btnRegistrar = new JButton("Registrar Proyecto");
+		btnRegistrar.setBounds(73, 148, 168, 29);
+		btnRegistrar.setFont(new Font("Lucida Grande", Font.BOLD, 13));
+		btnRegistrar.setForeground(new Color(0, 100, 0));
+		panel_3.add(btnRegistrar);
 		
-		JLabel lblTtuloDeLa = new JLabel("Título de la recompensa 1");
-		panel_3.add(lblTtuloDeLa, "cell 1 0");
+		JButton btnNewButton_1 = new JButton("Cancelar Proyecto");
+		btnNewButton_1.setBounds(266, 148, 165, 29);
+		btnNewButton_1.setFont(new Font("Lucida Grande", Font.BOLD, 13));
+		btnNewButton_1.setForeground(Color.RED);
+		panel_3.add(btnNewButton_1);
+
 		
-		JLabel lblXxxxxx = new JLabel("xxxxxx");
-		panel_3.add(lblXxxxxx, "flowx,cell 1 1");
-		
-		JLabel label = new JLabel("€.");
-		panel_3.add(label, "cell 1 1");
-		
-		JLabel lblMod = new JLabel("Mod");
-		panel_3.add(lblMod, "cell 2 1");
-		
-		JLabel lblEliminar = new JLabel("Eliminar");
-		panel_3.add(lblEliminar, "cell 4 1");
-		
-		JLabel lblRecompensa_2 = new JLabel("Recompensa 2:");
-		panel_3.add(lblRecompensa_2, "cell 0 3");
-		
-		JLabel lblTtuloDeLa_1 = new JLabel("Título de la recompensa 2");
-		panel_3.add(lblTtuloDeLa_1, "cell 1 3");
-		
-		JLabel lblXxxxxx_1 = new JLabel("xxxxxx");
-		panel_3.add(lblXxxxxx_1, "flowx,cell 1 4");
-		
-		JLabel label_1 = new JLabel("€.");
-		panel_3.add(label_1, "cell 1 4");
-		
-		JLabel lblMod_1 = new JLabel("Mod");
-		panel_3.add(lblMod_1, "cell 2 4");
-		
-		JLabel lblEliminar_1 = new JLabel("Eliminar");
-		panel_3.add(lblEliminar_1, "cell 4 4");
-		
-		JButton btnEliminarTodas = new JButton("Eliminar Todas");
-		panel_3.add(btnEliminarTodas, "cell 4 6");
 				
 		//TODO Solicitar al controlador las categorías y hacer los sub-menús automáticamente
 		
@@ -252,10 +302,10 @@ public class MainWindows extends JFrame {
 		JLabel lblNewLabel = new JLabel("");
 		lblNewLabel.setVisible(false);
 		lblNewLabel.setHorizontalAlignment(SwingConstants.LEFT);
-		lblNewLabel.setIcon(new ImageIcon(MainWindows.class.getResource("/recursos/apoyanos_75aire-50.png")));
+		lblNewLabel.setIcon(new ImageIcon(VentanaCrearProyecto.class.getResource("/recursos/apoyanos_75aire-50.png")));
 		panelIcon.add(lblNewLabel);
 		
-		JMenu mnProyectosEnVotacion = new JMenu("Proyectos En Votación");
+		JMenu mnProyectosEnVotacion = new JMenu("Proyectos Votación");
 		mnProyectosEnVotacion.setHorizontalAlignment(SwingConstants.LEFT);
 		menuBar.add(mnProyectosEnVotacion);
 		
@@ -280,7 +330,7 @@ public class MainWindows extends JFrame {
 		JMenuItem mntmDeportes = new JMenuItem("Deportes");
 		mnProyectosEnVotacion.add(mntmDeportes);
 		
-		JMenu mnProyectosEnFinanciacion = new JMenu("Proyectos En Financiación");
+		JMenu mnProyectosEnFinanciacion = new JMenu("Proyectos Financiación");
 		menuBar.add(mnProyectosEnFinanciacion);
 		
 		JMenuItem menuItem = new JMenuItem("Todos");
@@ -305,14 +355,19 @@ public class MainWindows extends JFrame {
 		mnProyectosEnFinanciacion.add(menuItem_6);
 		
 		Component horizontalStrut_1 = Box.createHorizontalStrut(100);
+		horizontalStrut_1.setPreferredSize(new Dimension(23, 0));
+		horizontalStrut_1.setMinimumSize(new Dimension(23, 0));
+		horizontalStrut_1.setMaximumSize(new Dimension(23, 32767));
 		menuBar.add(horizontalStrut_1);
 		
-		JButton btnCrearNuevoProyecto = new JButton("Crear Nuevo Proyecto");
+		JButton btnCrearNuevoProyecto = new JButton("Nuevo Proyecto");
 		menuBar.add(btnCrearNuevoProyecto);
 		
-		Component horizontalStrut = Box.createHorizontalStrut(100);
-		menuBar.add(horizontalStrut);
+		JButton button = new JButton("Notificaciones");
+		menuBar.add(button);
+		
+		JButton button_1 = new JButton("Preguntas");
+		menuBar.add(button_1);
 		
 	}
-
 }
