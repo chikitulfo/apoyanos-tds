@@ -27,14 +27,7 @@ public class VentanaPrincipalApoyanos extends JDialog {
 	            "Días Restan",
 	            "Votos",
 	            "Votar"};
-		
-        Class[] tiposColumnas = new Class[]{
-                String.class,
-                String.class,
-                int.class,
-                int.class,
-                JButton.class // <- noten que aquí se especifica que la última columna es un botón
-            };
+
         
         //Una única fila
         Object[][] datos = new Object[][]{
@@ -46,16 +39,26 @@ public class VentanaPrincipalApoyanos extends JDialog {
 		table.setSelectionBackground(SystemColor.inactiveCaptionText);
 		table.setName("Listado de proyectos en votación");
 		table.setGridColor(Color.LIGHT_GRAY);
-		
-		
-		table.setModel(new DefaultTableModel(
-			new Object[][] {
-				{"El proyecto de pepito", "Un proyecto para hacer la casa de pepito", new Integer(24), new Integer(109), null},
-			},
-			new String[] {
-				"Proyecto", "Descripci\u00F3n", "D\u00EDas Restan", "Votos", "Votar"
-			}
-		) {
+        // Defino el TableModel y le indico los datos y nombres de columnas
+        table.setModel(new DefaultTableModel(
+                datos,
+                columnas) {
+            
+            Class[] tipos = new Class[]{
+                    String.class,
+                    String.class,
+                    int.class,
+                    int.class,
+                    JButton.class // <- noten que aquí se especifica que la última columna es un botón
+                };
+
+            @Override
+            public Class getColumnClass(int columnIndex) {
+                // Este método es invocado por el CellRenderer para saber que dibujar en la celda,
+                // observen que estamos retornando la clase que definimos de antemano.
+                return tipos[columnIndex];
+            }
+            
 			boolean[] columnEditables = new boolean[] {
 				false, false, false, false, false
 			};
@@ -70,7 +73,9 @@ public class VentanaPrincipalApoyanos extends JDialog {
 		table.getColumnModel().getColumn(2).setResizable(false);
 		table.getColumnModel().getColumn(3).setResizable(false);
 		table.getColumnModel().getColumn(4).setResizable(false);
-		scrollPane.setColumnHeaderView(table);
+		//scrollPane.setColumnHeaderView(table);
+		scrollPane.setViewportView(table);
+		
 				
 		//TODO Solicitar al controlador las categorías y hacer los sub-menús automáticamente
 		
