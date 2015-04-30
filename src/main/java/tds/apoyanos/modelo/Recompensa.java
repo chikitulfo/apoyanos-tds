@@ -8,6 +8,7 @@ import java.util.Collection;
 import java.util.LinkedList;
 
 public class Recompensa implements Comparable<Recompensa>{
+    private int id;
     private String nombre;
     private String descripcion;
     private double cantidadMinima;
@@ -28,6 +29,14 @@ public class Recompensa implements Comparable<Recompensa>{
     public Recompensa (String nombre, String descripcion, Proyecto proyecto, double cantidadMinima, int maximoParticipantes){
         this(nombre, descripcion, proyecto, cantidadMinima);
         this.maximoParticipantes=maximoParticipantes;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getNombre() {
@@ -99,5 +108,15 @@ public class Recompensa implements Comparable<Recompensa>{
         if ( this.cantidadMinima < r.cantidadMinima) return -1;
         if ( this.cantidadMinima > r.cantidadMinima) return  1;
         return 0;
+    }
+
+    public void setProyecto(Proyecto proyecto) {
+        if (this.proyecto == null) {
+            this.proyecto = proyecto;
+        }
+    }
+
+    public void setApoyos(LinkedList<Apoyo> apoyos) {
+        this.apoyos = new LinkedList<>(apoyos);
     }
 }

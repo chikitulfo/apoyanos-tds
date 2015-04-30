@@ -1,8 +1,8 @@
 package tds.apoyanos.persistencia;
 
-import java.util.List;
-
 import tds.apoyanos.modelo.Usuario;
+
+import java.util.List;
 
 public interface UsuarioDAO {
 	

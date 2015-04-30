@@ -9,7 +9,7 @@ import java.util.*;
 public class Proyecto {
 
     // Se utiliza una clase interna para representar el estado mediante un enum
-    private enum Estado {
+    public enum Estado {
         VOTACION, FINANCIACION, COMPLETADO, CANCELADO}
 
     private int id;
@@ -25,7 +25,6 @@ public class Proyecto {
     private Categoria categoria;
     private PoliticaComisiones politicaComisiones;
     private List<Recompensa> recompensas;
-    private Collection<Pregunta> preguntas;
 
     public Proyecto(String nombre, String descripcion, Usuario creador, double cantidadMinima, GregorianCalendar plazoFinanciacion,
                     Categoria categoria) {
@@ -39,7 +38,6 @@ public class Proyecto {
         this.categoria = categoria;
         this.cantidadRecaudada = 0;
         this.recompensas = new ArrayList<Recompensa>();
-        this.preguntas = new LinkedList<Pregunta>();
 
         // Creación de la política de comisiones adecuada
         if (categoria == Categoria.SOCIAL) {
@@ -69,6 +67,18 @@ public class Proyecto {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public boolean setCreador(Usuario creador) {
+        if (this.creador == null) {
+            this.creador = creador;
+            return true;
+        }
+        else return false;
+    }
+
+    public void setRecompensas(LinkedList<Recompensa> recompensas) {
+        this.recompensas = new LinkedList<Recompensa>(recompensas);
     }
 
     public String getDescripcion() {
@@ -105,6 +115,14 @@ public class Proyecto {
 
     public Collection<Recompensa> getRecompensas() {
         return new LinkedList<Recompensa>(recompensas);
+    }
+
+    public Estado getEstado() {
+        return estado;
+    }
+
+    public PoliticaComisiones getPoliticaComisiones() {
+        return politicaComisiones;
     }
 
     public boolean estaEnVotacion(){
@@ -178,29 +196,6 @@ public class Proyecto {
                         +cantidadRecaudada+" sobre un mínimo de "+cantidadMinima+"." +
                         "\n¡Fantásticas noticias!");
             }
-        }
-    }
-
-    public void hacerPregunta(Usuario emisor, String asunto, String cuerpo) throws InvalidArgumentException {
-        Pregunta p = new Pregunta(emisor, this.creador, asunto, cuerpo, this);
-        emisor.addPreguntaEmitida(p);
-        creador.addPreguntaRecibida(p);
-        preguntas.add(p);
-    }
-
-    public void responderPregunta(Usuario usuario, int idPregunta, String respuesta)
-            throws InvalidArgumentException, InvalidStateException {
-        if ( usuario == creador) {
-            for (Pregunta p: preguntas) {
-                if (p.getId() == idPregunta) {
-                    p.addRespuesta(respuesta);
-                    return;
-                }
-            }
-            throw new InvalidArgumentException("La pregunta no se ha encontrado");
-        }
-        else {
-            throw new InvalidArgumentException("El usuario no puede responder preguntas de este proyecto");
         }
     }
 

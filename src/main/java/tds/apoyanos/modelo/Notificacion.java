@@ -10,7 +10,7 @@ public class Notificacion {
     private Proyecto proyecto;
     private boolean leida;
 
-    Notificacion (Proyecto proyecto, String descripcion) {
+    public Notificacion (Proyecto proyecto, String descripcion) {
         this.descripcion=descripcion;
         this.proyecto=proyecto;
         this.tiempo= new GregorianCalendar();
@@ -42,6 +42,21 @@ public class Notificacion {
         this.leida = true;
     }
 
+    public void setId(int id) {
+        this.id = id;
+    }
 
+    public void setLeida(boolean leida) {
+        this.leida = leida;
+    }
 
+    public void setTiempo(GregorianCalendar tiempo) {
+        this.tiempo = tiempo;
+    }
+
+    public void setProyecto(Proyecto proyecto) {
+        if ( this.proyecto == null ) {
+            this.proyecto = proyecto;
+        }
+    }
 }

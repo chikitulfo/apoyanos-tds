@@ -59,16 +59,18 @@ public class CatalogoUsuarios {
 	}
 	
 	public void addUsuario(Usuario usuario) {
-		UsuarioDAO usuarioBD = null; /*Adaptador DAO para almacenar el nuevo usuario en la BD*/
-		try {
-			usuarioBD=FactoriaDAO.getFactoriaDAO(Config.TipoDAO).getUsuarioDAO();
-		} catch (DAOException e) {
-			e.printStackTrace();
+		if ( !esRegistrado(usuario.getLogin())) {
+			UsuarioDAO usuarioBD = null; /*Adaptador DAO para almacenar el nuevo usuario en la BD*/
+			try {
+				usuarioBD = FactoriaDAO.getFactoriaDAO(Config.TipoDAO).getUsuarioDAO();
+			} catch (DAOException e) {
+				e.printStackTrace();
+			}
+			usuarioBD.registrar(usuario);
+			usuarios_por_ID.put(new Integer(usuario.getId()), usuario);
+			usuarios_por_login.put(usuario.getLogin(), usuario);
+			listaUsuarios.add(usuario);
 		}
-		usuarioBD.registrar(usuario);
-		usuarios_por_ID.put(new Integer(usuario.getId()), usuario);
-		usuarios_por_login.put(usuario.getLogin(), usuario);
-		listaUsuarios.add(usuario);
 	}
 	
 	public void removeUsuario(Usuario usuario) {

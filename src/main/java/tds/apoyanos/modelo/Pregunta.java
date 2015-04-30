@@ -66,4 +66,26 @@ public class Pregunta {
     public void setId(int id) {
         this.id = id;
     }
+
+	public void setFecha(GregorianCalendar fecha) {
+		this.fecha = fecha;
+	}
+
+	public void setProyecto(Proyecto proyecto) {
+		if ( this.proyecto == null) {
+			this.proyecto = proyecto;
+		}
+	}
+
+	public void setEmisor(Usuario emisor) {
+		if ( this.emisor == null) {
+			this.emisor = emisor;
+		}
+	}
+
+	public void setReceptor(Usuario receptor) {
+		if ( this.emisor == null) {
+			this.receptor = receptor;
+		}
+	}
 }
