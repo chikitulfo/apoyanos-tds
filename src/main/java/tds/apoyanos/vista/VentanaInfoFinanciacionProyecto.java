@@ -236,7 +236,7 @@ public class VentanaInfoFinanciacionProyecto extends JDialog {
 		lblNewLabel.setIcon(new ImageIcon(VentanaCrearProyecto.class.getResource("/recursos/apoyanos_75aire-50.png")));
 		panelIcon.add(lblNewLabel);
 		
-		JMenu mnProyectosEnVotacion = new JMenu("Proyectos Votación");
+		JMenu mnProyectosEnVotacion = new JMenu("En Votación");
 		mnProyectosEnVotacion.setHorizontalAlignment(SwingConstants.LEFT);
 		menuBar.add(mnProyectosEnVotacion);
 		
@@ -261,7 +261,7 @@ public class VentanaInfoFinanciacionProyecto extends JDialog {
 		JMenuItem mntmDeportes = new JMenuItem("Deportes");
 		mnProyectosEnVotacion.add(mntmDeportes);
 		
-		JMenu mnProyectosEnFinanciacion = new JMenu("Proyectos Financiación");
+		JMenu mnProyectosEnFinanciacion = new JMenu("En Financiación");
 		menuBar.add(mnProyectosEnFinanciacion);
 		
 		JMenuItem menuItem = new JMenuItem("Todos");
@@ -299,6 +299,9 @@ public class VentanaInfoFinanciacionProyecto extends JDialog {
 		
 		JButton button_1 = new JButton("Preguntas");
 		menuBar.add(button_1);
+		
+		JButton button_2 = new JButton("Salir");
+		menuBar.add(button_2);
 		
 	}
 }

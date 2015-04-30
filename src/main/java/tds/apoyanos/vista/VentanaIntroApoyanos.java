@@ -22,7 +22,7 @@ public class VentanaIntroApoyanos extends JDialog {
 		//Características del JFrame
 		setBackground(new Color(255, 255, 255));
 		setTitle("Apóyanos - Tu plataforma crowdfunding para lanzar tus proyectos.");
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 1024, 600);
 		
 		//Panel Inicial
@@ -85,6 +85,9 @@ public class VentanaIntroApoyanos extends JDialog {
 		
 		JButton btnNewButton_1 = new JButton("Preguntas");
 		mb.add(btnNewButton_1);
+		
+		JButton button = new JButton("Salir");
+		mb.add(button);
 		
 		Component verticalStrut = Box.createVerticalStrut(74);
 		mb.add(verticalStrut);
