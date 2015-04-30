@@ -9,7 +9,7 @@ import javax.swing.border.BevelBorder;
 import javax.swing.table.DefaultTableModel;
 
 @SuppressWarnings("serial")
-public class VentanaInfoProyecto extends JDialog {
+public class VentanaInfoFinanciacionProyecto extends JDialog {
 	private JTextField txtTtuloDelProyecot;
 	private JTextField textField;
 	private JTextField textField_1;
@@ -17,10 +17,11 @@ public class VentanaInfoProyecto extends JDialog {
 	private JTextField textField_2;
 	private JTextField textField_3;
 	private JTable table;
+	private JTextField textField_4;
 
 
 	
-	public VentanaInfoProyecto() {
+	public VentanaInfoFinanciacionProyecto() {
 		getContentPane().setBackground(SystemColor.window);
 		getContentPane().setLayout(null);
 		
@@ -116,23 +117,19 @@ public class VentanaInfoProyecto extends JDialog {
 		lblDas.setBounds(414, 298, 58, 20);
 		getContentPane().add(lblDas);
 		
-		JLabel lblVotosRecibidos = new JLabel("Votos Recibidos:");
+		JLabel lblVotosRecibidos = new JLabel("Financiado:");
 		lblVotosRecibidos.setHorizontalAlignment(SwingConstants.LEFT);
 		lblVotosRecibidos.setBounds(315, 326, 130, 20);
 		getContentPane().add(lblVotosRecibidos);
 		
 		textField_3 = new JTextField();
 		textField_3.setEditable(false);
-		textField_3.setText("12");
+		textField_3.setText("5300,00");
 		textField_3.setHorizontalAlignment(SwingConstants.CENTER);
 		textField_3.setForeground(Color.GRAY);
 		textField_3.setColumns(10);
-		textField_3.setBounds(335, 346, 80, 28);
+		textField_3.setBounds(335, 346, 120, 28);
 		getContentPane().add(textField_3);
-		
-		JButton btnVotarProyecto = new JButton("Votar Proyecto");
-		btnVotarProyecto.setBounds(451, 398, 117, 29);
-		getContentPane().add(btnVotarProyecto);
 		
 		JScrollPane scrollPane = new JScrollPane();
 		scrollPane.setBounds(544, 48, 446, 75);
@@ -144,13 +141,15 @@ public class VentanaInfoProyecto extends JDialog {
 		
 		String[] columnas = new String[]{
 	            "Recompensa",
-	            "Cantidad"};
+	            "Cantidad",
+	            "Apoyar"};
 
         
         //Una única fila
         Object[][] datos = new Object[][]{
                 {"Un duplicado oficial en BluRay firmado por el director del bódrio.",
-                2000,00}};
+                2000.00,
+                new JButton("Apoyar")}};
 		
 /////		
 		table = new JTable();
@@ -172,7 +171,8 @@ public class VentanaInfoProyecto extends JDialog {
             
             Class[] tipos = new Class[]{
                     String.class,
-                    double.class
+                    double.class,
+                    JButton.class
                 };
 
             @Override
@@ -194,6 +194,20 @@ public class VentanaInfoProyecto extends JDialog {
 		table.getColumnModel().getColumn(0).setPreferredWidth(250);
 		//scrollPane.setColumnHeaderView(table);
 		scrollPane.setViewportView(table);
+		
+		JLabel lblFinanciado = new JLabel("% Financiado:");
+		lblFinanciado.setHorizontalAlignment(SwingConstants.LEFT);
+		lblFinanciado.setBounds(315, 378, 130, 20);
+		getContentPane().add(lblFinanciado);
+		
+		textField_4 = new JTextField();
+		textField_4.setText("80%");
+		textField_4.setHorizontalAlignment(SwingConstants.CENTER);
+		textField_4.setForeground(Color.GRAY);
+		textField_4.setEditable(false);
+		textField_4.setColumns(10);
+		textField_4.setBounds(335, 398, 120, 28);
+		getContentPane().add(textField_4);
 /////	
 		
 /////////////////////////////////////////////		
