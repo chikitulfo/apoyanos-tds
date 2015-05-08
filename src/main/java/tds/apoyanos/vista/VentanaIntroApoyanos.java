@@ -4,6 +4,8 @@ import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class VentanaIntroApoyanos extends JDialog {
 
@@ -34,9 +36,12 @@ public class VentanaIntroApoyanos extends JDialog {
 		//Menus
 		mb = new JMenuBar();
 		mb.setBorderPainted(false);
-		menuProyectosVotacion = new JMenu("Proyectos Votación");
+		
+		Component rigidArea = Box.createRigidArea(new Dimension(320, 74));
+		mb.add(rigidArea);
+		menuProyectosVotacion = new JMenu("En Votación");
 		mb.add(menuProyectosVotacion); 
-		menuProyectosFinanciacion = new JMenu("Proyectos Financiación");
+		menuProyectosFinanciacion = new JMenu("En Financiación");
 		menuProyectosFinanciacion.setRolloverEnabled(false);
 		mb.add(menuProyectosFinanciacion);
 		
@@ -78,6 +83,14 @@ public class VentanaIntroApoyanos extends JDialog {
 		mb.add(horizontalStrut_423);
 		
 		JButton btnNuevoProyecto = new JButton("Nuevo Proyecto");
+		btnNuevoProyecto.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e) {
+				VentanaCrearProyecto window = new VentanaCrearProyecto();
+				window.setVisible(true);
+				//frame.dispose();
+			}
+		});
+		
 		mb.add(btnNuevoProyecto);
 		
 		JButton btnNewButton = new JButton("Notificaciones");
@@ -86,11 +99,15 @@ public class VentanaIntroApoyanos extends JDialog {
 		JButton btnNewButton_1 = new JButton("Preguntas");
 		mb.add(btnNewButton_1);
 		
-		JButton button = new JButton("Salir");
-		mb.add(button);
+		JButton btSalir = new JButton("Salir");
+		btSalir.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e) {
+					//frame.dispose(); /*cuando se destruye la última ventana termina la maquina virtual*/
+					System.exit(0);  /*no sería necesario en este caso*/
+			}
+		});
 		
-		Component verticalStrut = Box.createVerticalStrut(74);
-		mb.add(verticalStrut);
+		mb.add(btSalir);
 		panelContenidos.setLayout(new GridLayout(0, 1, 0, 0));
 		
 		lblInicioApoyanos = new JLabel("");

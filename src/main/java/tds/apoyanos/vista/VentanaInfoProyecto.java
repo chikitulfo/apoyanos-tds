@@ -3,7 +3,8 @@ package tds.apoyanos.vista;
 import javax.swing.*;
 
 import java.awt.*;
-
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.border.BevelBorder;
 import javax.swing.table.DefaultTableModel;
@@ -17,6 +18,7 @@ public class VentanaInfoProyecto extends JDialog {
 	private JTextField textField_2;
 	private JTextField textField_3;
 	private JTable table;
+	private JTable table_1;
 
 
 	
@@ -38,7 +40,7 @@ public class VentanaInfoProyecto extends JDialog {
 		txtTtuloDelProyecot.setEditable(false);
 		txtTtuloDelProyecot.setForeground(Color.GRAY);
 		txtTtuloDelProyecot.setText("La leja de la mesa");
-		txtTtuloDelProyecot.setBounds(110, 48, 375, 28);
+		txtTtuloDelProyecot.setBounds(110, 48, 880, 28);
 		getContentPane().add(txtTtuloDelProyecot);
 		txtTtuloDelProyecot.setColumns(10);
 		
@@ -130,12 +132,20 @@ public class VentanaInfoProyecto extends JDialog {
 		textField_3.setBounds(335, 346, 80, 28);
 		getContentPane().add(textField_3);
 		
-		JButton btnVotarProyecto = new JButton("Votar Proyecto");
-		btnVotarProyecto.setBounds(451, 398, 117, 29);
+		JButton btnVotarProyecto = new JButton("¡¡Votar Proyecto!!");
+		btnVotarProyecto.setEnabled(false);
+		/*
+		 * Si el usuario ya ha votado este proyecto no puede volver a votarlo. 
+		 * btnVotarProyecto.setEnabled(false);
+		 * */
+		
+		
+		btnVotarProyecto.setFont(new Font("Lucida Grande", Font.BOLD, 23));
+		btnVotarProyecto.setBounds(546, 360, 444, 66);
 		getContentPane().add(btnVotarProyecto);
 		
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(544, 48, 446, 75);
+		scrollPane.setBounds(544, 100, 446, 75);
 		getContentPane().add(scrollPane);
 		
 		
@@ -160,13 +170,15 @@ public class VentanaInfoProyecto extends JDialog {
 		table.setGridColor(Color.LIGHT_GRAY);
         // Defino el TableModel y le indico los datos y nombres de columnas
 
-		table = new JTable();
-		table.setRowSelectionAllowed(false);
-		table.setSelectionBackground(SystemColor.inactiveCaptionText);
-		table.setName("Listado de proyectos en votación");
-		table.setGridColor(Color.LIGHT_GRAY);
+		table_1 = new JTable();
+		table_1.setForeground(Color.GRAY);
+		table_1.setEnabled(false);
+		table_1.setRowSelectionAllowed(false);
+		table_1.setSelectionBackground(SystemColor.inactiveCaptionText);
+		table_1.setName("Listado de proyectos en votación");
+		table_1.setGridColor(Color.LIGHT_GRAY);
         // Defino el TableModel y le indico los datos y nombres de columnas
-        table.setModel(new DefaultTableModel(
+        table_1.setModel(new DefaultTableModel(
                 datos,
                 columnas) {
             
@@ -190,10 +202,10 @@ public class VentanaInfoProyecto extends JDialog {
 			}
 		});
         
-		table.getColumnModel().getColumn(0).setResizable(false);
-		table.getColumnModel().getColumn(0).setPreferredWidth(250);
+		table_1.getColumnModel().getColumn(0).setResizable(false);
+		table_1.getColumnModel().getColumn(0).setPreferredWidth(250);
 		//scrollPane.setColumnHeaderView(table);
-		scrollPane.setViewportView(table);
+		scrollPane.setViewportView(table_1);
 /////	
 		
 /////////////////////////////////////////////		
@@ -222,7 +234,7 @@ public class VentanaInfoProyecto extends JDialog {
 		lblNewLabel.setIcon(new ImageIcon(VentanaCrearProyecto.class.getResource("/recursos/apoyanos_75aire-50.png")));
 		panelIcon.add(lblNewLabel);
 		
-		JMenu mnProyectosEnVotacion = new JMenu("Proyectos Votación");
+		JMenu mnProyectosEnVotacion = new JMenu("En Votación");
 		mnProyectosEnVotacion.setHorizontalAlignment(SwingConstants.LEFT);
 		menuBar.add(mnProyectosEnVotacion);
 		
@@ -247,7 +259,7 @@ public class VentanaInfoProyecto extends JDialog {
 		JMenuItem mntmDeportes = new JMenuItem("Deportes");
 		mnProyectosEnVotacion.add(mntmDeportes);
 		
-		JMenu mnProyectosEnFinanciacion = new JMenu("Proyectos Financiación");
+		JMenu mnProyectosEnFinanciacion = new JMenu("En Financiación");
 		menuBar.add(mnProyectosEnFinanciacion);
 		
 		JMenuItem menuItem = new JMenuItem("Todos");
@@ -278,13 +290,28 @@ public class VentanaInfoProyecto extends JDialog {
 		menuBar.add(horizontalStrut_1);
 		
 		JButton btnCrearNuevoProyecto = new JButton("Nuevo Proyecto");
+		btnCrearNuevoProyecto.setFocusable(false);
 		menuBar.add(btnCrearNuevoProyecto);
 		
 		JButton button = new JButton("Notificaciones");
+		button.setFocusable(false);
 		menuBar.add(button);
 		
 		JButton button_1 = new JButton("Preguntas");
+		button_1.setFocusable(false);
 		menuBar.add(button_1);
+		
+		JButton btSalir = new JButton("Salir");
+		btSalir.setFocusable(false);
+		btSalir.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e) {
+					//frame.dispose(); /*cuando se destruye la última ventana termina la maquina virtual*/
+					System.exit(0);  /*no sería necesario en este caso*/
+			}
+		});
+		
+		menuBar.add(btSalir);
+		
 		
 	}
 }

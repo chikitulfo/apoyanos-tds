@@ -3,7 +3,8 @@ package tds.apoyanos.vista;
 import javax.swing.*;
 
 import java.awt.*;
-
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.border.BevelBorder;
 import javax.swing.table.DefaultTableModel;
@@ -17,6 +18,7 @@ public class VentanaInfoFinanciacionProyecto extends JDialog {
 	private JTextField textField_2;
 	private JTextField textField_3;
 	private JTable table;
+	private JTable table_1;
 	private JTextField textField_4;
 
 
@@ -39,7 +41,7 @@ public class VentanaInfoFinanciacionProyecto extends JDialog {
 		txtTtuloDelProyecot.setEditable(false);
 		txtTtuloDelProyecot.setForeground(Color.GRAY);
 		txtTtuloDelProyecot.setText("La leja de la mesa");
-		txtTtuloDelProyecot.setBounds(110, 48, 375, 28);
+		txtTtuloDelProyecot.setBounds(110, 48, 880, 28);
 		getContentPane().add(txtTtuloDelProyecot);
 		txtTtuloDelProyecot.setColumns(10);
 		
@@ -79,7 +81,7 @@ public class VentanaInfoFinanciacionProyecto extends JDialog {
 		textField_1.setEditable(false);
 		textField_1.setForeground(Color.GRAY);
 		textField_1.setHorizontalAlignment(SwingConstants.CENTER);
-		textField_1.setText("6800,00");
+		textField_1.setText("6800,00 €");
 		textField_1.setColumns(10);
 		textField_1.setBounds(110, 346, 150, 28);
 		getContentPane().add(textField_1);
@@ -124,7 +126,7 @@ public class VentanaInfoFinanciacionProyecto extends JDialog {
 		
 		textField_3 = new JTextField();
 		textField_3.setEditable(false);
-		textField_3.setText("5300,00");
+		textField_3.setText("5300,00 €");
 		textField_3.setHorizontalAlignment(SwingConstants.CENTER);
 		textField_3.setForeground(Color.GRAY);
 		textField_3.setColumns(10);
@@ -132,7 +134,7 @@ public class VentanaInfoFinanciacionProyecto extends JDialog {
 		getContentPane().add(textField_3);
 		
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(544, 48, 446, 75);
+		scrollPane.setBounds(544, 100, 446, 75);
 		getContentPane().add(scrollPane);
 		
 		
@@ -144,12 +146,14 @@ public class VentanaInfoFinanciacionProyecto extends JDialog {
 	            "Cantidad",
 	            "Apoyar"};
 
-        
+///        
+		JButton btApoyo = new JButton("Apoyar");
+		
         //Una única fila
         Object[][] datos = new Object[][]{
                 {"Un duplicado oficial en BluRay firmado por el director del bódrio.",
                 2000.00,
-                new JButton("Apoyar")}};
+                btApoyo}};
 		
 /////		
 		table = new JTable();
@@ -159,13 +163,15 @@ public class VentanaInfoFinanciacionProyecto extends JDialog {
 		table.setGridColor(Color.LIGHT_GRAY);
         // Defino el TableModel y le indico los datos y nombres de columnas
 
-		table = new JTable();
-		table.setRowSelectionAllowed(false);
-		table.setSelectionBackground(SystemColor.inactiveCaptionText);
-		table.setName("Listado de proyectos en votación");
-		table.setGridColor(Color.LIGHT_GRAY);
+		table_1 = new JTable();
+		table_1.setEnabled(false);
+		table_1.setForeground(Color.GRAY);
+		table_1.setRowSelectionAllowed(false);
+		table_1.setSelectionBackground(SystemColor.inactiveCaptionText);
+		table_1.setName("Listado de proyectos en votación");
+		table_1.setGridColor(Color.LIGHT_GRAY);
         // Defino el TableModel y le indico los datos y nombres de columnas
-        table.setModel(new DefaultTableModel(
+        table_1.setModel(new DefaultTableModel(
                 datos,
                 columnas) {
             
@@ -190,10 +196,10 @@ public class VentanaInfoFinanciacionProyecto extends JDialog {
 			}
 		});
         
-		table.getColumnModel().getColumn(0).setResizable(false);
-		table.getColumnModel().getColumn(0).setPreferredWidth(250);
+		table_1.getColumnModel().getColumn(0).setResizable(false);
+		table_1.getColumnModel().getColumn(0).setPreferredWidth(250);
 		//scrollPane.setColumnHeaderView(table);
-		scrollPane.setViewportView(table);
+		scrollPane.setViewportView(table_1);
 		
 		JLabel lblFinanciado = new JLabel("% Financiado:");
 		lblFinanciado.setHorizontalAlignment(SwingConstants.LEFT);
@@ -292,16 +298,27 @@ public class VentanaInfoFinanciacionProyecto extends JDialog {
 		menuBar.add(horizontalStrut_1);
 		
 		JButton btnCrearNuevoProyecto = new JButton("Nuevo Proyecto");
+		btnCrearNuevoProyecto.setFocusable(false);
 		menuBar.add(btnCrearNuevoProyecto);
 		
 		JButton button = new JButton("Notificaciones");
+		button.setFocusable(false);
 		menuBar.add(button);
 		
 		JButton button_1 = new JButton("Preguntas");
+		button_1.setFocusable(false);
 		menuBar.add(button_1);
 		
-		JButton button_2 = new JButton("Salir");
-		menuBar.add(button_2);
+		JButton btSalir = new JButton("Salir");
+		btSalir.setFocusable(false);
+		btSalir.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e) {
+					//frame.dispose(); /*cuando se destruye la última ventana termina la maquina virtual*/
+					System.exit(0);  /*no sería necesario en este caso*/
+			}
+		});
+		
+		menuBar.add(btSalir);
 		
 	}
 }

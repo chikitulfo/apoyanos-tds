@@ -3,6 +3,8 @@ package tds.apoyanos.vista;
 import javax.swing.*;
 
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import net.miginfocom.swing.MigLayout;
 
@@ -192,7 +194,7 @@ public class VentanaCrearProyecto extends JDialog {
 		txt_UsuarioCreador = new JTextField();
 		txt_UsuarioCreador.setEditable(false);
 		txt_UsuarioCreador.setForeground(Color.GRAY);
-		txt_UsuarioCreador.setText("Pepito Martínez");
+		txt_UsuarioCreador.setText("<<Usuario en uso>>");
 		txt_UsuarioCreador.setColumns(30);
 		panel_5.add(txt_UsuarioCreador);
 		
@@ -206,27 +208,27 @@ public class VentanaCrearProyecto extends JDialog {
 		
 		JLabel lblRecompensa = new JLabel("Recompensa:");
 		lblRecompensa.setHorizontalAlignment(SwingConstants.RIGHT);
-		lblRecompensa.setBounds(67, 101, 100, 28);
+		lblRecompensa.setBounds(67, 65, 100, 28);
 		panel_Izq.add(lblRecompensa);
 		
 		textField = new JTextField();
-		textField.setBounds(172, 101, 250, 28);
+		textField.setBounds(172, 65, 250, 28);
 		panel_Izq.add(textField);
 		textField.setColumns(10);
 		
 		JLabel lblCantidad = new JLabel("Cantidad:");
 		lblCantidad.setHorizontalAlignment(SwingConstants.RIGHT);
-		lblCantidad.setBounds(67, 131, 100, 28);
+		lblCantidad.setBounds(67, 95, 100, 28);
 		panel_Izq.add(lblCantidad);
 		
 		textField_1 = new JTextField();
 		textField_1.setColumns(10);
-		textField_1.setBounds(172, 131, 150, 28);
+		textField_1.setBounds(172, 95, 150, 28);
 		panel_Izq.add(textField_1);
 		
 		JLabel lblDescripcin = new JLabel("Descripción:");
 		lblDescripcin.setHorizontalAlignment(SwingConstants.RIGHT);
-		lblDescripcin.setBounds(67, 160, 100, 28);
+		lblDescripcin.setBounds(67, 124, 100, 28);
 		panel_Izq.add(lblDescripcin);
 		
 		JTextArea txtrDescripcion = new JTextArea();
@@ -235,20 +237,20 @@ public class VentanaCrearProyecto extends JDialog {
 		txtrDescripcion.setCaretColor(new Color(0, 0, 0));
 		txtrDescripcion.setBorder(new LineBorder(new Color(128, 128, 128)));
 		txtrDescripcion.setColumns(10);
-		txtrDescripcion.setBounds(175, 166, 245, 100);
+		txtrDescripcion.setBounds(175, 130, 245, 100);
 		panel_Izq.add(txtrDescripcion);
 		
 		JLabel label = new JLabel("€uros.");
 		label.setHorizontalAlignment(SwingConstants.LEFT);
-		label.setBounds(330, 131, 100, 28);
+		label.setBounds(330, 95, 100, 28);
 		panel_Izq.add(label);
 		
 		JButton btnAadir = new JButton("Añadir");
-		btnAadir.setBounds(100, 306, 117, 29);
+		btnAadir.setBounds(100, 270, 117, 29);
 		panel_Izq.add(btnAadir);
 		
 		JButton btnLimpiar = new JButton("Limpiar");
-		btnLimpiar.setBounds(297, 306, 117, 29);
+		btnLimpiar.setBounds(297, 270, 117, 29);
 		panel_Izq.add(btnLimpiar);
 		
 		JPanel panel_Der = new JPanel();
@@ -260,7 +262,7 @@ public class VentanaCrearProyecto extends JDialog {
 		panel_2.setLayout(null);
 		
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(6, 6, 489, 115);
+		scrollPane.setBounds(6, 62, 489, 115);
 		panel_2.add(scrollPane);
 		
 		
@@ -327,15 +329,19 @@ public class VentanaCrearProyecto extends JDialog {
 		panel_3.setLayout(null);
 		
 		JButton btnRegistrar = new JButton("Registrar Proyecto");
-		btnRegistrar.setBounds(73, 148, 168, 29);
-		btnRegistrar.setFont(new Font("Lucida Grande", Font.BOLD, 13));
-		btnRegistrar.setForeground(new Color(0, 100, 0));
+		btnRegistrar.setBounds(45, 112, 214, 65);
+		btnRegistrar.setFont(new Font("Lucida Grande", Font.BOLD, 18));
+		btnRegistrar.setForeground(Color.BLACK);
 		panel_3.add(btnRegistrar);
 		
-		JButton btnNewButton_1 = new JButton("Cancelar Proyecto");
-		btnNewButton_1.setBounds(266, 148, 165, 29);
+		JButton btnNewButton_1 = new JButton("Cancelar");
+		btnNewButton_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
+		btnNewButton_1.setBounds(284, 132, 165, 29);
 		btnNewButton_1.setFont(new Font("Lucida Grande", Font.BOLD, 13));
-		btnNewButton_1.setForeground(Color.RED);
+		btnNewButton_1.setForeground(Color.BLACK);
 		panel_3.add(btnNewButton_1);
 
 		
@@ -429,8 +435,15 @@ public class VentanaCrearProyecto extends JDialog {
 		JButton button_1 = new JButton("Preguntas");
 		menuBar.add(button_1);
 		
-		JButton button_2 = new JButton("Salir");
-		menuBar.add(button_2);
+		JButton btSalir = new JButton("Salir");
+		btSalir.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e) {
+					//frame.dispose(); /*cuando se destruye la última ventana termina la maquina virtual*/
+					System.exit(0);  /*no sería necesario en este caso*/
+			}
+		});
+		
+		menuBar.add(btSalir);
 		
 	}
 }

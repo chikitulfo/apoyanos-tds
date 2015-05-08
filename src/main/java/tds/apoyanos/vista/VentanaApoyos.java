@@ -1,5 +1,8 @@
 package tds.apoyanos.vista;
 
+import java.awt.Color;
+import java.awt.SystemColor;
+
 import javax.swing.*;
 
 import java.awt.*;
@@ -8,15 +11,13 @@ import java.awt.event.ActionListener;
 
 import javax.swing.table.DefaultTableModel;
 
-import tds.apoyanos.controlador.Controlador;
-
 @SuppressWarnings("serial")
-public class VentanaPrincipalApoyanos extends JDialog {
+public class VentanaApoyos extends JDialog {
 	private JTable table;
-	private Controlador controlador = Controlador.getUnicaInstancia();
+
 
 	
-	public VentanaPrincipalApoyanos() {
+	public VentanaApoyos() {
 		getContentPane().setBackground(Color.WHITE);
 		getContentPane().setLayout(null);
 		
@@ -26,16 +27,15 @@ public class VentanaPrincipalApoyanos extends JDialog {
 		
 		
 		String[] columnas = new String[]{
-	            "Proyecto",
-	            "Descripción",
-	            "Días Restan",
-	            "Votos",
-	            "Votar"};
-
+	            "Título",
+	            "Recompensa",
+	            "Cantidad",
+	            "+Info"};
+		 //“Proyecto supera no supera la fase de financiación con % financiación de un total de x euros
         
         //Una única fila
         Object[][] datos = new Object[][]{
-                {"El proyecto de pepito", "Un proyecto para hacer la casa de pepito", 24, 109, new JButton("Vótame")}};
+                {"El proyecto de pepito", "DVD firmado por el director.","50 €.",new JButton("Info")}};
 		
 /////		
 		table = new JTable();
@@ -52,9 +52,8 @@ public class VentanaPrincipalApoyanos extends JDialog {
             Class[] tipos = new Class[]{
                     String.class,
                     String.class,
-                    int.class,
-                    int.class,
-                    JButton.class // <- noten que aquí se especifica que la última columna es un botón
+                    String.class,
+                    JButton.class
                 };
 
             @Override
@@ -65,7 +64,7 @@ public class VentanaPrincipalApoyanos extends JDialog {
             }
             
 			boolean[] columnEditables = new boolean[] {
-				false, false, false, false, false
+				false, false, false,false
 			};
 			public boolean isCellEditable(int row, int column) {
 				return columnEditables[column];
@@ -74,23 +73,19 @@ public class VentanaPrincipalApoyanos extends JDialog {
 		table.getColumnModel().getColumn(0).setResizable(false);
 		table.getColumnModel().getColumn(0).setPreferredWidth(150);
 		table.getColumnModel().getColumn(1).setResizable(false);
-		table.getColumnModel().getColumn(1).setPreferredWidth(250);
+		table.getColumnModel().getColumn(1).setPreferredWidth(150);
 		table.getColumnModel().getColumn(2).setResizable(false);
+		table.getColumnModel().getColumn(2).setPreferredWidth(50);
 		table.getColumnModel().getColumn(3).setResizable(false);
-		table.getColumnModel().getColumn(4).setResizable(false);
+		table.getColumnModel().getColumn(3).setPreferredWidth(50);
+		//scrollPane.setColumnHeaderView(table);
 		scrollPane.setViewportView(table);
 		
-		JLabel lbTitulo = new JLabel();
-		/*
-		 * según se utilize y según los datos de entrada en la creación el texto será distinto
-		 * 
-		 * 
-		 * */
-		lbTitulo.setText("Listado de proyectos <<en votación>> <<en financiación>> - <<categoría>>");
-		lbTitulo.setHorizontalAlignment(SwingConstants.LEFT);
-		lbTitulo.setFont(new Font("Lucida Grande", Font.PLAIN, 18));
-		lbTitulo.setBounds(100, 59, 794, 34);
-		getContentPane().add(lbTitulo);
+		JLabel lblNotificaciones = new JLabel("Apoyos");
+		lblNotificaciones.setFont(new Font("Lucida Grande", Font.PLAIN, 18));
+		lblNotificaciones.setHorizontalAlignment(SwingConstants.LEFT);
+		lblNotificaciones.setBounds(100, 60, 152, 30);
+		getContentPane().add(lblNotificaciones);
 /////		
 				
 		//TODO Solicitar al controlador las categorías y hacer los sub-menús automáticamente
@@ -114,7 +109,11 @@ public class VentanaPrincipalApoyanos extends JDialog {
 		panelIcon.setLayout(new GridLayout(0, 1, 0, 0));
 		
 		JLabel lblNewLabel = new JLabel(" ");
-		lblNewLabel.setVisible(false);
+		lblNewLabel.setVerifyInputWhenFocusTarget(false);
+		lblNewLabel.setRequestFocusEnabled(false);
+		lblNewLabel.setFocusTraversalKeysEnabled(false);
+		lblNewLabel.setInheritsPopupMenu(false);
+		lblNewLabel.setFocusable(false);
 		lblNewLabel.setHorizontalAlignment(SwingConstants.LEFT);
 		lblNewLabel.setIcon(new ImageIcon(VentanaCrearProyecto.class.getResource("/recursos/apoyanos_75aire-50.png")));
 		panelIcon.add(lblNewLabel);
@@ -177,13 +176,6 @@ public class VentanaPrincipalApoyanos extends JDialog {
 		
 		JButton btnCrearNuevoProyecto = new JButton("Nuevo Proyecto");
 		btnCrearNuevoProyecto.setFocusable(false);
-		btnCrearNuevoProyecto.addActionListener(new ActionListener(){
-			public void actionPerformed(ActionEvent e) {
-				VentanaCrearProyecto window = new VentanaCrearProyecto();
-				window.setVisible(true);
-				//frame.dispose();
-			}
-		});
 		menuBar.add(btnCrearNuevoProyecto);
 		
 		JButton button = new JButton("Notificaciones");
