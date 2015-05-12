@@ -3,6 +3,8 @@ package tds.apoyanos.modelo;
 import tds.apoyanos.Config;
 import tds.apoyanos.exceptions.InvalidArgumentException;
 import tds.apoyanos.exceptions.InvalidStateException;
+import tds.apoyanos.persistencia.DAOException;
+import tds.apoyanos.persistencia.FactoriaDAO;
 
 import java.util.*;
 
@@ -28,7 +30,7 @@ public class Proyecto {
 
     public Proyecto(String nombre, String descripcion, Usuario creador, double cantidadMinima, GregorianCalendar plazoFinanciacion,
                     Categoria categoria) {
-        this.id = 0;  //FIXME: Temporal mientras no haya persistencia.
+        this.id = 0;
 
         this.nombre = nombre;
         this.descripcion = descripcion;
@@ -154,14 +156,18 @@ public class Proyecto {
     }
 
     /**
-     * Un proyecto se crea, se le añaden recompensas, y luego se valida para
-     * que entre en estado de votación.
+     * Un proyecto se valida para que entre en estado de votación, tras haber
+     * sido creado y añadidas recompensas.
+     * También se registra en la persistencia al ser validado
      * @return True si el proyecto se ha podido validar
      */
     public boolean validarProyecto() {
         if (estado==null && !recompensas.isEmpty()) {
             estado = Estado.VOTACION;
             Collections.sort(recompensas);
+            for (Recompensa r : recompensas) {
+                r.registrarPersistencia();}
+            this.registrarPersistencia();
             return true;
         }
         else {
@@ -188,6 +194,7 @@ public class Proyecto {
         if (plazoFinanciacion.before(new GregorianCalendar())) {
             if ( estaEnVotacion() || estaEnFinanciacion()) {
                 estado = Estado.CANCELADO;
+                this.actualizarPersistencia();
                 notificarUsuarios("El proyecto "+nombre+" ha sido cancelado antes de alcanzar su meta de "
                         +cantidadMinima+"." +
                         "\nLo sentimos");
@@ -207,14 +214,32 @@ public class Proyecto {
                     "\n¡Fantásticas noticias!" +
                     "\nLa campaña continúa hasta vencer el plazo.");
         }
+        this.actualizarPersistencia();
     }
 
     private void notificarUsuarios(String Mensaje){
         for (Recompensa r : recompensas) {
             for ( Usuario u :r.getMecenas()) {
                 Notificacion notificacion = new Notificacion(this,Mensaje);
+                notificacion.registrarPersistencia();
                 u.addNotificacion(notificacion);
             }
+        }
+    }
+
+    public void registrarPersistencia(){
+        try {
+            FactoriaDAO.getFactoriaDAO(Config.TipoDAO).getProyectoDAO().registrar(this);
+        } catch (DAOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void actualizarPersistencia(){
+        try {
+            FactoriaDAO.getFactoriaDAO(Config.TipoDAO).getProyectoDAO().actualizarProyecto(this);
+        } catch (DAOException e) {
+            e.printStackTrace();
         }
     }
 }

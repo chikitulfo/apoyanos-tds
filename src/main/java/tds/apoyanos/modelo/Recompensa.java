@@ -1,8 +1,11 @@
 package tds.apoyanos.modelo;
 
 import com.sun.istack.internal.NotNull;
+import tds.apoyanos.Config;
 import tds.apoyanos.exceptions.InvalidArgumentException;
 import tds.apoyanos.exceptions.InvalidStateException;
+import tds.apoyanos.persistencia.DAOException;
+import tds.apoyanos.persistencia.FactoriaDAO;
 
 import java.util.Collection;
 import java.util.LinkedList;
@@ -88,7 +91,9 @@ public class Recompensa implements Comparable<Recompensa>{
         if (maximoParticipantes == 0 || apoyos.size() < maximoParticipantes) {
             if (cantidad >= cantidadMinima) {
                 Apoyo apoyo = new Apoyo(usuario, comentario, this, cantidad);
+                apoyo.registrarPersistencia();
                 apoyos.add(apoyo);
+                this.actualizarPersistencia();
                 return apoyo;
             } else {
                 throw new InvalidArgumentException("La cantidad es menor que la mínima para esta recompensa");
@@ -118,5 +123,21 @@ public class Recompensa implements Comparable<Recompensa>{
 
     public void setApoyos(LinkedList<Apoyo> apoyos) {
         this.apoyos = new LinkedList<>(apoyos);
+    }
+
+    public void registrarPersistencia(){
+        try {
+            FactoriaDAO.getFactoriaDAO(Config.TipoDAO).getRecompensaDAO().registrar(this);
+        } catch (DAOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void actualizarPersistencia(){
+        try {
+            FactoriaDAO.getFactoriaDAO(Config.TipoDAO).getRecompensaDAO().actualizarRecompensa(this);
+        } catch (DAOException e) {
+            e.printStackTrace();
+        }
     }
 }

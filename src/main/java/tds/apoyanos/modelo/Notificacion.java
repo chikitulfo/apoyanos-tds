@@ -1,6 +1,10 @@
 package tds.apoyanos.modelo;
 
 
+import tds.apoyanos.Config;
+import tds.apoyanos.persistencia.DAOException;
+import tds.apoyanos.persistencia.FactoriaDAO;
+
 import java.util.GregorianCalendar;
 
 public class Notificacion {
@@ -15,7 +19,7 @@ public class Notificacion {
         this.proyecto=proyecto;
         this.tiempo= new GregorianCalendar();
         this.leida = false;
-        this.id = 0; // FIXME Temporal mientras no haya persistencia. Really needed?
+        this.id = 0;
     }
 
     public String getDescripcion() {
@@ -39,7 +43,10 @@ public class Notificacion {
     }
 
     public void marcarLeida(){
-        this.leida = true;
+        if (this.leida == false) {
+            this.leida = true;
+            this.actualizarPersistencia();
+        }
     }
 
     public void setId(int id) {
@@ -57,6 +64,22 @@ public class Notificacion {
     public void setProyecto(Proyecto proyecto) {
         if ( this.proyecto == null ) {
             this.proyecto = proyecto;
+        }
+    }
+
+    public void registrarPersistencia(){
+        try {
+            FactoriaDAO.getFactoriaDAO(Config.TipoDAO).getNotificacionDAO().registrar(this);
+        } catch (DAOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void actualizarPersistencia(){
+        try {
+            FactoriaDAO.getFactoriaDAO(Config.TipoDAO).getNotificacionDAO().actualizarNotificacion(this);
+        } catch (DAOException e) {
+            e.printStackTrace();
         }
     }
 }

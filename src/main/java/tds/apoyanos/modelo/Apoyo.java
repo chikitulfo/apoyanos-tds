@@ -1,5 +1,9 @@
 package tds.apoyanos.modelo;
 
+import tds.apoyanos.Config;
+import tds.apoyanos.persistencia.DAOException;
+import tds.apoyanos.persistencia.FactoriaDAO;
+
 import java.util.GregorianCalendar;
 
 public class Apoyo {
@@ -67,6 +71,22 @@ public class Apoyo {
 	public void setRecompensa(Recompensa recompensa) {
 		if ( this.recompensa == null) {
 			this.recompensa = recompensa;
+		}
+	}
+
+	public void registrarPersistencia(){
+		try {
+			FactoriaDAO.getFactoriaDAO(Config.TipoDAO).getApoyoDAO().registrar(this);
+		} catch (DAOException e) {
+			e.printStackTrace();
+		}
+	}
+
+	public void actualizarPersistencia(){
+		try {
+			FactoriaDAO.getFactoriaDAO(Config.TipoDAO).getApoyoDAO().actualizarApoyo(this);
+		} catch (DAOException e) {
+			e.printStackTrace();
 		}
 	}
 }

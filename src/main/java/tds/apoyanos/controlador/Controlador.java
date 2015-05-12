@@ -1,8 +1,11 @@
 package tds.apoyanos.controlador;
 
+import tds.apoyanos.Config;
 import tds.apoyanos.exceptions.InvalidArgumentException;
 import tds.apoyanos.exceptions.InvalidStateException;
 import tds.apoyanos.modelo.*;
+import tds.apoyanos.persistencia.DAOException;
+import tds.apoyanos.persistencia.FactoriaDAO;
 import tds.apoyanos.vista.RecompensaVista;
 
 import java.util.Collection;
@@ -33,14 +36,18 @@ public final class Controlador {
 									String apellidos, 
 									String dni,
 									String email,
-									String login,
-									String password) {
+                                    String login,
+                                    String password) {
+        if (catalogoUsuarios.esRegistrado(login)) return false;
 
-			if (catalogoUsuarios.esRegistrado(login)) return false;
-
-			Usuario usuario = new Usuario(nombre,apellidos,dni,email,login,password);
-			catalogoUsuarios.addUsuario(usuario);
-			return true;
+        Usuario usuario = new Usuario(nombre,apellidos,dni,email,login,password);
+        try {
+            FactoriaDAO.getFactoriaDAO(Config.TipoDAO).getUsuarioDAO().registrar(usuario);
+        } catch (DAOException e) {
+            e.printStackTrace();
+        }
+        catalogoUsuarios.addUsuario(usuario);
+        return true;
 	}
 	
 	public boolean login(String nombreUsuario,String password) {
@@ -64,8 +71,12 @@ public final class Controlador {
     }
 
     public boolean crearProyecto (String nombre, String descripcion, double cantidadMinima, GregorianCalendar plazoFinanciacion, String categoria, Collection<RecompensaVista> recompensas) {
-        if (catalogoProyectos.esRegistrado(nombre)) return false;
-        if (recompensas.isEmpty()) return false;
+        // Si ya está registrado, o la colección de recompensas está vacía
+        if (catalogoProyectos.esRegistrado(nombre)
+                || recompensas == null
+                || recompensas.isEmpty()
+                )
+            return false;
 
         Proyecto proyec = new Proyecto(nombre, descripcion, usuario, cantidadMinima, plazoFinanciacion, Categoria.valueOf(categoria));
         for (RecompensaVista r : recompensas) {
@@ -86,6 +97,7 @@ public final class Controlador {
             throw new InvalidArgumentException("Proyecto inexistente");
         }
         usuario.votar(p);
+
     }
 
     public void apoyarProyecto(String nombreProyecto, String nRecompensa, double cantidad, String comentario)
