@@ -70,17 +70,20 @@ public final class Controlador {
         }
     }
 
-    public boolean crearProyecto (String nombre, String descripcion, double cantidadMinima, GregorianCalendar plazoFinanciacion, String categoria, Collection<RecompensaVista> recompensas) {
+    public boolean crearProyecto (String nombre, String descripcion, double cantidadMinima,
+                                  GregorianCalendar plazoFinanciacion, String categoria,
+                                  Collection<RecompensaVista> recompensas) {
         // Si ya está registrado, o la colección de recompensas está vacía
         if (catalogoProyectos.esRegistrado(nombre)
                 || recompensas == null
                 || recompensas.isEmpty()
                 )
             return false;
-
-        Proyecto proyec = new Proyecto(nombre, descripcion, usuario, cantidadMinima, plazoFinanciacion, Categoria.valueOf(categoria));
+        Proyecto proyec = new Proyecto(nombre, descripcion, usuario, cantidadMinima,
+                plazoFinanciacion, Categoria.valueOfNombre(categoria));
         for (RecompensaVista r : recompensas) {
-            proyec.addRecompensa(r.getNombre(), r.getDescripcion(), r.getCantidadMinima(), r.getMaximoParticipantes());
+            proyec.addRecompensa(r.getNombre(), r.getDescripcion(), r.getCantidadMinima(),
+                    r.getMaximoParticipantes());
         }
         if (proyec.validarProyecto()) {
             usuario.addProyectoCreado(proyec);

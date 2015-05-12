@@ -40,7 +40,7 @@ public class H2ProyectoDAO implements ProyectoDAO {
 
         String numVotos = new Integer(proyecto.getNumvotos()).toString();
         String estado = proyecto.getEstado().name();
-        String categoria = proyecto.getCategoria().name();
+        String categoria = proyecto.getCategoria().getNombre();
 
         StringBuilder recompensas = new StringBuilder();
         for ( Recompensa r : proyecto.getRecompensas()){
@@ -113,8 +113,11 @@ public class H2ProyectoDAO implements ProyectoDAO {
             String estado = servPersistencia.recuperarPropiedadEntidad(eProyecto, "estado");
             String categoria = servPersistencia.recuperarPropiedadEntidad(eProyecto, "categoria");
             // Se crea el proyecto con los atributos actuales
-            proyecto = new Proyecto(nombre, descripcion, null, Double.parseDouble(cantMinima), cplazo, Categoria.valueOf(categoria));
+            proyecto = new Proyecto(nombre, descripcion, null, Double.parseDouble(cantMinima), cplazo, Categoria.valueOfNombre(categoria));
             proyecto.setId(id);
+            proyecto.setEstado(Proyecto.Estado.valueOf(estado));
+            proyecto.setNumvotos(Integer.parseInt(numvotos));
+            proyecto.setCantidadRecaudada(Double.parseDouble(cantRecaudada));
             // Se introduce en el pool para evitar ciclos de llamadas recursivas
             pool.put(id, proyecto);
 

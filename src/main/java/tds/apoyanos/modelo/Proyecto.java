@@ -91,6 +91,10 @@ public class Proyecto {
         return nombre;
     }
 
+    public void setCantidadRecaudada(double cantidadRecaudada) {
+        this.cantidadRecaudada = cantidadRecaudada;
+    }
+
     public double getCantidadRecaudada() {
         return cantidadRecaudada;
     }
@@ -101,6 +105,10 @@ public class Proyecto {
 
     public int getNumvotos() {
         return numvotos;
+    }
+
+    public void setNumvotos(int numvotos) {
+        this.numvotos = numvotos;
     }
 
     public Categoria getCategoria() {
@@ -121,6 +129,12 @@ public class Proyecto {
 
     public Estado getEstado() {
         return estado;
+    }
+
+    public void setEstado(Estado estado) {
+        if (this.estado == null) {
+            this.estado = estado;
+        }
     }
 
     public PoliticaComisiones getPoliticaComisiones() {
@@ -165,9 +179,9 @@ public class Proyecto {
         if (estado==null && !recompensas.isEmpty()) {
             estado = Estado.VOTACION;
             Collections.sort(recompensas);
+            this.registrarPersistencia();
             for (Recompensa r : recompensas) {
                 r.registrarPersistencia();}
-            this.registrarPersistencia();
             return true;
         }
         else {
@@ -195,8 +209,8 @@ public class Proyecto {
             if ( estaEnVotacion() || estaEnFinanciacion()) {
                 estado = Estado.CANCELADO;
                 this.actualizarPersistencia();
-                notificarUsuarios("El proyecto "+nombre+" ha sido cancelado antes de alcanzar su meta de "
-                        +cantidadMinima+"." +
+                notificarUsuarios("El proyecto " + nombre + " ha sido cancelado antes de alcanzar su meta de "
+                        + cantidadMinima + "." +
                         "\nLo sentimos");
             } else if ( esFinanciado()) {
                 notificarUsuarios("El proyecto "+nombre+" ha finalizado la campaña logrando recaudar un total de "
