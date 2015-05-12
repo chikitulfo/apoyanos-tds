@@ -89,14 +89,13 @@ public final class H2UsuarioDAO implements UsuarioDAO {
 	}
 	
 	/**
-	 * Permite que un usuario modifique su password y su email
+	 * Actualiza la información del usuario en la BBDD
 	 */
-	public void actualizarPerfil(Usuario usuario ) {
+	public void actualizarUsuario(Usuario usuario) {
 		Entidad eUsuario = servPersistencia.recuperarEntidad(usuario.getId());
-		servPersistencia.eliminarPropiedadEntidad(eUsuario, "password");
-		servPersistencia.anadirPropiedadEntidad(eUsuario, "password",usuario.getPassword());
-		servPersistencia.eliminarPropiedadEntidad(eUsuario, "email");
-		servPersistencia.anadirPropiedadEntidad(eUsuario, "email", usuario.getEmail());
+		Entidad newEUsuario = usuario_a_entidad(usuario);
+		eUsuario.setPropiedades(newEUsuario.getPropiedades());
+		servPersistencia.modificarEntidad(eUsuario);
 	}
 	
 	public Usuario recuperar(int id) {
@@ -130,7 +129,7 @@ public final class H2UsuarioDAO implements UsuarioDAO {
 			usuario.setVotos(pVotados);
 
 			String idproyectosCreados = servPersistencia.recuperarPropiedadEntidad(eUsuario, "proyectoscreados");
-			LinkedList<Proyecto> pCreados = new LinkedList<>();
+			LinkedList<Proyecto> pCreados = new LinkedList<Proyecto>();
 			if ( idproyectosCreados.length() > 0) {
 				for (String idVotado : idproyectosCreados.split(";")) {
 					pCreados.add(proyectoDAO.recuperar(Integer.parseInt(idVotado)));
@@ -190,8 +189,7 @@ public final class H2UsuarioDAO implements UsuarioDAO {
 	}
 	
 	public boolean borrar(Usuario usuario) {
-		Entidad eUsuario;
-		eUsuario = servPersistencia.recuperarEntidad(usuario.getId());
+		Entidad eUsuario= servPersistencia.recuperarEntidad(usuario.getId());
 		return servPersistencia.borrarEntidad(eUsuario);
 	}
 }

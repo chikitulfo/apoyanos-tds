@@ -62,12 +62,16 @@ public class H2RecompensaDAO implements RecompensaDAO {
 
     @Override
     public boolean borrar(Recompensa recompensa) {
-        return false;
+        Entidad eRecompensa= servPersistencia.recuperarEntidad(recompensa.getId());
+        return servPersistencia.borrarEntidad(eRecompensa);
     }
 
     @Override
     public void actualizarRecompensa(Recompensa recompensa) {
-
+        Entidad eRecompensa = servPersistencia.recuperarEntidad(recompensa.getId());
+        Entidad newERecompensa = recompensa_a_entidad(recompensa);
+        eRecompensa.setPropiedades(newERecompensa.getPropiedades());
+        servPersistencia.modificarEntidad(eRecompensa);
     }
 
     @Override

@@ -75,14 +75,17 @@ public class H2ProyectoDAO implements ProyectoDAO {
 
     @Override
     public void actualizarProyecto(Proyecto proyecto) {
-        //TODO
+        Entidad eProyecto = servPersistencia.recuperarEntidad(proyecto.getId());
+        Entidad newEProyecto = proyecto_a_entidad(proyecto);
+        eProyecto.setPropiedades(newEProyecto.getPropiedades());
+        servPersistencia.modificarEntidad(eProyecto);
     }
 
 
     @Override
     public boolean borrar(Proyecto proyecto) {
-        //TODO
-        return false;
+        Entidad eProyecto= servPersistencia.recuperarEntidad(proyecto.getId());
+        return servPersistencia.borrarEntidad(eProyecto);
     }
 
     @Override

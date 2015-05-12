@@ -8,7 +8,7 @@ public interface UsuarioDAO {
 	
 	public void registrar(Usuario usuario);
 	public boolean borrar(Usuario usuario);
-	public void actualizarPerfil(Usuario usuario);
+	public void actualizarUsuario(Usuario usuario);
 	public Usuario recuperar(int id);
 	public List<Usuario> getUsuarios();
 	

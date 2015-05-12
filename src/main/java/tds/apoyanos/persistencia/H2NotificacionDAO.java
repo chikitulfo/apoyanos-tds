@@ -55,12 +55,16 @@ public class H2NotificacionDAO implements NotificacionDAO {
 
     @Override
     public boolean borrar(Notificacion notificacion) {
-        return false; //TODO
+        Entidad eNotificacion= servPersistencia.recuperarEntidad(notificacion.getId());
+        return servPersistencia.borrarEntidad(eNotificacion);
     }
 
     @Override
     public void actualizarNotificacion(Notificacion notificacion) {
-        //TODO
+        Entidad eNotificacion = servPersistencia.recuperarEntidad(notificacion.getId());
+        Entidad newENotificacion = notificacion_a_entidad(notificacion);
+        eNotificacion.setPropiedades(newENotificacion.getPropiedades());
+        servPersistencia.modificarEntidad(eNotificacion);
     }
 
     @Override

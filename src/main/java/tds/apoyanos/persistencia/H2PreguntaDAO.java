@@ -61,12 +61,16 @@ public class H2PreguntaDAO implements PreguntaDAO {
 
     @Override
     public boolean borrar(Pregunta pregunta) {
-        return false; //TODO
+        Entidad ePregunta= servPersistencia.recuperarEntidad(pregunta.getId());
+        return servPersistencia.borrarEntidad(ePregunta);
     }
 
     @Override
     public void actualizarPregunta(Pregunta pregunta) {
-        //TODO
+        Entidad ePregunta = servPersistencia.recuperarEntidad(pregunta.getId());
+        Entidad newEPregunta = pregunta_a_entidad(pregunta);
+        ePregunta.setPropiedades(newEPregunta.getPropiedades());
+        servPersistencia.modificarEntidad(ePregunta);
     }
 
     @Override
@@ -79,7 +83,7 @@ public class H2PreguntaDAO implements PreguntaDAO {
             String asunto = servPersistencia.recuperarPropiedadEntidad(ePregunta, "asunto");
             String cuerpo = servPersistencia.recuperarPropiedadEntidad(ePregunta, "cuerpo");
             String respuesta = servPersistencia.recuperarPropiedadEntidad(ePregunta, "respuesta");
-
+            // Pasar fecha de String a Calendar
             String sfecha = servPersistencia.recuperarPropiedadEntidad(ePregunta, "fecha");
             SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
             GregorianCalendar fecha = new GregorianCalendar() ;

@@ -9,7 +9,10 @@ import tds.driver.ServicioPersistencia;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.GregorianCalendar;
+import java.util.HashMap;
 
 public class H2ApoyoDAO implements ApoyoDAO {
     private final ServicioPersistencia servPersistencia;
@@ -54,12 +57,16 @@ public class H2ApoyoDAO implements ApoyoDAO {
 
     @Override
     public boolean borrar(Apoyo apoyo) {
-        return false;
+        Entidad eApoyo= servPersistencia.recuperarEntidad(apoyo.getId());
+        return servPersistencia.borrarEntidad(eApoyo);
     }
 
     @Override
     public void actualizarApoyo(Apoyo apoyo) {
-
+        Entidad eApoyo = servPersistencia.recuperarEntidad(apoyo.getId());
+        Entidad newEApoyo = apoyo_a_entidad(apoyo);
+        eApoyo.setPropiedades(newEApoyo.getPropiedades());
+        servPersistencia.modificarEntidad(eApoyo);
     }
 
     @Override
