@@ -46,7 +46,7 @@ public class ControladorTest extends TestCase {
         return CatalogoUsuarios.getUnicaInstancia().getUsuario(u);
     }
 
-    public void  testCrearProyecto(){
+    public void  testCrearProyecto() throws InvalidArgumentException {
         Usuario usuario = registrarUsuario("tCP");
         Controlador.getUnicaInstancia().login(usuario.getLogin(), usuario.getPassword());
 
@@ -62,7 +62,7 @@ public class ControladorTest extends TestCase {
         assertTrue(usuario.getProyectosCreados().contains(p));
     }
 
-    private Proyecto registrarProyecto(String p) {
+    private Proyecto registrarProyecto(String p) throws InvalidArgumentException {
         if(!CatalogoProyectos.getUnicaInstancia().esRegistrado(p)) {
             Usuario usuario = registrarUsuario("rP");
             Controlador.getUnicaInstancia().login(usuario.getLogin(), usuario.getPassword());

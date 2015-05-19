@@ -3,7 +3,6 @@ package tds.apoyanos.persistencia;
 
 import beans.Entidad;
 import beans.Propiedad;
-import tds.apoyanos.exceptions.InvalidStateException;
 import tds.apoyanos.modelo.Pregunta;
 import tds.driver.FactoriaServicioPersistencia;
 import tds.driver.ServicioPersistencia;
@@ -96,11 +95,8 @@ public class H2PreguntaDAO implements PreguntaDAO {
             pregunta = new Pregunta(null, null, asunto, cuerpo, null);
             pregunta.setId(id);
             pregunta.setFecha(fecha);
-            try {
-                pregunta.addRespuesta(respuesta);
-            } catch (InvalidStateException e) {
-                e.printStackTrace();
-            }
+            pregunta.setRespuesta(respuesta);
+
             // Se introduce en el pool para evitar ciclos de llamadas recursivas
             pool.put(id, pregunta);
 

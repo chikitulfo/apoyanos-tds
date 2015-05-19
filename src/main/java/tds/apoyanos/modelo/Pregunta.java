@@ -88,7 +88,7 @@ public class Pregunta {
 	}
 
 	public void setReceptor(Usuario receptor) {
-		if ( this.emisor == null) {
+		if ( this.receptor == null) {
 			this.receptor = receptor;
 		}
 	}
@@ -106,6 +106,12 @@ public class Pregunta {
 			FactoriaDAO.getFactoriaDAO(Config.TipoDAO).getPreguntaDAO().actualizarPregunta(this);
 		} catch (DAOException e) {
 			e.printStackTrace();
+		}
+	}
+
+	public void setRespuesta(String respuesta) {
+		if (this.respuesta == null) {
+			this.respuesta = respuesta;
 		}
 	}
 }

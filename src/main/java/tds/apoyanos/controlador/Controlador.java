@@ -72,13 +72,13 @@ public final class Controlador {
 
     public boolean crearProyecto (String nombre, String descripcion, double cantidadMinima,
                                   GregorianCalendar plazoFinanciacion, String categoria,
-                                  Collection<RecompensaVista> recompensas) {
-        // Si ya está registrado, o la colección de recompensas está vacía
-        if (catalogoProyectos.esRegistrado(nombre)
-                || recompensas == null
-                || recompensas.isEmpty()
-                )
-            return false;
+                                  Collection<RecompensaVista> recompensas) throws InvalidArgumentException {
+        // Si ya está registrado, o la colección de recompensas está vacía, se lanza una excepción
+        if (catalogoProyectos.esRegistrado(nombre))
+            throw new InvalidArgumentException("El nombre de proyecto debe de ser único");
+        if ( recompensas == null || recompensas.isEmpty()) {
+            throw new InvalidArgumentException("El proyecto necesita al menos una recompensa");
+        }
         Proyecto proyec = new Proyecto(nombre, descripcion, usuario, cantidadMinima,
                 plazoFinanciacion, Categoria.valueOfNombre(categoria));
         for (RecompensaVista r : recompensas) {

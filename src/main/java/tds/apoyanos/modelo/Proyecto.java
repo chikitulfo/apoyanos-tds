@@ -239,6 +239,9 @@ public class Proyecto {
                 u.addNotificacion(notificacion);
             }
         }
+        Notificacion notificacion = new Notificacion(this,Mensaje);
+        notificacion.registrarPersistencia();
+        creador.addNotificacion(notificacion);
     }
 
     public void registrarPersistencia(){
