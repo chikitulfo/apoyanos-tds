@@ -207,4 +207,8 @@ public class Usuario {
             e.printStackTrace();
         }
     }
+
+    public boolean isVotado(Proyecto p) {
+        return this.votos.contains(p);
+    }
 }

@@ -93,6 +93,19 @@ public final class Controlador {
         else return false;
     }
 
+    /**
+     * @param nombreProyecto
+     * @return Si el proyecto ya ha sido votado o no
+     * @throws InvalidArgumentException si el proyecto no existe
+     */
+    public boolean proyectoYaVotado(String nombreProyecto) throws InvalidArgumentException {
+        Proyecto p = catalogoProyectos.getProyecto(nombreProyecto);
+        if (p==null) {
+            throw new InvalidArgumentException("Proyecto inexistente");
+        }
+        return usuario.isVotado(p);
+    }
+
 
     public void votarProyecto (String nombreProyecto) throws InvalidStateException, InvalidArgumentException {
         Proyecto p = catalogoProyectos.getProyecto(nombreProyecto);

@@ -7,6 +7,7 @@ import tds.apoyanos.persistencia.DAOException;
 import tds.apoyanos.persistencia.FactoriaDAO;
 
 import java.util.*;
+import java.util.concurrent.TimeUnit;
 
 public class Proyecto {
 
@@ -125,6 +126,17 @@ public class Proyecto {
 
     public Collection<Recompensa> getRecompensas() {
         return new LinkedList<Recompensa>(recompensas);
+    }
+
+    /**
+     * Devuelve el número de días restantes hasta el fin de la campaña
+     *
+     * @return Entero representando los días. Negativo si ya ha pasado.
+     */
+    public int getDiasRestantes(){
+        long plazo = this.getPlazoFinanciacion().getTimeInMillis();
+        long ahora = System.currentTimeMillis();
+        return (int)TimeUnit.MILLISECONDS.toDays(Math.abs(plazo - ahora));
     }
 
     public Estado getEstado() {
