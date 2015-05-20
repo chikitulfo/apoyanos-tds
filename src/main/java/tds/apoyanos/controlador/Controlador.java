@@ -10,6 +10,7 @@ import tds.apoyanos.vista.RecompensaVista;
 
 import java.util.Collection;
 import java.util.GregorianCalendar;
+import java.util.List;
 
 public final class Controlador {
     private static Controlador unicaInstancia = new Controlador();
@@ -70,6 +71,10 @@ public final class Controlador {
         }
     }
 
+    public boolean esCreado(String nombreProyecto){
+        return catalogoProyectos.esRegistrado(nombreProyecto);
+    }
+
     public boolean crearProyecto (String nombre, String descripcion, double cantidadMinima,
                                   GregorianCalendar plazoFinanciacion, String categoria,
                                   Collection<RecompensaVista> recompensas) throws InvalidArgumentException {
@@ -114,6 +119,40 @@ public final class Controlador {
         }
         usuario.votar(p);
 
+    }
+
+    /**
+     * Devuelve todos los proyectos que están en fase de votación.
+     * @return Lista de proyectos en fase de votación.
+     */
+    public List<Proyecto> getProyectosEnVotacion(){
+        return catalogoProyectos.getAllProyectosVotacion();
+    }
+
+    /**
+     * Devuelve los proyectos de categoría categoria que están en fase de votación.
+     * @return Lista de proyectos en fase de votación de la categoría.
+     */
+    public List<Proyecto> getProyectosEnVotacion(String categoria){
+        Categoria cat = Categoria.valueOfNombre(categoria);
+        return catalogoProyectos.getProyectosVotacion(cat);
+    }
+
+    /**
+     * Devuelve todos los proyectos que están en fase de financiación.
+     * @return Lista de proyectos en fase de financiación.
+     */
+    public List<Proyecto> getProyectosEnFinanciacion(){
+        return catalogoProyectos.getAllProyectosFinanciacion();
+    }
+
+    /**
+     * Devuelve los proyectos de categoría categoria que están en fase de financiación.
+     * @return Lista de proyectos en fase de financiación de la categoría.
+     */
+    public List<Proyecto> getProyectosEnFinanciacion(String categoria){
+        Categoria cat = Categoria.valueOfNombre(categoria);
+        return catalogoProyectos.getProyectosFinanciacion(cat);
     }
 
     public void apoyarProyecto(String nombreProyecto, String nRecompensa, double cantidad, String comentario)

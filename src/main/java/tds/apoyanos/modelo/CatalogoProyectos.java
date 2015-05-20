@@ -4,10 +4,7 @@ import tds.apoyanos.Config;
 import tds.apoyanos.persistencia.DAOException;
 import tds.apoyanos.persistencia.FactoriaDAO;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 
 public class CatalogoProyectos {
     private static CatalogoProyectos ourInstance = new CatalogoProyectos();
@@ -66,5 +63,41 @@ public class CatalogoProyectos {
 
     public Collection<Proyecto> getAllProyectos() {
         return new ArrayList<Proyecto>(proyectos_id.values());
+    }
+
+    public List<Proyecto> getAllProyectosVotacion() {
+        List<Proyecto> lista = new LinkedList<>();
+        for (Proyecto p : proyectos_id.values()) {
+            if (p.estaEnVotacion())
+                lista.add(p);
+        }
+        return lista;
+    }
+
+    public List<Proyecto> getProyectosVotacion(Categoria cat) {
+        List<Proyecto> lista = new LinkedList<>();
+        for (Proyecto p : proyectos_id.values()) {
+            if (p.estaEnVotacion() && p.getCategoria().equals(cat))
+                lista.add(p);
+        }
+        return lista;
+    }
+
+    public List<Proyecto> getAllProyectosFinanciacion() {
+        List<Proyecto> lista = new LinkedList<>();
+        for (Proyecto p : proyectos_id.values()) {
+            if (p.estaEnFinanciacion())
+                lista.add(p);
+        }
+        return lista;
+    }
+
+    public List<Proyecto> getProyectosFinanciacion(Categoria cat) {
+        List<Proyecto> lista = new LinkedList<>();
+        for (Proyecto p : proyectos_id.values()) {
+            if (p.estaEnFinanciacion() && p.getCategoria().equals(cat))
+                lista.add(p);
+        }
+        return lista;
     }
 }
