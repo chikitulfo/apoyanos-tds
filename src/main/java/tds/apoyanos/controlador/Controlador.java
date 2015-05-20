@@ -198,6 +198,14 @@ public final class Controlador {
     public void marcarNotificacionLeida (int idNotificacion) throws InvalidArgumentException {
         usuario.marcarNotificacionLeida(idNotificacion);
     }
+
+    public boolean isVotadoProyecto(String nombreProyecto) throws InvalidArgumentException {
+        Proyecto p = catalogoProyectos.getProyecto(nombreProyecto);
+        if (p==null) {
+            throw new InvalidArgumentException("Proyecto inexistente");
+        }
+        return usuario.isVotado(p);
+    }
 	
 }
 	
