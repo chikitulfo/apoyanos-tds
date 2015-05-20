@@ -24,8 +24,20 @@ public class VentanaIntroApoyanos extends JDialog {
 		//Características del JFrame
 		setBackground(new Color(255, 255, 255));
 		setTitle("Apóyanos - Tu plataforma crowdfunding para lanzar tus proyectos.");
-		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		setResizable(false);								////////////
+		//setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		setModalityType(ModalityType.APPLICATION_MODAL); 	////////////
+		setDefaultCloseOperation(DISPOSE_ON_CLOSE);			////////////
 		setBounds(100, 100, 1024, 600);
+		
+		//ver como funciona
+		
+
+
+		//getContentPane().setLayout(new BorderLayout());		////////////
+		
+		
+		
 		
 		//Panel Inicial
 		panelContenidos = new JPanel();
@@ -33,15 +45,18 @@ public class VentanaIntroApoyanos extends JDialog {
 		panelContenidos.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(panelContenidos);
 		
+		
+		
+		
 		//Menus
 		mb = new JMenuBar();
 		mb.setBorderPainted(false);
 		
-		Component rigidArea = Box.createRigidArea(new Dimension(320, 74));
+		Component rigidArea = Box.createRigidArea(new Dimension(300, 74));
 		mb.add(rigidArea);
-		menuProyectosVotacion = new JMenu("En Votación");
+		menuProyectosVotacion = new JMenu("Votación");
 		mb.add(menuProyectosVotacion); 
-		menuProyectosFinanciacion = new JMenu("En Financiación");
+		menuProyectosFinanciacion = new JMenu("Financiación");
 		menuProyectosFinanciacion.setRolloverEnabled(false);
 		mb.add(menuProyectosFinanciacion);
 		
@@ -79,35 +94,38 @@ public class VentanaIntroApoyanos extends JDialog {
 		
 		setJMenuBar(mb);
 		
-		Component horizontalStrut_423 = Box.createHorizontalStrut(23);
-		mb.add(horizontalStrut_423);
-		
-		JButton btnNuevoProyecto = new JButton("Nuevo Proyecto");
-		btnNuevoProyecto.addActionListener(new ActionListener(){
+		JButton btnCrearProyecto = new JButton("Nuevo Proyecto");
+		btnCrearProyecto.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e) {
-				VentanaCrearProyecto window = new VentanaCrearProyecto();
-				window.setVisible(true);
+				VentanaCrearProyecto ventanaCrearProyecto = new VentanaCrearProyecto();
+				//setContentPane(VentanaCrearProyecto);
+				ventanaCrearProyecto.setLocationRelativeTo(VentanaIntroApoyanos.this);
+				//ventanaCrearProyecto.setVisible(true);
 				//frame.dispose();
 			}
 		});
 		
-		mb.add(btnNuevoProyecto);
+		mb.add(btnCrearProyecto);
 		
-		JButton btnNewButton = new JButton("Notificaciones");
-		mb.add(btnNewButton);
+		JButton tbnApoyos = new JButton("Apoyos");
+		tbnApoyos.setFocusable(false);
+		mb.add(tbnApoyos);
 		
-		JButton btnNewButton_1 = new JButton("Preguntas");
-		mb.add(btnNewButton_1);
+		JButton btnNotificaciones = new JButton("Notificaciones");
+		mb.add(btnNotificaciones);
 		
-		JButton btSalir = new JButton("Salir");
-		btSalir.addActionListener(new ActionListener(){
+		JButton btnPreguntas = new JButton("Preguntas");
+		mb.add(btnPreguntas);
+		
+		JButton btnSalir = new JButton("Salir");
+		btnSalir.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e) {
 					//frame.dispose(); /*cuando se destruye la última ventana termina la maquina virtual*/
 					System.exit(0);  /*no sería necesario en este caso*/
 			}
 		});
 		
-		mb.add(btSalir);
+		mb.add(btnSalir);
 		panelContenidos.setLayout(new GridLayout(0, 1, 0, 0));
 		
 		lblInicioApoyanos = new JLabel("");

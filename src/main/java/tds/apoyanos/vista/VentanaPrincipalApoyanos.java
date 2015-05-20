@@ -9,11 +9,20 @@ import java.awt.event.ActionListener;
 import javax.swing.table.DefaultTableModel;
 
 import tds.apoyanos.controlador.Controlador;
+import tds.apoyanos.modelo.Proyecto;
 
 @SuppressWarnings("serial")
 public class VentanaPrincipalApoyanos extends JDialog {
 	private JTable table;
 	private Controlador controlador = Controlador.getUnicaInstancia();
+	
+	private String fase = "VOTACIÓN";
+	private String categoria = "TODOS";
+	
+	List<Proyecto> listaProyectos;
+	private Proyecto proyecto;
+	
+	
 
 	
 	public VentanaPrincipalApoyanos() {
@@ -86,7 +95,7 @@ public class VentanaPrincipalApoyanos extends JDialog {
 		 * 
 		 * 
 		 * */
-		lbTitulo.setText("Listado de proyectos <<en votación>> <<en financiación>> - <<categoría>>");
+		lbTitulo.setText("Listado de proyectos en " + fase + " - " + categoria + ".");
 		lbTitulo.setHorizontalAlignment(SwingConstants.LEFT);
 		lbTitulo.setFont(new Font("Lucida Grande", Font.PLAIN, 18));
 		lbTitulo.setBounds(100, 59, 794, 34);
@@ -119,7 +128,7 @@ public class VentanaPrincipalApoyanos extends JDialog {
 		lblNewLabel.setIcon(new ImageIcon(VentanaCrearProyecto.class.getResource("/recursos/apoyanos_75aire-50.png")));
 		panelIcon.add(lblNewLabel);
 		
-		JMenu mnProyectosEnVotacion = new JMenu("En Votación");
+		JMenu mnProyectosEnVotacion = new JMenu("Votación");
 		mnProyectosEnVotacion.setHorizontalAlignment(SwingConstants.LEFT);
 		mnProyectosEnVotacion.setBackground(Color.WHITE);
 		menuBar.add(mnProyectosEnVotacion);
@@ -145,35 +154,29 @@ public class VentanaPrincipalApoyanos extends JDialog {
 		JMenuItem mntmDeportes = new JMenuItem("Deportes");
 		mnProyectosEnVotacion.add(mntmDeportes);
 		
-		JMenu mnProyectosEnFinanciacion = new JMenu("En Financiación");
-		mnProyectosEnFinanciacion.setBackground(Color.WHITE);
+		JMenu mnProyectosEnFinanciacion = new JMenu("Financiación");
 		menuBar.add(mnProyectosEnFinanciacion);
 		
-		JMenuItem menuItem = new JMenuItem("Todos");
-		mnProyectosEnFinanciacion.add(menuItem);
+		JMenuItem mntmTodosV = new JMenuItem("Todos");
+		mnProyectosEnFinanciacion.add(mntmTodosV);
 		
-		JMenuItem menuItem_1 = new JMenuItem("Música");
-		mnProyectosEnFinanciacion.add(menuItem_1);
+		JMenuItem mntmMusicaV = new JMenuItem("Música");
+		mnProyectosEnFinanciacion.add(mntmMusicaV);
 		
-		JMenuItem menuItem_2 = new JMenuItem("Libros");
-		mnProyectosEnFinanciacion.add(menuItem_2);
+		JMenuItem mntmLibrosV = new JMenuItem("Libros");
+		mnProyectosEnFinanciacion.add(mntmLibrosV);
 		
-		JMenuItem menuItem_3 = new JMenuItem("Cine");
-		mnProyectosEnFinanciacion.add(menuItem_3);
+		JMenuItem mntmCineV = new JMenuItem("Cine");
+		mnProyectosEnFinanciacion.add(mntmCineV);
 		
-		JMenuItem menuItem_4 = new JMenuItem("Social");
-		mnProyectosEnFinanciacion.add(menuItem_4);
+		JMenuItem mntmSocialV = new JMenuItem("Social");
+		mnProyectosEnFinanciacion.add(mntmSocialV);
 		
-		JMenuItem menuItem_5 = new JMenuItem("Software");
-		mnProyectosEnFinanciacion.add(menuItem_5);
+		JMenuItem mntmSoftwareV = new JMenuItem("Software");
+		mnProyectosEnFinanciacion.add(mntmSoftwareV);
 		
-		JMenuItem menuItem_6 = new JMenuItem("Deportes");
-		mnProyectosEnFinanciacion.add(menuItem_6);
-		
-		Component horizontalStrut_1 = Box.createHorizontalStrut(100);
-		horizontalStrut_1.setPreferredSize(new Dimension(23, 0));
-		horizontalStrut_1.setMinimumSize(new Dimension(23, 0));
-		menuBar.add(horizontalStrut_1);
+		JMenuItem mntmDeportesV = new JMenuItem("Deportes");
+		mnProyectosEnFinanciacion.add(mntmDeportesV);
 		
 		JButton btnCrearNuevoProyecto = new JButton("Nuevo Proyecto");
 		btnCrearNuevoProyecto.setFocusable(false);
@@ -186,24 +189,28 @@ public class VentanaPrincipalApoyanos extends JDialog {
 		});
 		menuBar.add(btnCrearNuevoProyecto);
 		
-		JButton button = new JButton("Notificaciones");
-		button.setFocusable(false);
-		menuBar.add(button);
+		JButton btnApoyos = new JButton("Apoyos");
+		btnApoyos.setFocusable(false);
+		menuBar.add(btnApoyos);
 		
-		JButton button_1 = new JButton("Preguntas");
-		button_1.setFocusable(false);
-		menuBar.add(button_1);
+		JButton btnNotificaciones = new JButton("Notificaciones");
+		btnNotificaciones.setFocusable(false);
+		menuBar.add(btnNotificaciones);
 		
-		JButton btSalir = new JButton("Salir");
-		btSalir.setFocusable(false);
-		btSalir.addActionListener(new ActionListener(){
+		JButton btnPreguntas = new JButton("Preguntas");
+		btnPreguntas.setFocusable(false);
+		menuBar.add(btnPreguntas);
+		
+		JButton btnSalir = new JButton("Salir");
+		btnSalir.setFocusable(false);
+		btnSalir.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e) {
 					//frame.dispose(); /*cuando se destruye la última ventana termina la maquina virtual*/
 					System.exit(0);  /*no sería necesario en este caso*/
 			}
 		});
 		
-		menuBar.add(btSalir);
+		menuBar.add(btnSalir);
 		
 	}
 }
