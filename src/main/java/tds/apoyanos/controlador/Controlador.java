@@ -74,6 +74,10 @@ public final class Controlador implements IFinanciacionListener {
         }
     }
 
+    public Usuario getUsuario(){
+        return usuario;
+    }
+
     public boolean esCreado(String nombreProyecto){
         return catalogoProyectos.esRegistrado(nombreProyecto);
     }
