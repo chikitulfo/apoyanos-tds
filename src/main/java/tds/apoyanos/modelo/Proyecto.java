@@ -232,6 +232,10 @@ public class Proyecto {
         }
     }
 
+    public void addFinanciacionExterna(double importe){
+        this.addFinanciacion(importe);
+    }
+
     private void addFinanciacion (double cantidad){
         cantidadRecaudada += cantidad;
         if (cantidadRecaudada >= cantidadMinima) {

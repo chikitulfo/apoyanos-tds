@@ -7,12 +7,15 @@ import tds.apoyanos.modelo.*;
 import tds.apoyanos.persistencia.DAOException;
 import tds.apoyanos.persistencia.FactoriaDAO;
 import tds.apoyanos.vista.RecompensaVista;
+import umu.tds.cargador.ComponenteCargadorFinanciacion;
+import umu.tds.cargador.FinanciacionEvent;
+import umu.tds.cargador.IFinanciacionListener;
 
 import java.util.Collection;
 import java.util.GregorianCalendar;
 import java.util.List;
 
-public final class Controlador {
+public final class Controlador implements IFinanciacionListener {
     private static Controlador unicaInstancia = new Controlador();
 
     private Usuario usuario = null;
@@ -111,6 +114,13 @@ public final class Controlador {
         return usuario.isVotado(p);
     }
 
+    public boolean isVotadoProyecto(String nombreProyecto) throws InvalidArgumentException {
+        Proyecto p = catalogoProyectos.getProyecto(nombreProyecto);
+        if (p==null) {
+            throw new InvalidArgumentException("Proyecto inexistente");
+        }
+        return usuario.isVotado(p);
+    }
 
     public void votarProyecto (String nombreProyecto) throws InvalidStateException, InvalidArgumentException {
         Proyecto p = catalogoProyectos.getProyecto(nombreProyecto);
@@ -199,13 +209,20 @@ public final class Controlador {
         usuario.marcarNotificacionLeida(idNotificacion);
     }
 
-    public boolean isVotadoProyecto(String nombreProyecto) throws InvalidArgumentException {
-        Proyecto p = catalogoProyectos.getProyecto(nombreProyecto);
-        if (p==null) {
-            throw new InvalidArgumentException("Proyecto inexistente");
-        }
-        return usuario.isVotado(p);
+    public void setComponenteFinanciacion(ComponenteCargadorFinanciacion componente){
+        componente.addFinanciacionListener(this);
     }
-	
+
+    @Override
+    public void obtenerFinanciacion(FinanciacionEvent ev) {
+        umu.tds.cargador.Proyectos proyectosexternos = ev.getProyectos();
+        for (umu.tds.cargador.Proyecto pexterno : proyectosexternos.getProyecto()) {
+            int pid = Integer.parseInt(pexterno.getId());
+            Proyecto p = catalogoProyectos.getProyecto(pid);
+            for (umu.tds.cargador.Ingreso ingreso : pexterno.getIngreso()) {
+                p.addFinanciacionExterna(ingreso.getImporte());
+            }
+        }
+    }
 }
 	
