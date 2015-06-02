@@ -168,6 +168,14 @@ public final class Controlador implements IFinanciacionListener {
         Categoria cat = Categoria.valueOfNombre(categoria);
         return catalogoProyectos.getProyectosFinanciacion(cat);
     }
+    
+    /**
+     * Devuelve los apoyos que ha realizo el usuario actual
+     * @return Lista de apoyos realizada por el usuario actual
+     */
+    public Collection<Apoyo> getApoyos(){
+    	return usuario.getApoyos();
+    }
 
     public void apoyarProyecto(String nombreProyecto, String nRecompensa, double cantidad, String comentario)
             throws InvalidStateException, InvalidArgumentException {

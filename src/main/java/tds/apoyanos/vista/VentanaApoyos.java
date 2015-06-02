@@ -8,14 +8,21 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.LinkedList;
 
 import javax.swing.table.DefaultTableModel;
+
+import tds.apoyanos.controlador.Controlador;
+import tds.apoyanos.modelo.Apoyo;
 
 @SuppressWarnings("serial")
 public class VentanaApoyos extends JDialog {
 	private JTable table;
+	private ModeloTabla modeloVistaApoyo;
 
 
+	private Controlador controlador = Controlador.getUnicaInstancia();
+	private LinkedList<Apoyo> listaApoyos = (LinkedList<Apoyo>) controlador.getApoyos();
 	
 	public VentanaApoyos() {
 		getContentPane().setBackground(Color.WHITE);
@@ -26,59 +33,15 @@ public class VentanaApoyos extends JDialog {
 		getContentPane().add(scrollPane);
 		
 		
-		String[] columnas = new String[]{
-	            "Título",
-	            "Recompensa",
-	            "Cantidad",
-	            "+Info"};
-		 //“Proyecto supera no supera la fase de financiación con % financiación de un total de x euros
-        
-        //Una única fila
-        Object[][] datos = new Object[][]{
-                {"El proyecto de pepito", "DVD firmado por el director.","50 €.",new JButton("Info")}};
-		
-/////		
 		table = new JTable();
 		table.setEnabled(false);
 		table.setRowSelectionAllowed(false);
 		table.setSelectionBackground(SystemColor.inactiveCaptionText);
 		table.setName("Listado de proyectos en votación");
 		table.setGridColor(Color.LIGHT_GRAY);
-        // Defino el TableModel y le indico los datos y nombres de columnas
-        table.setModel(new DefaultTableModel(
-                datos,
-                columnas) {
-            
-            Class[] tipos = new Class[]{
-                    String.class,
-                    String.class,
-                    String.class,
-                    JButton.class
-                };
-
-            @Override
-            public Class getColumnClass(int columnIndex) {
-                // Este método es invocado por el CellRenderer para saber que dibujar en la celda,
-                // observen que estamos retornando la clase que definimos de antemano.
-                return tipos[columnIndex];
-            }
-            
-			boolean[] columnEditables = new boolean[] {
-				false, false, false,false
-			};
-			public boolean isCellEditable(int row, int column) {
-				return columnEditables[column];
-			}
-		});
-		table.getColumnModel().getColumn(0).setResizable(false);
-		table.getColumnModel().getColumn(0).setPreferredWidth(150);
-		table.getColumnModel().getColumn(1).setResizable(false);
-		table.getColumnModel().getColumn(1).setPreferredWidth(150);
-		table.getColumnModel().getColumn(2).setResizable(false);
-		table.getColumnModel().getColumn(2).setPreferredWidth(50);
-		table.getColumnModel().getColumn(3).setResizable(false);
-		table.getColumnModel().getColumn(3).setPreferredWidth(50);
-		//scrollPane.setColumnHeaderView(table);
+		//Muestra la vista de la tabla
+		vistaTablaProyectosApoyados();
+		
 		scrollPane.setViewportView(table);
 		
 		JLabel lblNotificaciones = new JLabel("Apoyos");
@@ -86,6 +49,18 @@ public class VentanaApoyos extends JDialog {
 		lblNotificaciones.setHorizontalAlignment(SwingConstants.LEFT);
 		lblNotificaciones.setBounds(100, 60, 152, 30);
 		getContentPane().add(lblNotificaciones);
+		
+		JButton btnapoyar = new JButton("Más Info");
+		btnapoyar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				//Proyecto proyecto = apoyo.;
+				//VentanaInfoFinaciacionProyecto ventanaInfoFinanciacion = new VentanaInfoFinaciacionProyecto(proyecto);
+				//ventanaCrearProyecto.setVisible(true);
+				//setVisible(false);
+			}
+		});
+		btnapoyar.setBounds(432, 365, 117, 29);
+		getContentPane().add(btnapoyar);
 /////		
 				
 		//TODO Solicitar al controlador las categorías y hacer los sub-menús automáticamente
@@ -94,110 +69,70 @@ public class VentanaApoyos extends JDialog {
 		setBackground(new Color(255, 255, 255));
 		setTitle("Apóyanos - Tu plataforma crowdfunding para lanzar tus proyectos.");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 1024, 600);
-		
-		JMenuBar menuBar = new JMenuBar();
-		menuBar.setBackground(Color.WHITE);
-		setJMenuBar(menuBar);
-		
-		JPanel panelIcon = new JPanel();
-		panelIcon.setComponentOrientation(ComponentOrientation.LEFT_TO_RIGHT);
-		panelIcon.setBorder(null);
-		panelIcon.setBackground(Color.WHITE);
-		panelIcon.setToolTipText("\n");
-		menuBar.add(panelIcon);
-		panelIcon.setLayout(new GridLayout(0, 1, 0, 0));
-		
-		JLabel lblNewLabel = new JLabel(" ");
-		lblNewLabel.setVerifyInputWhenFocusTarget(false);
-		lblNewLabel.setRequestFocusEnabled(false);
-		lblNewLabel.setFocusTraversalKeysEnabled(false);
-		lblNewLabel.setInheritsPopupMenu(false);
-		lblNewLabel.setFocusable(false);
-		lblNewLabel.setHorizontalAlignment(SwingConstants.LEFT);
-		lblNewLabel.setIcon(new ImageIcon(VentanaCrearProyecto.class.getResource("/recursos/apoyanos_75aire-50.png")));
-		panelIcon.add(lblNewLabel);
-		
-		JMenu mnProyectosEnVotacion = new JMenu("Votación");
-		mnProyectosEnVotacion.setHorizontalAlignment(SwingConstants.LEFT);
-		mnProyectosEnVotacion.setBackground(Color.WHITE);
-		menuBar.add(mnProyectosEnVotacion);
-		
-		JMenuItem mntmTodos = new JMenuItem("Todos");
-		mnProyectosEnVotacion.add(mntmTodos);
-		
-		JMenuItem mntmMusica = new JMenuItem("Música");
-		mnProyectosEnVotacion.add(mntmMusica);
-		
-		JMenuItem mntmLibros = new JMenuItem("Libros");
-		mnProyectosEnVotacion.add(mntmLibros);
-		
-		JMenuItem mntmCine = new JMenuItem("Cine");
-		mnProyectosEnVotacion.add(mntmCine);
-		
-		JMenuItem mntmSocial = new JMenuItem("Social");
-		mnProyectosEnVotacion.add(mntmSocial);
-		
-		JMenuItem mntmSoftware = new JMenuItem("Software");
-		mnProyectosEnVotacion.add(mntmSoftware);
-		
-		JMenuItem mntmDeportes = new JMenuItem("Deportes");
-		mnProyectosEnVotacion.add(mntmDeportes);
-		
-		JMenu mnProyectosEnFinanciacion = new JMenu("Financiación");
-		menuBar.add(mnProyectosEnFinanciacion);
-		
-		JMenuItem mntmTodosV = new JMenuItem("Todos");
-		mnProyectosEnFinanciacion.add(mntmTodosV);
-		
-		JMenuItem mntmMusicaV = new JMenuItem("Música");
-		mnProyectosEnFinanciacion.add(mntmMusicaV);
-		
-		JMenuItem mntmLibrosV = new JMenuItem("Libros");
-		mnProyectosEnFinanciacion.add(mntmLibrosV);
-		
-		JMenuItem mntmCineV = new JMenuItem("Cine");
-		mnProyectosEnFinanciacion.add(mntmCineV);
-		
-		JMenuItem mntmSocialV = new JMenuItem("Social");
-		mnProyectosEnFinanciacion.add(mntmSocialV);
-		
-		JMenuItem mntmSoftwareV = new JMenuItem("Software");
-		mnProyectosEnFinanciacion.add(mntmSoftwareV);
-		
-		JMenuItem mntmDeportesV = new JMenuItem("Deportes");
-		mnProyectosEnFinanciacion.add(mntmDeportesV);
-		
-		JButton btnCrearProyecto = new JButton("Nuevo Proyecto");
-		btnCrearProyecto.setFocusable(false);
-		menuBar.add(btnCrearProyecto);
-		
-		JButton btnApoyos = new JButton("Apoyos");
-		btnApoyos.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-			}
-		});
-		btnApoyos.setFocusable(false);
-		menuBar.add(btnApoyos);
-		
-		JButton btnNotificaciones = new JButton("Notificaciones");
-		btnNotificaciones.setFocusable(false);
-		menuBar.add(btnNotificaciones);
-		
-		JButton btnPreguntas = new JButton("Preguntas");
-		btnPreguntas.setFocusable(false);
-		menuBar.add(btnPreguntas);
-		
-		JButton btnSalir = new JButton("Salir");
-		btnSalir.setFocusable(false);
-		btnSalir.addActionListener(new ActionListener(){
-			public void actionPerformed(ActionEvent e) {
-					//frame.dispose(); /*cuando se destruye la última ventana termina la maquina virtual*/
-					System.exit(0);  /*no sería necesario en este caso*/
-			}
-		});
-		
-		menuBar.add(btnSalir);
+		setBounds(100, 100, 1024, 480);
+
 		
 	}
+	
+	public class ModeloTabla extends DefaultTableModel {
+
+		public boolean isCellEditable(int row, int column) {
+			return false;
+		}
+
+	}
+	
+	
+	private void vistaTablaProyectosApoyados() {
+		modeloVistaApoyo = new ModeloTabla();
+		modeloVistaApoyo.addColumn("Proyecto");
+		modeloVistaApoyo.addColumn("Recompensa");
+		modeloVistaApoyo.addColumn("Cantidad (€)");
+		
+		for (Apoyo apoyo : listaApoyos) {
+			Object[] objApoyo = new Object[3];
+
+			try {
+
+				objApoyo[0] = apoyo.getProyecto();
+				objApoyo[1] = apoyo.getRecompensa().getNombre();
+				objApoyo[2] = apoyo.getCantidad();
+				
+			} catch (Exception e) {
+			}
+			modeloVistaApoyo.addRow(objApoyo);
+
+		}
+		table.setModel(modeloVistaApoyo);
+		
+		table.getColumnModel().getColumn(0).setResizable(false);
+		table.getColumnModel().getColumn(0).setPreferredWidth(175);
+		table.getColumnModel().getColumn(1).setResizable(false);
+		table.getColumnModel().getColumn(1).setPreferredWidth(175);
+		table.getColumnModel().getColumn(2).setResizable(false);
+		table.getColumnModel().getColumn(2).setPreferredWidth(50);
+	}
+	
+	private Apoyo buscarApoyo (String a){
+		Apoyo apoyo=null;
+		for (Apoyo ap : listaApoyos) {
+			if (ap.
+					getNombre().equals(a)) {
+				apoyo = ap;
+			}
+		}
+		return apoyo;
+	}
+	
+	private boolean existeRecompensa (String r){
+		boolean existe=false;
+		for (RecompensaVista re : listaRecompensas) {
+			if (re.getNombre().equals(r)) {
+				existe=true;
+			}
+		}
+		return existe;
+	}
+	
+	
 }

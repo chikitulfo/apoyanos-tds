@@ -17,7 +17,15 @@ public class RecompensaVista {
         this.cantidadMinima = cantidadMinima;
         this.maximoParticipantes = maximoParticipantes;
     }
-
+    
+    public void setRecompensaVista(String nombre, String descripcion, double cantidadMinima, int maximoParticipantes) {
+        this.nombre = nombre;
+        this.descripcion = descripcion;
+        this.cantidadMinima = cantidadMinima;
+        this.maximoParticipantes = maximoParticipantes;
+    }
+    
+    
     public String getNombre() {
         return nombre;
     }

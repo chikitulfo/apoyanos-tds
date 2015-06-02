@@ -96,7 +96,7 @@ public class VentanaInfoProyecto extends JDialog {
 		textImporte.setEditable(false);
 		textImporte.setForeground(Color.GRAY);
 		textImporte.setHorizontalAlignment(SwingConstants.CENTER);
-		textImporte.setText((String.valueOf(formatoDecimal.format(proyecto.getCantidadMinima()))));
+		textImporte.setText((String.valueOf(formatoDecimal.format(proyecto.getCantidadMinima()))) + " €.");
 		textImporte.setColumns(10);
 		textImporte.setBounds(110, 346, 150, 28);
 		getContentPane().add(textImporte);
@@ -159,7 +159,7 @@ public class VentanaInfoProyecto extends JDialog {
 			}
 		});
 		btVotar.setEnabled(true);
-		if (controlador.getUsuarioHaVotado()){
+		if (true){
 			btVotar.setEnabled(false);
 		}
 		
@@ -239,114 +239,7 @@ public class VentanaInfoProyecto extends JDialog {
 		setBackground(new Color(255, 255, 255));
 		setTitle("Apóyanos - Tu plataforma crowdfunding para lanzar tus proyectos.");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 1024, 600);
-		
-		JMenuBar menuBar = new JMenuBar();
-		setJMenuBar(menuBar);
-		
-		JPanel panelIcon = new JPanel();
-		panelIcon.setComponentOrientation(ComponentOrientation.LEFT_TO_RIGHT);
-		panelIcon.setBorder(null);
-		panelIcon.setBackground(Color.WHITE);
-		panelIcon.setToolTipText("\n");
-		menuBar.add(panelIcon);
-		panelIcon.setLayout(new GridLayout(0, 1, 0, 0));
-		
-		JLabel lblNewLabel = new JLabel("");
-		lblNewLabel.setVisible(false);
-		lblNewLabel.setHorizontalAlignment(SwingConstants.LEFT);
-		lblNewLabel.setIcon(new ImageIcon(VentanaCrearProyecto.class.getResource("/recursos/apoyanos_75aire-50.png")));
-		panelIcon.add(lblNewLabel);
-		
-		JMenu mnProyectosEnVotacion = new JMenu("Votación");
-		mnProyectosEnVotacion.setHorizontalAlignment(SwingConstants.LEFT);
-		menuBar.add(mnProyectosEnVotacion);
-		
-		JMenuItem mntmTodos = new JMenuItem("Todos");
-		mntmTodos.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				//Ir a la ventana VentanaPrincipalApoyanos(e);
-			}
-		});
-		mnProyectosEnVotacion.add(mntmTodos);
-		
-		JMenuItem mntmMusica = new JMenuItem("Música");
-		mnProyectosEnVotacion.add(mntmMusica);
-		
-		JMenuItem mntmLibros = new JMenuItem("Libros");
-		mnProyectosEnVotacion.add(mntmLibros);
-		
-		JMenuItem mntmCine = new JMenuItem("Cine");
-		mnProyectosEnVotacion.add(mntmCine);
-		
-		JMenuItem mntmSocial = new JMenuItem("Social");
-		mnProyectosEnVotacion.add(mntmSocial);
-		
-		JMenuItem mntmSoftware = new JMenuItem("Software");
-		mnProyectosEnVotacion.add(mntmSoftware);
-		
-		JMenuItem mntmDeportes = new JMenuItem("Deportes");
-		mnProyectosEnVotacion.add(mntmDeportes);
-		
-		JMenu mnProyectosEnFinanciacion = new JMenu("Financiación");
-		menuBar.add(mnProyectosEnFinanciacion);
-		
-		JMenuItem mntmTodosV = new JMenuItem("Todos");
-		mnProyectosEnFinanciacion.add(mntmTodosV);
-		
-		JMenuItem mntmMusicaV = new JMenuItem("Música");
-		mnProyectosEnFinanciacion.add(mntmMusicaV);
-		
-		JMenuItem mntmLibrosV = new JMenuItem("Libros");
-		mnProyectosEnFinanciacion.add(mntmLibrosV);
-		
-		JMenuItem mntmCineV = new JMenuItem("Cine");
-		mnProyectosEnFinanciacion.add(mntmCineV);
-		
-		JMenuItem mntmSocialV = new JMenuItem("Social");
-		mnProyectosEnFinanciacion.add(mntmSocialV);
-		
-		JMenuItem mntmSoftwareV = new JMenuItem("Software");
-		mnProyectosEnFinanciacion.add(mntmSoftwareV);
-		
-		JMenuItem mntmDeportesV = new JMenuItem("Deportes");
-		mnProyectosEnFinanciacion.add(mntmDeportesV);
-		
-		JButton btnCrearProyecto = new JButton("Nuevo Proyecto");
-		btnCrearProyecto.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-			}
-		});
-		btnCrearProyecto.setFocusable(false);
-		menuBar.add(btnCrearProyecto);
-		
-		JButton btnApoyos = new JButton("Apoyos");
-		btnApoyos.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-			}
-		});
-		btnApoyos.setFocusable(false);
-		menuBar.add(btnApoyos);
-		
-		JButton btnNotificaciones = new JButton("Notificaciones");
-		btnNotificaciones.setFocusable(false);
-		menuBar.add(btnNotificaciones);
-		
-		JButton btnPreguntas = new JButton("Preguntas");
-		btnPreguntas.setFocusable(false);
-		menuBar.add(btnPreguntas);
-		
-		JButton btnSalir = new JButton("Salir");
-		btnSalir.setFocusable(false);
-		btnSalir.addActionListener(new ActionListener(){
-			public void actionPerformed(ActionEvent e) {
-					//frame.dispose(); /*cuando se destruye la última ventana termina la maquina virtual*/
-					System.exit(0);  /*no sería necesario en este caso*/
-			}
-		});
-		
-		menuBar.add(btnSalir);
+		setBounds(100, 100, 1024, 480);
 		
 		
 	}

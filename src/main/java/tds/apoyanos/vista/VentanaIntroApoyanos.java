@@ -7,17 +7,14 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class VentanaIntroApoyanos extends JDialog {
-
-	private JMenuBar mb;
-	private JMenu menuProyectosVotacion; 
-	private JMenu menuProyectosFinanciacion;
+@SuppressWarnings("serial")
+public class VentanaIntroApoyanos extends JFrame {
 
 	private JPanel panelContenidos;
-	
 	private JLabel lblInicioApoyanos;
 	
 	public VentanaIntroApoyanos() {
+		getContentPane().setBackground(Color.WHITE);
 		
 		//TODO Solicitar al controlador las categorías y hacer los sub-menús automáticamente
 		
@@ -26,16 +23,17 @@ public class VentanaIntroApoyanos extends JDialog {
 		setTitle("Apóyanos - Tu plataforma crowdfunding para lanzar tus proyectos.");
 		setResizable(false);								////////////
 		//setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		setModalityType(ModalityType.APPLICATION_MODAL); 	////////////
-		setDefaultCloseOperation(DISPOSE_ON_CLOSE);			////////////
+		//setModalityType(ModalityType.APPLICATION_MODAL); 	////////////
+		//setDefaultCloseOperation(HIDE_ON_CLOSE);			////////////
 		setBounds(100, 100, 1024, 600);
-		
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+
 		//ver como funciona
 		
 
 
 		//getContentPane().setLayout(new BorderLayout());		////////////
-		
+		getContentPane().setLayout(new BorderLayout());
 		
 		
 		
@@ -43,79 +41,97 @@ public class VentanaIntroApoyanos extends JDialog {
 		panelContenidos = new JPanel();
 		panelContenidos.setBackground(new Color(255, 255, 255));
 		panelContenidos.setBorder(new EmptyBorder(5, 5, 5, 5));
-		setContentPane(panelContenidos);
+		//setContentPane(panelContenidos);
+		
+		getContentPane().add(panelContenidos);
 		
 		
+		JMenuBar menuBar = new JMenuBar();
+		setJMenuBar(menuBar);
 		
+		JPanel panelIcon = new JPanel();
+		panelIcon.setComponentOrientation(ComponentOrientation.LEFT_TO_RIGHT);
+		panelIcon.setBorder(null);
+		panelIcon.setBackground(Color.WHITE);
+		panelIcon.setToolTipText("\n");
+		menuBar.add(panelIcon);
+		panelIcon.setLayout(new GridLayout(0, 1, 0, 0));
 		
-		//Menus
-		mb = new JMenuBar();
-		mb.setBorderPainted(false);
+		JLabel lblNewLabel = new JLabel("");
+		lblNewLabel.setVisible(false);
+		lblNewLabel.setHorizontalAlignment(SwingConstants.LEFT);
+		lblNewLabel.setIcon(new ImageIcon(VentanaCrearProyecto.class.getResource("/recursos/apoyanos_75aire-50.png")));
+		panelIcon.add(lblNewLabel);
 		
-		Component rigidArea = Box.createRigidArea(new Dimension(300, 74));
-		mb.add(rigidArea);
-		menuProyectosVotacion = new JMenu("Votación");
-		mb.add(menuProyectosVotacion); 
-		menuProyectosFinanciacion = new JMenu("Financiación");
-		menuProyectosFinanciacion.setRolloverEnabled(false);
-		mb.add(menuProyectosFinanciacion);
+		JMenu mnProyectosEnVotacion = new JMenu("Votación");
+		mnProyectosEnVotacion.setHorizontalAlignment(SwingConstants.LEFT);
+		menuBar.add(mnProyectosEnVotacion);
 		
-		JMenuItem jmiTodosPV = new JMenuItem("Todos");
-		JMenuItem jmiMusicaPV = new JMenuItem("Música");
-		JMenuItem jmiDeportesPV = new JMenuItem("Deportes");
-		JMenuItem jmiCinePV = new JMenuItem("Cine");
-		JMenuItem jmiSoftwarePV = new JMenuItem("Software");
-		JMenuItem jmiSocialPV = new JMenuItem("Social");
-		JMenuItem jmiLibrosPV = new JMenuItem("Libros");
+		JMenuItem mntmTodos = new JMenuItem("Todos");
+		mnProyectosEnVotacion.add(mntmTodos);
 		
-		menuProyectosVotacion.add(jmiTodosPV);
-		menuProyectosVotacion.add(jmiMusicaPV);
-		menuProyectosVotacion.add(jmiDeportesPV);
-		menuProyectosVotacion.add(jmiCinePV);
-		menuProyectosVotacion.add(jmiSoftwarePV);
-		menuProyectosVotacion.add(jmiSocialPV);
-		menuProyectosVotacion.add(jmiLibrosPV);
+		JMenuItem mntmMusica = new JMenuItem("Música");
+		mnProyectosEnVotacion.add(mntmMusica);
 		
-		JMenuItem jmiTodosPF = new JMenuItem("Todos");
-		JMenuItem jmiMusicaPF = new JMenuItem("Música");
-		JMenuItem jmiDeportesPF = new JMenuItem("Deportes");
-		JMenuItem jmiCinePF = new JMenuItem("Cine");
-		JMenuItem jmiSoftwarePF = new JMenuItem("Software");
-		JMenuItem jmiSocialPF = new JMenuItem("Social");
-		JMenuItem jmiLibrosPF = new JMenuItem("Libros");
+		JMenuItem mntmLibros = new JMenuItem("Libros");
+		mnProyectosEnVotacion.add(mntmLibros);
 		
-		menuProyectosFinanciacion.add(jmiTodosPF);
-		menuProyectosFinanciacion.add(jmiMusicaPF);
-		menuProyectosFinanciacion.add(jmiDeportesPF);
-		menuProyectosFinanciacion.add(jmiCinePF);
-		menuProyectosFinanciacion.add(jmiSoftwarePF);
-		menuProyectosFinanciacion.add(jmiSocialPF);
-		menuProyectosFinanciacion.add(jmiLibrosPF);
+		JMenuItem mntmCine = new JMenuItem("Cine");
+		mnProyectosEnVotacion.add(mntmCine);
 		
-		setJMenuBar(mb);
+		JMenuItem mntmSocial = new JMenuItem("Social");
+		mnProyectosEnVotacion.add(mntmSocial);
 		
-		JButton btnCrearProyecto = new JButton("Nuevo Proyecto");
-		btnCrearProyecto.addActionListener(new ActionListener(){
+		JMenuItem mntmSoftware = new JMenuItem("Software");
+		mnProyectosEnVotacion.add(mntmSoftware);
+		
+		JMenuItem mntmDeportes = new JMenuItem("Deportes");
+		mnProyectosEnVotacion.add(mntmDeportes);
+		
+		JMenu mnProyectosEnFinanciacion = new JMenu("Financiación");
+		menuBar.add(mnProyectosEnFinanciacion);
+		
+		JMenuItem mntmTodosV = new JMenuItem("Todos");
+		mnProyectosEnFinanciacion.add(mntmTodosV);
+		
+		JMenuItem mntmMusicaV = new JMenuItem("Música");
+		mnProyectosEnFinanciacion.add(mntmMusicaV);
+		
+		JMenuItem mntmLibrosV = new JMenuItem("Libros");
+		mnProyectosEnFinanciacion.add(mntmLibrosV);
+		
+		JMenuItem mntmCineV = new JMenuItem("Cine");
+		mnProyectosEnFinanciacion.add(mntmCineV);
+		
+		JMenuItem mntmSocialV = new JMenuItem("Social");
+		mnProyectosEnFinanciacion.add(mntmSocialV);
+		
+		JMenuItem mntmSoftwareV = new JMenuItem("Software");
+		mnProyectosEnFinanciacion.add(mntmSoftwareV);
+		
+		JMenuItem mntmDeportesV = new JMenuItem("Deportes");
+		mnProyectosEnFinanciacion.add(mntmDeportesV);
+		
+		JButton btnCrearNuevoProyecto = new JButton("Nuevo Proyecto");
+		btnCrearNuevoProyecto.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				VentanaCrearProyecto ventanaCrearProyecto = new VentanaCrearProyecto();
-				//setContentPane(VentanaCrearProyecto);
-				ventanaCrearProyecto.setLocationRelativeTo(VentanaIntroApoyanos.this);
-				//ventanaCrearProyecto.setVisible(true);
-				//frame.dispose();
+				ventanaCrearProyecto.setVisible(true);
+				setVisible(false); //you can't see me!
+				//dispose(); //Destroy the JFrame object
 			}
 		});
+		menuBar.add(btnCrearNuevoProyecto);
 		
-		mb.add(btnCrearProyecto);
-		
-		JButton tbnApoyos = new JButton("Apoyos");
-		tbnApoyos.setFocusable(false);
-		mb.add(tbnApoyos);
+		JButton btnApoyos = new JButton("Apoyos");
+		btnApoyos.setFocusable(false);
+		menuBar.add(btnApoyos);
 		
 		JButton btnNotificaciones = new JButton("Notificaciones");
-		mb.add(btnNotificaciones);
+		menuBar.add(btnNotificaciones);
 		
 		JButton btnPreguntas = new JButton("Preguntas");
-		mb.add(btnPreguntas);
+		menuBar.add(btnPreguntas);
 		
 		JButton btnSalir = new JButton("Salir");
 		btnSalir.addActionListener(new ActionListener(){
@@ -125,7 +141,9 @@ public class VentanaIntroApoyanos extends JDialog {
 			}
 		});
 		
-		mb.add(btnSalir);
+		menuBar.add(btnSalir);
+		
+		
 		panelContenidos.setLayout(new GridLayout(0, 1, 0, 0));
 		
 		lblInicioApoyanos = new JLabel("");
@@ -134,7 +152,7 @@ public class VentanaIntroApoyanos extends JDialog {
 		lblInicioApoyanos.setFont(new Font("Arial", Font.PLAIN, 30));
 		lblInicioApoyanos.setHorizontalAlignment(SwingConstants.CENTER);
 		panelContenidos.add(lblInicioApoyanos);
-		JTextField txtDescripcionRecompensa;
+		//JTextField txtDescripcionRecompensa;
 		
 	}
 

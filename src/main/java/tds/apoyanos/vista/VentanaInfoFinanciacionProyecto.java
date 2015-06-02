@@ -5,9 +5,16 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
 
 import javax.swing.border.BevelBorder;
 import javax.swing.table.DefaultTableModel;
+
+import tds.apoyanos.controlador.Controlador;
+import tds.apoyanos.modelo.Proyecto;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 @SuppressWarnings("serial")
 public class VentanaInfoFinanciacionProyecto extends JDialog {
@@ -20,10 +27,18 @@ public class VentanaInfoFinanciacionProyecto extends JDialog {
 	private JTable table;
 	private JTable table_1;
 	private JTextField textField_4;
+	
+	private SimpleDateFormat fechaDia = new SimpleDateFormat("dd/MM/yyyy");
+	private SimpleDateFormat fechaHora = new SimpleDateFormat("HH:mm");
+	private DecimalFormat formatoDecimal = new DecimalFormat("#.##");
+	
+	private Controlador controlador = Controlador.getUnicaInstancia();
+	//private Proyecto proyecto;
 
 
 	
-	public VentanaInfoFinanciacionProyecto() {
+	public VentanaInfoFinanciacionProyecto(Proyecto proyecto) {
+
 		getContentPane().setBackground(SystemColor.window);
 		getContentPane().setLayout(null);
 		
@@ -40,7 +55,7 @@ public class VentanaInfoFinanciacionProyecto extends JDialog {
 		txtTtuloDelProyecot = new JTextField();
 		txtTtuloDelProyecot.setEditable(false);
 		txtTtuloDelProyecot.setForeground(Color.GRAY);
-		txtTtuloDelProyecot.setText("La leja de la mesa");
+		txtTtuloDelProyecot.setText(proyecto.getNombre());
 		txtTtuloDelProyecot.setBounds(110, 48, 880, 28);
 		getContentPane().add(txtTtuloDelProyecot);
 		txtTtuloDelProyecot.setColumns(10);
@@ -50,7 +65,7 @@ public class VentanaInfoFinanciacionProyecto extends JDialog {
 		txtrEsteProyectoEs.setForeground(Color.GRAY);
 		txtrEsteProyectoEs.setEditable(false);
 		txtrEsteProyectoEs.setWrapStyleWord(true);
-		txtrEsteProyectoEs.setText("Este proyecto es una película del famoso director de cine Fuman Chú de los chú de toa la vida de Diós. En ella nos cuenta su vida desde su más tierna infancia hasta la maduréz y de cómo lo único que comió caliente de pequeño fue cuando se cayó de boca al brasero con el taca-tá.");
+		txtrEsteProyectoEs.setText(proyecto.getDescripcion());
 		txtrEsteProyectoEs.setRows(10);
 		txtrEsteProyectoEs.setPreferredSize(new Dimension(375, 16));
 		txtrEsteProyectoEs.setMinimumSize(new Dimension(300, 50));
@@ -67,7 +82,7 @@ public class VentanaInfoFinanciacionProyecto extends JDialog {
 		textField.setEditable(false);
 		textField.setForeground(Color.GRAY);
 		textField.setHorizontalAlignment(SwingConstants.CENTER);
-		textField.setText("27/04/2015");
+		textField.setText(fechaDia.format(proyecto.getPlazoFinanciacion()));
 		textField.setColumns(10);
 		textField.setBounds(110, 294, 150, 28);
 		getContentPane().add(textField);
@@ -81,7 +96,7 @@ public class VentanaInfoFinanciacionProyecto extends JDialog {
 		textField_1.setEditable(false);
 		textField_1.setForeground(Color.GRAY);
 		textField_1.setHorizontalAlignment(SwingConstants.CENTER);
-		textField_1.setText("6800,00 €");
+		textField_1.setText(formatoDecimal.format(proyecto.getCantidadMinima()) + " €.");
 		textField_1.setColumns(10);
 		textField_1.setBounds(110, 346, 150, 28);
 		getContentPane().add(textField_1);
@@ -95,7 +110,7 @@ public class VentanaInfoFinanciacionProyecto extends JDialog {
 		txtSoftware.setEditable(false);
 		txtSoftware.setForeground(Color.GRAY);
 		txtSoftware.setHorizontalAlignment(SwingConstants.CENTER);
-		txtSoftware.setText("CINE");
+		txtSoftware.setText(proyecto.getCategoria().getNombre());
 		txtSoftware.setColumns(10);
 		txtSoftware.setBounds(110, 398, 150, 28);
 		getContentPane().add(txtSoftware);
@@ -107,7 +122,7 @@ public class VentanaInfoFinanciacionProyecto extends JDialog {
 		
 		textField_2 = new JTextField();
 		textField_2.setEditable(false);
-		textField_2.setText("12");
+		textField_2.setText(String.valueOf(proyecto.getDiasRestantes()));
 		textField_2.setHorizontalAlignment(SwingConstants.CENTER);
 		textField_2.setForeground(Color.GRAY);
 		textField_2.setColumns(10);
@@ -126,7 +141,7 @@ public class VentanaInfoFinanciacionProyecto extends JDialog {
 		
 		textField_3 = new JTextField();
 		textField_3.setEditable(false);
-		textField_3.setText("5300,00 €");
+		textField_3.setText(formatoDecimal.format(proyecto.getCantidadRecaudada()) + " €.");
 		textField_3.setHorizontalAlignment(SwingConstants.CENTER);
 		textField_3.setForeground(Color.GRAY);
 		textField_3.setColumns(10);
@@ -164,6 +179,11 @@ public class VentanaInfoFinanciacionProyecto extends JDialog {
         // Defino el TableModel y le indico los datos y nombres de columnas
 
 		table_1 = new JTable();
+		table_1.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+			}
+		});
 		table_1.setEnabled(false);
 		table_1.setForeground(Color.GRAY);
 		table_1.setRowSelectionAllowed(false);
@@ -207,7 +227,7 @@ public class VentanaInfoFinanciacionProyecto extends JDialog {
 		getContentPane().add(lblFinanciado);
 		
 		textField_4 = new JTextField();
-		textField_4.setText("80%");
+		textField_4.setText(formatoDecimal.format(proyecto.getCantidadRecaudada()*100./proyecto.getCantidadMinima()));
 		textField_4.setHorizontalAlignment(SwingConstants.CENTER);
 		textField_4.setForeground(Color.GRAY);
 		textField_4.setEditable(false);
@@ -223,100 +243,9 @@ public class VentanaInfoFinanciacionProyecto extends JDialog {
 		setBackground(new Color(255, 255, 255));
 		setTitle("Apóyanos - Tu plataforma crowdfunding para lanzar tus proyectos.");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 1024, 600);
+		setBounds(100, 100, 1024, 480);
 		
-		JMenuBar menuBar = new JMenuBar();
-		setJMenuBar(menuBar);
 		
-		JPanel panelIcon = new JPanel();
-		panelIcon.setComponentOrientation(ComponentOrientation.LEFT_TO_RIGHT);
-		panelIcon.setBorder(null);
-		panelIcon.setBackground(Color.WHITE);
-		panelIcon.setToolTipText("\n");
-		menuBar.add(panelIcon);
-		panelIcon.setLayout(new GridLayout(0, 1, 0, 0));
-		
-		JLabel lblNewLabel = new JLabel("");
-		lblNewLabel.setVisible(false);
-		lblNewLabel.setHorizontalAlignment(SwingConstants.LEFT);
-		lblNewLabel.setIcon(new ImageIcon(VentanaCrearProyecto.class.getResource("/recursos/apoyanos_75aire-50.png")));
-		panelIcon.add(lblNewLabel);
-		
-		JMenu mnProyectosEnVotacion = new JMenu("Votación");
-		mnProyectosEnVotacion.setHorizontalAlignment(SwingConstants.LEFT);
-		menuBar.add(mnProyectosEnVotacion);
-		
-		JMenuItem mntmTodos = new JMenuItem("Todos");
-		mnProyectosEnVotacion.add(mntmTodos);
-		
-		JMenuItem mntmMusica = new JMenuItem("Música");
-		mnProyectosEnVotacion.add(mntmMusica);
-		
-		JMenuItem mntmLibros = new JMenuItem("Libros");
-		mnProyectosEnVotacion.add(mntmLibros);
-		
-		JMenuItem mntmCine = new JMenuItem("Cine");
-		mnProyectosEnVotacion.add(mntmCine);
-		
-		JMenuItem mntmSocial = new JMenuItem("Social");
-		mnProyectosEnVotacion.add(mntmSocial);
-		
-		JMenuItem mntmSoftware = new JMenuItem("Software");
-		mnProyectosEnVotacion.add(mntmSoftware);
-		
-		JMenuItem mntmDeportes = new JMenuItem("Deportes");
-		mnProyectosEnVotacion.add(mntmDeportes);
-		
-		JMenu mnProyectosEnFinanciacion = new JMenu("Financiación");
-		menuBar.add(mnProyectosEnFinanciacion);
-		
-		JMenuItem mntmTodosV = new JMenuItem("Todos");
-		mnProyectosEnFinanciacion.add(mntmTodosV);
-		
-		JMenuItem mntmMusicaV = new JMenuItem("Música");
-		mnProyectosEnFinanciacion.add(mntmMusicaV);
-		
-		JMenuItem mntmLibrosV = new JMenuItem("Libros");
-		mnProyectosEnFinanciacion.add(mntmLibrosV);
-		
-		JMenuItem mntmCineV = new JMenuItem("Cine");
-		mnProyectosEnFinanciacion.add(mntmCineV);
-		
-		JMenuItem mntmSocialV = new JMenuItem("Social");
-		mnProyectosEnFinanciacion.add(mntmSocialV);
-		
-		JMenuItem mntmSoftwareV = new JMenuItem("Software");
-		mnProyectosEnFinanciacion.add(mntmSoftwareV);
-		
-		JMenuItem mntmDeportesV = new JMenuItem("Deportes");
-		mnProyectosEnFinanciacion.add(mntmDeportesV);
-		
-		JButton btnCrearProyecto = new JButton("Nuevo Proyecto");
-		btnCrearProyecto.setFocusable(false);
-		menuBar.add(btnCrearProyecto);
-		
-		JButton btnApoyos = new JButton("Apoyos");
-		btnApoyos.setFocusable(false);
-		menuBar.add(btnApoyos);
-		
-		JButton btnNotificaciones = new JButton("Notificaciones");
-		btnNotificaciones.setFocusable(false);
-		menuBar.add(btnNotificaciones);
-		
-		JButton btnPreguntas = new JButton("Preguntas");
-		btnPreguntas.setFocusable(false);
-		menuBar.add(btnPreguntas);
-		
-		JButton btnSalir = new JButton("Salir");
-		btnSalir.setFocusable(false);
-		btnSalir.addActionListener(new ActionListener(){
-			public void actionPerformed(ActionEvent e) {
-					//frame.dispose(); /*cuando se destruye la última ventana termina la maquina virtual*/
-					System.exit(0);  /*no sería necesario en este caso*/
-			}
-		});
-		
-		menuBar.add(btnSalir);
 		
 	}
 }
