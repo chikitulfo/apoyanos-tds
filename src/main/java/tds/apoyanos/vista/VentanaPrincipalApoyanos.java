@@ -3,9 +3,9 @@ package tds.apoyanos.vista;
 import javax.swing.*;
 
 import java.awt.*;
+import java.awt.Dialog.ModalityType;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
 import java.util.List;
 
 import javax.swing.table.DefaultTableModel;
@@ -14,8 +14,10 @@ import tds.apoyanos.controlador.Controlador;
 import tds.apoyanos.modelo.Proyecto;
 
 @SuppressWarnings("serial")
-public class VentanaPrincipalApoyanos extends JDialog {
+public class VentanaPrincipalApoyanos extends JFrame {
 	private JTable table;
+	@SuppressWarnings("unused")
+	private Menu menu_apoyanos;
 	private Controlador controlador = Controlador.getUnicaInstancia();
 	
 	private String fase = "VOTACIÓN";
@@ -27,6 +29,11 @@ public class VentanaPrincipalApoyanos extends JDialog {
 
 	
 	public VentanaPrincipalApoyanos() {
+		setResizable(false);
+		setDefaultCloseOperation(HIDE_ON_CLOSE);
+		getContentPane().setBackground(SystemColor.window);
+		
+		
 		getContentPane().setBackground(Color.WHITE);
 		getContentPane().setLayout(null);
 		
@@ -111,11 +118,14 @@ public class VentanaPrincipalApoyanos extends JDialog {
 		setBackground(new Color(255, 255, 255));
 		setTitle("Apóyanos - Tu plataforma crowdfunding para lanzar tus proyectos.");
 		//setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setModalityType(ModalityType.APPLICATION_MODAL); 	////////////
+		//setModalityType(ModalityType.APPLICATION_MODAL); 	////////////
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);			////////////
 		
 		
-		setBounds(100, 100, 1024, 480);
+		setBounds(100, 100, 1024, 600);
+		
+		///MENU
+		menu_apoyanos = new Menu(this);
 		
 	}
 	

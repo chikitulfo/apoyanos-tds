@@ -19,19 +19,22 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 @SuppressWarnings("serial")
-public class VentranaPreguntasRespuestas extends JDialog {
+public class VentanaPreguntasRespuestas extends JFrame {
 	private JTable table;
 	private JTextField textAsunto;
 	private JTextField textField_1;
 	private JTable table_1;
+	@SuppressWarnings("unused")
+	private Menu menu_apoyanos;
 
 	
 	private Controlador controlador = Controlador.getUnicaInstancia();
 	private Pregunta pregunta;
 
 	
-	public VentranaPreguntasRespuestas() {
+	public VentanaPreguntasRespuestas() {
 		setResizable(false);
+		setDefaultCloseOperation(HIDE_ON_CLOSE);
 		getContentPane().setBackground(SystemColor.window);
 		getContentPane().setLayout(null);
 		setBounds(6,6,1024,480);
@@ -362,6 +365,9 @@ Object[][] datos2 = new Object[][]{
 		setTitle("Apóyanos - Tu plataforma crowdfunding para lanzar tus proyectos.");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 1024, 600);
+		
+		//MENU
+		menu_apoyanos = new Menu(this);
 		
 	}
 }

@@ -12,12 +12,17 @@ import java.awt.event.ActionListener;
 import javax.swing.table.DefaultTableModel;
 
 @SuppressWarnings("serial")
-public class VentanaNotificaciones extends JDialog {
+public class VentanaNotificaciones extends JFrame {
 	private JTable table;
+	@SuppressWarnings("unused")
+	private Menu menu_apoyanos;
 
 
 	
 	public VentanaNotificaciones() {
+		setResizable(false);
+		setDefaultCloseOperation(HIDE_ON_CLOSE);
+		getContentPane().setBackground(SystemColor.window);
 		getContentPane().setBackground(Color.WHITE);
 		getContentPane().setLayout(null);
 		
@@ -90,9 +95,10 @@ public class VentanaNotificaciones extends JDialog {
 		setBackground(new Color(255, 255, 255));
 		setTitle("Apóyanos - Tu plataforma crowdfunding para lanzar tus proyectos.");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 1024, 480);
+		setBounds(100, 100, 1024, 600);
 		
-		
+		///MENU
+		menu_apoyanos = new Menu(this);
 		
 	}
 }

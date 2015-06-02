@@ -16,17 +16,25 @@ import tds.apoyanos.controlador.Controlador;
 import tds.apoyanos.modelo.Apoyo;
 
 @SuppressWarnings("serial")
-public class VentanaApoyos extends JDialog {
+public class VentanaApoyos extends JFrame {
 	private JTable table;
 	private ModeloTabla modeloVistaApoyo;
+	@SuppressWarnings("unused")
+	private Menu menu_apoyanos;
 
 
 	private Controlador controlador = Controlador.getUnicaInstancia();
 	private LinkedList<Apoyo> listaApoyos = (LinkedList<Apoyo>) controlador.getApoyos();
 	
 	public VentanaApoyos() {
+		setResizable(false);
+		setDefaultCloseOperation(HIDE_ON_CLOSE);
+		getContentPane().setBackground(SystemColor.window);
+		
+		
 		getContentPane().setBackground(Color.WHITE);
 		getContentPane().setLayout(null);
+		
 		
 		JScrollPane scrollPane = new JScrollPane();
 		scrollPane.setBounds(100, 105, 794, 248);
@@ -69,9 +77,10 @@ public class VentanaApoyos extends JDialog {
 		setBackground(new Color(255, 255, 255));
 		setTitle("Apóyanos - Tu plataforma crowdfunding para lanzar tus proyectos.");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 1024, 480);
+		setBounds(100, 100, 1024, 600);
 
-		
+		///MENU
+		menu_apoyanos = new Menu(this);
 	}
 	
 	public class ModeloTabla extends DefaultTableModel {
@@ -88,15 +97,17 @@ public class VentanaApoyos extends JDialog {
 		modeloVistaApoyo.addColumn("Proyecto");
 		modeloVistaApoyo.addColumn("Recompensa");
 		modeloVistaApoyo.addColumn("Cantidad (€)");
+		modeloVistaApoyo.addColumn("Id");
 		
 		for (Apoyo apoyo : listaApoyos) {
 			Object[] objApoyo = new Object[3];
 
 			try {
-
+				
 				objApoyo[0] = apoyo.getProyecto();
 				objApoyo[1] = apoyo.getRecompensa().getNombre();
 				objApoyo[2] = apoyo.getCantidad();
+				objApoyo[3] = apoyo.getId();
 				
 			} catch (Exception e) {
 			}
@@ -111,24 +122,29 @@ public class VentanaApoyos extends JDialog {
 		table.getColumnModel().getColumn(1).setPreferredWidth(175);
 		table.getColumnModel().getColumn(2).setResizable(false);
 		table.getColumnModel().getColumn(2).setPreferredWidth(50);
+		table.getColumnModel().getColumn(3).setResizable(false);
+		table.getColumnModel().getColumn(3).setMaxWidth(0);
+		table.getColumnModel().getColumn(3).setMinWidth(0);
+		table.getColumnModel().getColumn(3).setPreferredWidth(0);
 	}
 	
-	private Apoyo buscarApoyo (String a){
+	@SuppressWarnings("unused")
+	private Apoyo buscarApoyo (int id){
 		Apoyo apoyo=null;
 		for (Apoyo ap : listaApoyos) {
-			if (ap.
-					getNombre().equals(a)) {
+			if (ap.getId()==id) {
 				apoyo = ap;
 			}
 		}
 		return apoyo;
 	}
 	
-	private boolean existeRecompensa (String r){
+	@SuppressWarnings("unused")
+	private boolean existeApoyo (int id){
 		boolean existe=false;
-		for (RecompensaVista re : listaRecompensas) {
-			if (re.getNombre().equals(r)) {
-				existe=true;
+		for (Apoyo ap : listaApoyos) {
+			if (ap.getId()==id) {
+				existe = true;
 			}
 		}
 		return existe;

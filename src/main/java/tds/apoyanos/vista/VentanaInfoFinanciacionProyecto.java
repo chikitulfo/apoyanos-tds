@@ -13,11 +13,12 @@ import javax.swing.table.DefaultTableModel;
 
 import tds.apoyanos.controlador.Controlador;
 import tds.apoyanos.modelo.Proyecto;
+
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 @SuppressWarnings("serial")
-public class VentanaInfoFinanciacionProyecto extends JDialog {
+public class VentanaInfoFinanciacionProyecto extends JFrame {
 	private JTextField txtTtuloDelProyecot;
 	private JTextField textField;
 	private JTextField textField_1;
@@ -27,6 +28,8 @@ public class VentanaInfoFinanciacionProyecto extends JDialog {
 	private JTable table;
 	private JTable table_1;
 	private JTextField textField_4;
+	@SuppressWarnings("unused")
+	private Menu menu_apoyanos;
 	
 	private SimpleDateFormat fechaDia = new SimpleDateFormat("dd/MM/yyyy");
 	private SimpleDateFormat fechaHora = new SimpleDateFormat("HH:mm");
@@ -38,7 +41,8 @@ public class VentanaInfoFinanciacionProyecto extends JDialog {
 
 	
 	public VentanaInfoFinanciacionProyecto(Proyecto proyecto) {
-
+		setResizable(false);
+		setDefaultCloseOperation(HIDE_ON_CLOSE);
 		getContentPane().setBackground(SystemColor.window);
 		getContentPane().setLayout(null);
 		
@@ -149,7 +153,7 @@ public class VentanaInfoFinanciacionProyecto extends JDialog {
 		getContentPane().add(textField_3);
 		
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(544, 100, 446, 75);
+		scrollPane.setBounds(544, 100, 446, 164);
 		getContentPane().add(scrollPane);
 		
 		
@@ -234,6 +238,16 @@ public class VentanaInfoFinanciacionProyecto extends JDialog {
 		textField_4.setColumns(10);
 		textField_4.setBounds(335, 398, 120, 28);
 		getContentPane().add(textField_4);
+		
+		JButton button = new JButton("¡¡Apoyar Proyecto!!");
+		button.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
+		button.setFont(new Font("Lucida Grande", Font.BOLD, 23));
+		button.setEnabled(true);
+		button.setBounds(544, 294, 444, 66);
+		getContentPane().add(button);
 /////	
 		
 /////////////////////////////////////////////		
@@ -243,9 +257,10 @@ public class VentanaInfoFinanciacionProyecto extends JDialog {
 		setBackground(new Color(255, 255, 255));
 		setTitle("Apóyanos - Tu plataforma crowdfunding para lanzar tus proyectos.");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 1024, 480);
+		setBounds(100, 100, 1024, 600);
 		
-		
+		//Menú
+		menu_apoyanos = new Menu(this);
 		
 	}
 }

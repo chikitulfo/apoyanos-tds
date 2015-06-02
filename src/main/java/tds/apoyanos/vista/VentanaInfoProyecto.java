@@ -13,11 +13,12 @@ import javax.swing.table.DefaultTableModel;
 
 import tds.apoyanos.controlador.Controlador;
 import tds.apoyanos.modelo.Proyecto;
+
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 @SuppressWarnings("serial")
-public class VentanaInfoProyecto extends JDialog {
+public class VentanaInfoProyecto extends JFrame {
 	private JTextField textTitulo;
 	private JTextField textFechaFin;
 	private JTextField textImporte;
@@ -26,6 +27,8 @@ public class VentanaInfoProyecto extends JDialog {
 	private JTextField textVotos;
 	private JTable table;
 	private JTable table_1;
+	@SuppressWarnings("unused")
+	private Menu menu_apoyanos;
 
 	private SimpleDateFormat fechaDia = new SimpleDateFormat("dd/MM/yyyy");
 	private SimpleDateFormat fechaHora = new SimpleDateFormat("HH:mm");
@@ -36,6 +39,8 @@ public class VentanaInfoProyecto extends JDialog {
 	
 	
 	public VentanaInfoProyecto() {
+		setResizable(false);
+		setDefaultCloseOperation(HIDE_ON_CLOSE);
 		getContentPane().setBackground(SystemColor.window);
 		getContentPane().setLayout(null);
 		
@@ -239,8 +244,10 @@ public class VentanaInfoProyecto extends JDialog {
 		setBackground(new Color(255, 255, 255));
 		setTitle("Apóyanos - Tu plataforma crowdfunding para lanzar tus proyectos.");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 1024, 480);
+		setBounds(100, 100, 1024, 600);
 		
+		///MENU
+		menu_apoyanos = new Menu(this);
 		
 	}
 }
