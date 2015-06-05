@@ -39,7 +39,8 @@ public class VentanaInfoProyecto extends JFrame {
 	
 	
 	public VentanaInfoProyecto() {
-		setResizable(false);
+		setResizable(true);
+		setExtendedState(JFrame.MAXIMIZED_BOTH); 
 		setDefaultCloseOperation(HIDE_ON_CLOSE);
 		getContentPane().setBackground(SystemColor.window);
 		getContentPane().setLayout(null);

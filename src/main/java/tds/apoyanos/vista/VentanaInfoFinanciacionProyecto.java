@@ -41,7 +41,8 @@ public class VentanaInfoFinanciacionProyecto extends JFrame {
 
 	
 	public VentanaInfoFinanciacionProyecto(Proyecto proyecto) {
-		setResizable(false);
+		setResizable(true);
+		setExtendedState(JFrame.MAXIMIZED_BOTH); 
 		setDefaultCloseOperation(HIDE_ON_CLOSE);
 		getContentPane().setBackground(SystemColor.window);
 		getContentPane().setLayout(null);

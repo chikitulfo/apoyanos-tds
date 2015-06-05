@@ -18,23 +18,15 @@ public class VentanaIntroApoyanos extends JFrame {
 	public VentanaIntroApoyanos() {
 		getContentPane().setBackground(Color.WHITE);
 		
-		//TODO Solicitar al controlador las categorías y hacer los sub-menús automáticamente
-		
 		//Características del JFrame
 		setBackground(new Color(255, 255, 255));
 		setTitle("Apóyanos - Tu plataforma crowdfunding para lanzar tus proyectos.");
-		setResizable(false);								////////////
-		//setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		//setModalityType(ModalityType.APPLICATION_MODAL); 	////////////
-		//setDefaultCloseOperation(HIDE_ON_CLOSE);			////////////
+		setResizable(false);
+		setDefaultCloseOperation(HIDE_ON_CLOSE);			////////////
 		setBounds(100, 100, 1024, 600);
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+	    setLocationRelativeTo(null);
 
-		//ver como funciona
-		
-
-
-		//getContentPane().setLayout(new BorderLayout());		////////////
 		getContentPane().setLayout(new BorderLayout());
 		
 		
@@ -43,17 +35,7 @@ public class VentanaIntroApoyanos extends JFrame {
 		panelContenidos = new JPanel();
 		panelContenidos.setBackground(new Color(255, 255, 255));
 		panelContenidos.setBorder(new EmptyBorder(5, 5, 5, 5));
-		//setContentPane(panelContenidos);
-		
-		getContentPane().add(panelContenidos);
-		
-		
-		///MENU
-		menu_apoyanos = new Menu(this);
-		
-		
 		panelContenidos.setLayout(new GridLayout(0, 1, 0, 0));
-		
 		lblInicioApoyanos = new JLabel("");
 		lblInicioApoyanos.setIcon(new ImageIcon(VentanaIntroApoyanos.class.getResource("/recursos/apoyanos.png")));
 		lblInicioApoyanos.setBackground(new Color(255, 255, 255));
@@ -62,6 +44,20 @@ public class VentanaIntroApoyanos extends JFrame {
 		panelContenidos.add(lblInicioApoyanos);
 		//JTextField txtDescripcionRecompensa;
 		
+		///MENU
+		menu_apoyanos = new Menu(this);
+		//getContentPane().add(panelContenidos);
+		setContentPane(panelContenidos);
+	
+	}
+	
+	public void setPanel(Panel jp){
+		//panelContenidos.setVisible(false);
+		//panelContenidos = jp;
+		//panelContenidos.setVisible(true);
+		//panelContenidos.updateUI();
+		panelContenidos.add(jp);
+		panelContenidos.updateUI();
 	}
 
 }

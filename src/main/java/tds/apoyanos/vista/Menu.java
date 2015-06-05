@@ -8,6 +8,7 @@ import java.awt.event.ActionListener;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JMenu;
@@ -16,11 +17,15 @@ import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+
 public class Menu {
 
 	JMenuBar menuBar = new JMenuBar();
 	
 	public Menu(final JFrame jf){
+	//public Menu(final VentanaIntroApoyanos jf){
 		//MENÚ
 				
 				jf.setJMenuBar(menuBar);
@@ -43,10 +48,27 @@ public class Menu {
 				menuBar.add(mnProyectosEnVotacion);
 				
 				JMenuItem mntmTodos = new JMenuItem("Todos");
+				mntmTodos.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent arg0) {
+						VentanaPrincipalApoyanos ventanaPrincipal = new VentanaPrincipalApoyanos("VOTACIÓN","TODOS");
+						ventanaPrincipal.setVisible(true);
+						jf.setVisible(false); //you can't see me!
+						jf.dispose(); //Destroy the JFrame object
+					}
+				});
 				mnProyectosEnVotacion.add(mntmTodos);
 				
 				JMenuItem mntmMusica = new JMenuItem("Música");
-				mnProyectosEnVotacion.add(mntmMusica);
+				mntmMusica.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent arg0) {
+						VentanaPrincipalApoyanos ventanaPrincipal = new VentanaPrincipalApoyanos("VOTACIÓN","MÚSICA");
+						ventanaPrincipal.setVisible(true);
+						jf.setVisible(false); //you can't see me!
+						jf.dispose(); //Destroy the JFrame object
+					}
+				});
+				mnProyectosEnVotacion.add(mntmMusica);		
+				
 				
 				JMenuItem mntmLibros = new JMenuItem("Libros");
 				mnProyectosEnVotacion.add(mntmLibros);
@@ -90,7 +112,7 @@ public class Menu {
 				JButton btnCrearNuevoProyecto = new JButton("Nuevo Proyecto");
 				btnCrearNuevoProyecto.setFocusPainted(false);
 				btnCrearNuevoProyecto.addActionListener(new ActionListener() {
-					public void actionPerformed(ActionEvent e) {
+					public void actionPerformed(ActionEvent e) {		
 						VentanaCrearProyecto ventanaCrearProyecto = new VentanaCrearProyecto();
 						ventanaCrearProyecto.setVisible(true);
 						jf.setVisible(false); //you can't see me!

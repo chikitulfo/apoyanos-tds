@@ -27,7 +27,8 @@ public class VentanaApoyos extends JFrame {
 	private LinkedList<Apoyo> listaApoyos = (LinkedList<Apoyo>) controlador.getApoyos();
 	
 	public VentanaApoyos() {
-		setResizable(false);
+		setResizable(true);
+		setExtendedState(JFrame.MAXIMIZED_BOTH); 
 		setDefaultCloseOperation(HIDE_ON_CLOSE);
 		getContentPane().setBackground(SystemColor.window);
 		

@@ -22,11 +22,13 @@ import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
 
 @SuppressWarnings("serial")
-public class VentanaCrearProyecto extends JFrame {
+public class VentanaCrearProyecto extends JFrame{
 	private JTextField textProyecto;
 	private final JTextArea txtDescripcionProyecto;
 	private JTextField textFechaFin;
 	private JTextField textImporte;
+	@SuppressWarnings("rawtypes")
+	final JComboBox cbCategoria = new JComboBox();
 	private JTextField txt_UsuarioCreador;
 	private JTable tbRecompensas;
 	private ModeloTabla modeloVistaRecompensa;
@@ -35,10 +37,17 @@ public class VentanaCrearProyecto extends JFrame {
 	@SuppressWarnings("unused")
 	private Menu menu_apoyanos;
 	
-	
+	private String msg_error="HAY UN ERROR. Revisa todos los campos y recuerda: \n - Título obligatorio.\n - Descripción obligatoria. \n - Fecha obligatoria, formato dd/mm/aaaa y a partir del día de mañana. \n - Importe ###.## \n - Una o más recompensas.";
+	private String msg_exito="Proyecto Registrado Correctamente.\n";
 	private SimpleDateFormat fechaDia = new SimpleDateFormat("dd/MM/yyyy");
 	private DecimalFormat formatoDecimal = new DecimalFormat("#.##");
-
+	private String nombreProyecto;
+	private String descripcionProyecto;
+	private String categoriaProyecto;
+	private Double cantidadProyecto;
+	private GregorianCalendar cplazoProyecto = new GregorianCalendar();
+	
+	
 	private Controlador controlador = Controlador.getUnicaInstancia();
 	private Usuario usuario = controlador.getUsuario();
 	
@@ -53,6 +62,7 @@ public class VentanaCrearProyecto extends JFrame {
 		//setModalityType(ModalityType.APPLICATION_MODAL);
 		setDefaultCloseOperation(HIDE_ON_CLOSE);
 		getContentPane().setBackground(SystemColor.window);
+		
 		
 		final JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
 		getContentPane().add(tabbedPane, BorderLayout.NORTH);
@@ -170,6 +180,7 @@ public class VentanaCrearProyecto extends JFrame {
 		panel_FechaFin.add(panel_textFechaFin);
 		
 		textFechaFin = new JTextField();
+		textFechaFin.setText("dd/mm/aaaa");
 		panel_textFechaFin.add(textFechaFin);
 		textFechaFin.setColumns(10);
 		
@@ -201,6 +212,7 @@ public class VentanaCrearProyecto extends JFrame {
 		panel_Importe.add(panelTxtImporte);
 		
 		textImporte = new JTextField();
+		textImporte.setText("####.##");
 		panelTxtImporte.add(textImporte);
 		textImporte.setColumns(10);
 		
@@ -225,8 +237,6 @@ public class VentanaCrearProyecto extends JFrame {
 		flowLayout_9.setAlignment(FlowLayout.LEFT);
 		panelCategoria.add(panel_1);
 		
-		@SuppressWarnings("rawtypes")
-		final JComboBox cbCategoria = new JComboBox();
 		//Se puede mejorar con un bucle y una lista que contena las categorías
 		cbCategoria.addItem("Música");
 		cbCategoria.addItem("Libros");
@@ -463,30 +473,23 @@ public class VentanaCrearProyecto extends JFrame {
 		btnRegistrar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				//TRATAR LOS CAMPOS QUE HAY ANTES DE OPERAR CON ELLOS SI HAY ERRORES MANDAR MENSAJE ALERTA
-				
-				
-				if ((controlador.esCreado(textProyecto.getText())) || (textProyecto.getText().trim().length()==0)) {
-					//YA EXISTE UN PROYECTO CON ESTE NOMBRE
-					//Lanzar una alerta y al aceptar ir al campo título para que lo modifique con el resto de campos conforme están
+				if (!datosCorrectos()){
+					new VentanaMensajes(msg_error);
 					tabbedPane.setSelectedIndex(0);
-					
 				} else {
 					//REGISTRAR PROYECTO E IR AL LISTADO DE PROYECTOS EN VOTACION
-		            GregorianCalendar cplazo = new GregorianCalendar();
-		            Double cantidad = 0.;
 		            try {
-		                cplazo.setTime(fechaDia.parse(textFechaFin.getText()));
-		                cantidad = (Double) formatoDecimal.parse(textImporte.getText());
-		                controlador.crearProyecto(textProyecto.getText(), txtDescripcionProyecto.getText(), cantidad, cplazo, (String)cbCategoria.getSelectedItem(),listaRecompensas);
-		                //ir al listado de proyectos.
-		                new VentanaMensajes("Proyecto Registrado Correctamente");
+		            	cplazoProyecto.setTime(fechaDia.parse(textFechaFin.getText()));
+		                controlador.crearProyecto(textProyecto.getText(), txtDescripcionProyecto.getText(), cantidadProyecto, cplazoProyecto, (String)cbCategoria.getSelectedItem(),listaRecompensas);
+		                new VentanaMensajes(msg_exito);
+		                
 		            } catch (ParseException ex) {
 		                ex.printStackTrace();
 		            } catch (InvalidArgumentException e1) {
 						// TODO Auto-generated catch block
 						e1.printStackTrace();
 					}
-				}
+				}	
 			}
 		});
 		btnRegistrar.setBounds(45, 112, 214, 65);
@@ -512,7 +515,9 @@ public class VentanaCrearProyecto extends JFrame {
 		setBackground(new Color(255, 255, 255));
 		setTitle("Apóyanos - Tu plataforma crowdfunding para lanzar tus proyectos.");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		//setDefaultCloseOperation(JDialog.EXIT_ON_CLOSE);
 		setBounds(100, 100, 1024, 600);
+		setLocationRelativeTo(null);
 		
 		
 		//MENÚ
@@ -591,5 +596,21 @@ public class VentanaCrearProyecto extends JFrame {
 			}
 		}
 		return existe;
+	}
+	
+	private boolean datosCorrectos(){
+		boolean todoOk;
+		todoOk=(!listaRecompensas.isEmpty());
+		todoOk=((textImporte.getText()!="####.##") && (textImporte.getText().trim().length()!=0));
+		todoOk=(txtDescripcionProyecto.getText().trim().length()!=0);
+		todoOk=(!controlador.esCreado(textProyecto.getText()) && (textProyecto.getText().trim().length()!=0));
+				
+		if (todoOk) {
+			nombreProyecto = textProyecto.getText();
+			descripcionProyecto = txtDescripcionProyecto.getText();
+			cantidadProyecto = Double.valueOf(textImporte.getText());
+			categoriaProyecto = (String)cbCategoria.getSelectedItem();
+		}	
+		return todoOk;
 	}
 }

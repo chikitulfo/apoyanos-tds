@@ -33,7 +33,8 @@ public class VentanaPreguntasRespuestas extends JFrame {
 
 	
 	public VentanaPreguntasRespuestas() {
-		setResizable(false);
+		setResizable(true);
+		setExtendedState(JFrame.MAXIMIZED_BOTH); 
 		setDefaultCloseOperation(HIDE_ON_CLOSE);
 		getContentPane().setBackground(SystemColor.window);
 		getContentPane().setLayout(null);

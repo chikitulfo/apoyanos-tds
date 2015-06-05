@@ -20,16 +20,17 @@ public class VentanaPrincipalApoyanos extends JFrame {
 	private Menu menu_apoyanos;
 	private Controlador controlador = Controlador.getUnicaInstancia();
 	
-	private String fase = "VOTACIÓN";
-	private String categoria = "TODOS";
+	//private String fase = "VOTACIÓN";
+	//private String categoria = "TODOS";
 	
 	List<Proyecto> listaProyectos;
 	private Proyecto proyecto;
 	
 
 	
-	public VentanaPrincipalApoyanos() {
-		setResizable(false);
+	public VentanaPrincipalApoyanos(String fase, String categoria) {
+		setResizable(true);
+		setExtendedState(JFrame.MAXIMIZED_BOTH); 
 		setDefaultCloseOperation(HIDE_ON_CLOSE);
 		getContentPane().setBackground(SystemColor.window);
 		
@@ -122,7 +123,7 @@ public class VentanaPrincipalApoyanos extends JFrame {
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);			////////////
 		
 		
-		setBounds(100, 100, 1024, 600);
+		setBounds(-1, -1, 1024, 600);
 		
 		///MENU
 		menu_apoyanos = new Menu(this);
