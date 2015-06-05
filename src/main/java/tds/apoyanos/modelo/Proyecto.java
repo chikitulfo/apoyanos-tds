@@ -193,7 +193,9 @@ public class Proyecto {
             Collections.sort(recompensas);
             this.registrarPersistencia();
             for (Recompensa r : recompensas) {
-                r.registrarPersistencia();}
+                r.registrarPersistencia();
+            }
+            this.actualizarPersistencia();
             return true;
         }
         else {
