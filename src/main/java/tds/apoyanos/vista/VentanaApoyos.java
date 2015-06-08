@@ -27,8 +27,7 @@ public class VentanaApoyos extends JFrame {
 	private LinkedList<Apoyo> listaApoyos = (LinkedList<Apoyo>) controlador.getApoyos();
 	
 	public VentanaApoyos() {
-		setResizable(true);
-		setExtendedState(JFrame.MAXIMIZED_BOTH); 
+		setResizable(false);
 		setDefaultCloseOperation(HIDE_ON_CLOSE);
 		getContentPane().setBackground(SystemColor.window);
 		
@@ -79,6 +78,7 @@ public class VentanaApoyos extends JFrame {
 		setTitle("Apóyanos - Tu plataforma crowdfunding para lanzar tus proyectos.");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 1024, 600);
+		setLocationRelativeTo(null);
 
 		///MENU
 		menu_apoyanos = new Menu(this);

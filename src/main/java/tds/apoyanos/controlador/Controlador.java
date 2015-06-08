@@ -81,6 +81,10 @@ public final class Controlador implements IFinanciacionListener {
     public boolean esCreado(String nombreProyecto){
         return catalogoProyectos.esRegistrado(nombreProyecto);
     }
+    
+    public Proyecto getProyecto(String nombreProyecto){
+        return catalogoProyectos.getProyecto(nombreProyecto);
+    }
 
     public boolean crearProyecto (String nombre, String descripcion, double cantidadMinima,
                                   GregorianCalendar plazoFinanciacion, String categoria,

@@ -14,9 +14,6 @@ import javax.swing.table.DefaultTableModel;
 import tds.apoyanos.controlador.Controlador;
 import tds.apoyanos.modelo.Proyecto;
 
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-
 @SuppressWarnings("serial")
 public class VentanaInfoProyecto extends JFrame {
 	private JTextField textTitulo;
@@ -38,9 +35,10 @@ public class VentanaInfoProyecto extends JFrame {
 	private Controlador controlador = Controlador.getUnicaInstancia();
 	
 	
-	public VentanaInfoProyecto() {
-		setResizable(true);
-		setExtendedState(JFrame.MAXIMIZED_BOTH); 
+	public VentanaInfoProyecto(String nombreProyecto) {
+		proyecto = controlador.getProyecto(nombreProyecto);
+		
+		setResizable(false);
 		setDefaultCloseOperation(HIDE_ON_CLOSE);
 		getContentPane().setBackground(SystemColor.window);
 		getContentPane().setLayout(null);
@@ -246,6 +244,7 @@ public class VentanaInfoProyecto extends JFrame {
 		setTitle("Apóyanos - Tu plataforma crowdfunding para lanzar tus proyectos.");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 1024, 600);
+		setLocationRelativeTo(null);
 		
 		///MENU
 		menu_apoyanos = new Menu(this);

@@ -20,8 +20,7 @@ public class VentanaNotificaciones extends JFrame {
 
 	
 	public VentanaNotificaciones() {
-		setResizable(true);
-		setExtendedState(JFrame.MAXIMIZED_BOTH); 
+		setResizable(false);
 		setDefaultCloseOperation(HIDE_ON_CLOSE);
 		getContentPane().setBackground(SystemColor.window);
 		getContentPane().setBackground(Color.WHITE);
@@ -97,6 +96,7 @@ public class VentanaNotificaciones extends JFrame {
 		setTitle("Apóyanos - Tu plataforma crowdfunding para lanzar tus proyectos.");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 1024, 600);
+		setLocationRelativeTo(null);
 		
 		///MENU
 		menu_apoyanos = new Menu(this);

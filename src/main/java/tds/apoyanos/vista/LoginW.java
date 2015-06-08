@@ -4,6 +4,7 @@ package tds.apoyanos.vista;
 import tds.apoyanos.controlador.Controlador;
 
 import javax.swing.*;
+
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -81,6 +82,7 @@ public class LoginW {
 		btnRegistro = new JButton("Registro"); fixedSize(btnRegistro,100,30);
 		btnRegistro.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e) {
+					@SuppressWarnings("unused")
 					JPanel panelRegistro = new RegistroW(frame);
 			}
 		});

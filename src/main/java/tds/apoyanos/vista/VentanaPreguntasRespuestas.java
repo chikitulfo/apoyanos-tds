@@ -33,12 +33,12 @@ public class VentanaPreguntasRespuestas extends JFrame {
 
 	
 	public VentanaPreguntasRespuestas() {
-		setResizable(true);
-		setExtendedState(JFrame.MAXIMIZED_BOTH); 
+		setResizable(false);
 		setDefaultCloseOperation(HIDE_ON_CLOSE);
 		getContentPane().setBackground(SystemColor.window);
 		getContentPane().setLayout(null);
 		setBounds(6,6,1024,480);
+		setLocationRelativeTo(null);
 		
 		JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
 		tabbedPane.setBounds(6, 6, 1012, 480);

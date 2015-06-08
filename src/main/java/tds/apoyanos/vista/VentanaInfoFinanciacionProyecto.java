@@ -36,13 +36,14 @@ public class VentanaInfoFinanciacionProyecto extends JFrame {
 	private DecimalFormat formatoDecimal = new DecimalFormat("#.##");
 	
 	private Controlador controlador = Controlador.getUnicaInstancia();
-	//private Proyecto proyecto;
+	private Proyecto proyecto;
 
 
 	
-	public VentanaInfoFinanciacionProyecto(Proyecto proyecto) {
-		setResizable(true);
-		setExtendedState(JFrame.MAXIMIZED_BOTH); 
+	public VentanaInfoFinanciacionProyecto(String nombreProyecto) {
+		proyecto = controlador.getProyecto(nombreProyecto);
+		
+		setResizable(false);
 		setDefaultCloseOperation(HIDE_ON_CLOSE);
 		getContentPane().setBackground(SystemColor.window);
 		getContentPane().setLayout(null);
@@ -259,7 +260,7 @@ public class VentanaInfoFinanciacionProyecto extends JFrame {
 		setTitle("Apóyanos - Tu plataforma crowdfunding para lanzar tus proyectos.");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 1024, 600);
-		
+		setLocationRelativeTo(null);
 		//Menú
 		menu_apoyanos = new Menu(this);
 		
