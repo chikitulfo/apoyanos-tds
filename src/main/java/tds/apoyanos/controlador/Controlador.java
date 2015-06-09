@@ -1,11 +1,8 @@
 package tds.apoyanos.controlador;
 
-import tds.apoyanos.Config;
 import tds.apoyanos.exceptions.InvalidArgumentException;
 import tds.apoyanos.exceptions.InvalidStateException;
 import tds.apoyanos.modelo.*;
-import tds.apoyanos.persistencia.DAOException;
-import tds.apoyanos.persistencia.FactoriaDAO;
 import tds.apoyanos.vista.RecompensaVista;
 import umu.tds.cargador.ComponenteCargadorFinanciacion;
 import umu.tds.cargador.FinanciacionEvent;
@@ -45,11 +42,7 @@ public final class Controlador implements IFinanciacionListener {
         if (catalogoUsuarios.esRegistrado(login)) return false;
 
         Usuario usuario = new Usuario(nombre,apellidos,dni,email,login,password);
-        try {
-            FactoriaDAO.getFactoriaDAO(Config.TipoDAO).getUsuarioDAO().registrar(usuario);
-        } catch (DAOException e) {
-            e.printStackTrace();
-        }
+        usuario.registrarPersistencia();
         catalogoUsuarios.addUsuario(usuario);
         return true;
 	}

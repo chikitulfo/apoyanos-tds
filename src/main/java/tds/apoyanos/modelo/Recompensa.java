@@ -31,7 +31,7 @@ public class Recompensa implements Comparable<Recompensa>{
 
     public Recompensa (String nombre, String descripcion, Proyecto proyecto, double cantidadMinima, int maximoParticipantes){
         this(nombre, descripcion, proyecto, cantidadMinima);
-        this.maximoParticipantes=maximoParticipantes;
+        this.maximoParticipantes = maximoParticipantes;
     }
 
     public int getId() {

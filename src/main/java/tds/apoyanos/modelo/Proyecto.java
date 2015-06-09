@@ -53,17 +53,6 @@ public class Proyecto {
 
     }
 
-    public void addVoto() throws InvalidStateException {
-        if (estado == Estado.VOTACION) {
-            this.numvotos++;
-            if (numvotos >= Config.VOTOS_NECESARIOS) {
-                estado = Estado.FINANCIACION;
-            }
-        } else {
-            throw new InvalidStateException("El proyecto no está en fase de votación");
-        }
-    }
-
     public int getId() {
         return id;
     }
@@ -167,6 +156,17 @@ public class Proyecto {
 
     public boolean esCancelado() {
         return estado == Estado.CANCELADO;
+    }
+
+    public void addVoto() throws InvalidStateException {
+        if (estado == Estado.VOTACION) {
+            this.numvotos++;
+            if (numvotos >= Config.VOTOS_NECESARIOS) {
+                estado = Estado.FINANCIACION;
+            }
+        } else {
+            throw new InvalidStateException("El proyecto no está en fase de votación");
+        }
     }
 
     public boolean addRecompensa(String nombre, String descripcion, double cantidadMinima, int maximoParticipantes){
