@@ -1,6 +1,8 @@
 package tds.apoyanos.modelo;
 
 
+import tds.apoyanos.exceptions.InvalidArgumentException;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -25,7 +27,7 @@ public enum Categoria {
     }
 
 
-    public static Categoria valueOfNombre(String nombre) {
+    public static Categoria valueOfNombre(String nombre) throws InvalidArgumentException {
         synchronized(Categoria.class) {
             if (map == null) {
                 map = new HashMap();
@@ -36,7 +38,7 @@ public enum Categoria {
         }
         Categoria result = map.get(nombre);
         if (result == null) {
-            throw new IllegalArgumentException(
+            throw new InvalidArgumentException(
                     "No enum const " + Categoria.class + "@nombre." + nombre);
         }
         return result;

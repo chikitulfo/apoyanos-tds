@@ -3,6 +3,7 @@ package tds.apoyanos.persistencia;
 
 import beans.Entidad;
 import beans.Propiedad;
+import tds.apoyanos.exceptions.InvalidArgumentException;
 import tds.apoyanos.modelo.Categoria;
 import tds.apoyanos.modelo.Proyecto;
 import tds.apoyanos.modelo.Recompensa;
@@ -113,7 +114,11 @@ public class H2ProyectoDAO implements ProyectoDAO {
             String estado = servPersistencia.recuperarPropiedadEntidad(eProyecto, "estado");
             String categoria = servPersistencia.recuperarPropiedadEntidad(eProyecto, "categoria");
             // Se crea el proyecto con los atributos actuales
-            proyecto = new Proyecto(nombre, descripcion, null, Double.parseDouble(cantMinima), cplazo, Categoria.valueOfNombre(categoria));
+            try {
+                proyecto = new Proyecto(nombre, descripcion, null, Double.parseDouble(cantMinima), cplazo, Categoria.valueOfNombre(categoria));
+            } catch (InvalidArgumentException e) {
+                e.printStackTrace();
+            }
             proyecto.setId(id);
             proyecto.setEstado(Proyecto.Estado.valueOf(estado));
             proyecto.setNumvotos(Integer.parseInt(numvotos));

@@ -144,7 +144,7 @@ public final class Controlador implements IFinanciacionListener {
      * Devuelve los proyectos de categoría categoria que están en fase de votación.
      * @return Lista de proyectos en fase de votación de la categoría.
      */
-    public List<Proyecto> getProyectosEnVotacion(String categoria){
+    public List<Proyecto> getProyectosEnVotacion(String categoria) throws InvalidArgumentException {
         Categoria cat = Categoria.valueOfNombre(categoria);
         return catalogoProyectos.getProyectosVotacion(cat);
     }
@@ -161,7 +161,7 @@ public final class Controlador implements IFinanciacionListener {
      * Devuelve los proyectos de categoría categoria que están en fase de financiación.
      * @return Lista de proyectos en fase de financiación de la categoría.
      */
-    public List<Proyecto> getProyectosEnFinanciacion(String categoria){
+    public List<Proyecto> getProyectosEnFinanciacion(String categoria) throws InvalidArgumentException {
         Categoria cat = Categoria.valueOfNombre(categoria);
         return catalogoProyectos.getProyectosFinanciacion(cat);
     }
