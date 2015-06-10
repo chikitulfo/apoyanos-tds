@@ -17,6 +17,8 @@ import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
+import tds.apoyanos.exceptions.InvalidArgumentException;
+
 //import java.awt.event.MouseAdapter;
 //import java.awt.event.MouseEvent;
 
@@ -51,10 +53,17 @@ public class Menu {
                 JMenuItem mntmTodos = new JMenuItem("Todos");
                 mntmTodos.addActionListener(new ActionListener() {
                     public void actionPerformed(ActionEvent arg0) {
-                        VentanaPrincipalApoyanos ventanaPrincipal = new VentanaPrincipalApoyanos("Votación","Todos");
-                        ventanaPrincipal.setVisible(true);
-                        jf.setVisible(false); //you can't see me!
-                        jf.dispose(); //Destroy the JFrame object
+                        VentanaPrincipalApoyanos ventanaPrincipal;
+						try {
+							ventanaPrincipal = new VentanaPrincipalApoyanos("Votación","Todos");
+	                        ventanaPrincipal.setVisible(true);
+	                        jf.setVisible(false); //you can't see me!
+	                        jf.dispose(); //Destroy the JFrame object
+						} catch (InvalidArgumentException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+
                     }
                 });
                 mnProyectosEnVotacion.add(mntmTodos);
@@ -62,10 +71,17 @@ public class Menu {
                 JMenuItem mntmMusica = new JMenuItem("Música");
                 mntmMusica.addActionListener(new ActionListener() {
                     public void actionPerformed(ActionEvent arg0) {
-                        VentanaPrincipalApoyanos ventanaPrincipal = new VentanaPrincipalApoyanos("Votación","Música");
-                        ventanaPrincipal.setVisible(true);
-                        jf.setVisible(false); //you can't see me!
-                        jf.dispose(); //Destroy the JFrame object
+                        VentanaPrincipalApoyanos ventanaPrincipal;
+						try {
+							ventanaPrincipal = new VentanaPrincipalApoyanos("Votación","Música");
+	                        ventanaPrincipal.setVisible(true);
+	                        jf.setVisible(false); //you can't see me!
+	                        jf.dispose(); //Destroy the JFrame object
+						} catch (InvalidArgumentException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+
                     }
                 });
                 mnProyectosEnVotacion.add(mntmMusica);
@@ -74,10 +90,16 @@ public class Menu {
                 JMenuItem mntmLibros = new JMenuItem("Libros");
                 mntmLibros.addActionListener(new ActionListener() {
                     public void actionPerformed(ActionEvent arg0) {
-                        VentanaPrincipalApoyanos ventanaPrincipal = new VentanaPrincipalApoyanos("Votación","Libros");
-                        ventanaPrincipal.setVisible(true);
-                        jf.setVisible(false); //you can't see me!
-                        jf.dispose(); //Destroy the JFrame object
+                        VentanaPrincipalApoyanos ventanaPrincipal;
+						try {
+							ventanaPrincipal = new VentanaPrincipalApoyanos("Votación","Libros");
+	                        ventanaPrincipal.setVisible(true);
+	                        jf.setVisible(false); //you can't see me!
+	                        jf.dispose(); //Destroy the JFrame object
+						} catch (InvalidArgumentException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
                     }
                 });
                 mnProyectosEnVotacion.add(mntmLibros);
@@ -85,10 +107,17 @@ public class Menu {
                 JMenuItem mntmCine = new JMenuItem("Cine");
                 mntmCine.addActionListener(new ActionListener() {
                     public void actionPerformed(ActionEvent arg0) {
-                        VentanaPrincipalApoyanos ventanaPrincipal = new VentanaPrincipalApoyanos("Votación","Cine");
-                        ventanaPrincipal.setVisible(true);
-                        jf.setVisible(false); //you can't see me!
-                        jf.dispose(); //Destroy the JFrame object
+                        VentanaPrincipalApoyanos ventanaPrincipal;
+						try {
+							ventanaPrincipal = new VentanaPrincipalApoyanos("Votación","Cine");
+	                        ventanaPrincipal.setVisible(true);
+	                        jf.setVisible(false); //you can't see me!
+	                        jf.dispose(); //Destroy the JFrame object
+						} catch (InvalidArgumentException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+
                     }
                 });
                 mnProyectosEnVotacion.add(mntmCine);
@@ -96,10 +125,17 @@ public class Menu {
                 JMenuItem mntmSocial = new JMenuItem("Social");
                 mntmSocial.addActionListener(new ActionListener() {
                     public void actionPerformed(ActionEvent arg0) {
-                        VentanaPrincipalApoyanos ventanaPrincipal = new VentanaPrincipalApoyanos("Votación","Social");
-                        ventanaPrincipal.setVisible(true);
-                        jf.setVisible(false); //you can't see me!
-                        jf.dispose(); //Destroy the JFrame object
+                        VentanaPrincipalApoyanos ventanaPrincipal;
+						try {
+							ventanaPrincipal = new VentanaPrincipalApoyanos("Votación","Social");
+	                        ventanaPrincipal.setVisible(true);
+	                        jf.setVisible(false); //you can't see me!
+	                        jf.dispose(); //Destroy the JFrame object
+						} catch (InvalidArgumentException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+
                     }
                 });
                 mnProyectosEnVotacion.add(mntmSocial);
@@ -107,10 +143,17 @@ public class Menu {
                 JMenuItem mntmSoftware = new JMenuItem("Software");
                 mntmSoftware.addActionListener(new ActionListener() {
                     public void actionPerformed(ActionEvent arg0) {
-                        VentanaPrincipalApoyanos ventanaPrincipal = new VentanaPrincipalApoyanos("Votación","Software");
-                        ventanaPrincipal.setVisible(true);
-                        jf.setVisible(false); //you can't see me!
-                        jf.dispose(); //Destroy the JFrame object
+                        VentanaPrincipalApoyanos ventanaPrincipal;
+						try {
+							ventanaPrincipal = new VentanaPrincipalApoyanos("Votación","Software");
+	                        ventanaPrincipal.setVisible(true);
+	                        jf.setVisible(false); //you can't see me!
+	                        jf.dispose(); //Destroy the JFrame object
+						} catch (InvalidArgumentException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+
                     }
                 });
                 mnProyectosEnVotacion.add(mntmSoftware);
@@ -118,10 +161,17 @@ public class Menu {
                 JMenuItem mntmDeportes = new JMenuItem("Deportes");
                 mntmDeportes.addActionListener(new ActionListener() {
                     public void actionPerformed(ActionEvent arg0) {
-                        VentanaPrincipalApoyanos ventanaPrincipal = new VentanaPrincipalApoyanos("Votación","Deportes");
-                        ventanaPrincipal.setVisible(true);
-                        jf.setVisible(false); //you can't see me!
-                        jf.dispose(); //Destroy the JFrame object
+                        VentanaPrincipalApoyanos ventanaPrincipal;
+						try {
+							ventanaPrincipal = new VentanaPrincipalApoyanos("Votación","Deportes");
+	                        ventanaPrincipal.setVisible(true);
+	                        jf.setVisible(false); //you can't see me!
+	                        jf.dispose(); //Destroy the JFrame object
+						} catch (InvalidArgumentException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+
                     }
                 });
                 mnProyectosEnVotacion.add(mntmDeportes);
@@ -132,10 +182,17 @@ public class Menu {
                 JMenuItem mntmTodosV = new JMenuItem("Todos");
                 mntmTodosV.addActionListener(new ActionListener() {
                     public void actionPerformed(ActionEvent arg0) {
-                        VentanaPrincipalApoyanos ventanaPrincipal = new VentanaPrincipalApoyanos("Financiación","Todos");
-                        ventanaPrincipal.setVisible(true);
-                        jf.setVisible(false); //you can't see me!
-                        jf.dispose(); //Destroy the JFrame object
+                        VentanaPrincipalApoyanos ventanaPrincipal;
+						try {
+							ventanaPrincipal = new VentanaPrincipalApoyanos("Financiación","Todos");
+	                        ventanaPrincipal.setVisible(true);
+	                        jf.setVisible(false); //you can't see me!
+	                        jf.dispose(); //Destroy the JFrame object
+						} catch (InvalidArgumentException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+
                     }
                 });
                 mnProyectosEnFinanciacion.add(mntmTodosV);
@@ -143,10 +200,17 @@ public class Menu {
                 JMenuItem mntmMusicaV = new JMenuItem("Música");
                 mntmMusicaV.addActionListener(new ActionListener() {
                     public void actionPerformed(ActionEvent arg0) {
-                        VentanaPrincipalApoyanos ventanaPrincipal = new VentanaPrincipalApoyanos("Financiación","Música");
-                        ventanaPrincipal.setVisible(true);
-                        jf.setVisible(false); //you can't see me!
-                        jf.dispose(); //Destroy the JFrame object
+                        VentanaPrincipalApoyanos ventanaPrincipal;
+						try {
+							ventanaPrincipal = new VentanaPrincipalApoyanos("Financiación","Música");
+	                        ventanaPrincipal.setVisible(true);
+	                        jf.setVisible(false); //you can't see me!
+	                        jf.dispose(); //Destroy the JFrame object
+						} catch (InvalidArgumentException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+
                     }
                 });
                 mnProyectosEnFinanciacion.add(mntmMusicaV);
@@ -154,10 +218,17 @@ public class Menu {
                 JMenuItem mntmLibrosV = new JMenuItem("Libros");
                 mntmLibrosV.addActionListener(new ActionListener() {
                     public void actionPerformed(ActionEvent arg0) {
-                        VentanaPrincipalApoyanos ventanaPrincipal = new VentanaPrincipalApoyanos("Financiación","Libros");
-                        ventanaPrincipal.setVisible(true);
-                        jf.setVisible(false); //you can't see me!
-                        jf.dispose(); //Destroy the JFrame object
+                        VentanaPrincipalApoyanos ventanaPrincipal;
+						try {
+							ventanaPrincipal = new VentanaPrincipalApoyanos("Financiación","Libros");
+	                        ventanaPrincipal.setVisible(true);
+	                        jf.setVisible(false); //you can't see me!
+	                        jf.dispose(); //Destroy the JFrame object
+						} catch (InvalidArgumentException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+
                     }
                 });
                 mnProyectosEnFinanciacion.add(mntmLibrosV);
@@ -165,10 +236,17 @@ public class Menu {
                 JMenuItem mntmCineV = new JMenuItem("Cine");
                 mntmCineV.addActionListener(new ActionListener() {
                     public void actionPerformed(ActionEvent arg0) {
-                        VentanaPrincipalApoyanos ventanaPrincipal = new VentanaPrincipalApoyanos("Financiación","Cine");
-                        ventanaPrincipal.setVisible(true);
-                        jf.setVisible(false); //you can't see me!
-                        jf.dispose(); //Destroy the JFrame object
+                        VentanaPrincipalApoyanos ventanaPrincipal;
+						try {
+							ventanaPrincipal = new VentanaPrincipalApoyanos("Financiación","Cine");
+	                        ventanaPrincipal.setVisible(true);
+	                        jf.setVisible(false); //you can't see me!
+	                        jf.dispose(); //Destroy the JFrame object
+						} catch (InvalidArgumentException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+
                     }
                 });
                 mnProyectosEnFinanciacion.add(mntmCineV);
@@ -176,10 +254,16 @@ public class Menu {
                 JMenuItem mntmSocialV = new JMenuItem("Social");
                 mntmSocialV.addActionListener(new ActionListener() {
                     public void actionPerformed(ActionEvent arg0) {
-                        VentanaPrincipalApoyanos ventanaPrincipal = new VentanaPrincipalApoyanos("Financiación","Social");
-                        ventanaPrincipal.setVisible(true);
-                        jf.setVisible(false); //you can't see me!
-                        jf.dispose(); //Destroy the JFrame object
+                        VentanaPrincipalApoyanos ventanaPrincipal;
+						try {
+							ventanaPrincipal = new VentanaPrincipalApoyanos("Financiación","Social");
+	                        ventanaPrincipal.setVisible(true);
+	                        jf.setVisible(false); //you can't see me!
+	                        jf.dispose(); //Destroy the JFrame object
+						} catch (InvalidArgumentException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
                     }
                 });
                 mnProyectosEnFinanciacion.add(mntmSocialV);
@@ -187,10 +271,17 @@ public class Menu {
                 JMenuItem mntmSoftwareV = new JMenuItem("Software");
                 mntmSoftwareV.addActionListener(new ActionListener() {
                     public void actionPerformed(ActionEvent arg0) {
-                        VentanaPrincipalApoyanos ventanaPrincipal = new VentanaPrincipalApoyanos("Financiación","Software");
-                        ventanaPrincipal.setVisible(true);
-                        jf.setVisible(false); //you can't see me!
-                        jf.dispose(); //Destroy the JFrame object
+                        VentanaPrincipalApoyanos ventanaPrincipal;
+						try {
+							ventanaPrincipal = new VentanaPrincipalApoyanos("Financiación","Software");
+	                        ventanaPrincipal.setVisible(true);
+	                        jf.setVisible(false); //you can't see me!
+	                        jf.dispose(); //Destroy the JFrame object
+						} catch (InvalidArgumentException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+
                     }
                 });
                 mnProyectosEnFinanciacion.add(mntmSoftwareV);
@@ -198,10 +289,17 @@ public class Menu {
                 JMenuItem mntmDeportesV = new JMenuItem("Deportes");
                 mntmDeportesV.addActionListener(new ActionListener() {
                     public void actionPerformed(ActionEvent arg0) {
-                        VentanaPrincipalApoyanos ventanaPrincipal = new VentanaPrincipalApoyanos("Financiación","Deportes");
-                        ventanaPrincipal.setVisible(true);
-                        jf.setVisible(false); //you can't see me!
-                        jf.dispose(); //Destroy the JFrame object
+                        VentanaPrincipalApoyanos ventanaPrincipal;
+						try {
+							ventanaPrincipal = new VentanaPrincipalApoyanos("Financiación","Deportes");
+	                        ventanaPrincipal.setVisible(true);
+	                        jf.setVisible(false); //you can't see me!
+	                        jf.dispose(); //Destroy the JFrame object
+						} catch (InvalidArgumentException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+
                     }
                 });
                 mnProyectosEnFinanciacion.add(mntmDeportesV);

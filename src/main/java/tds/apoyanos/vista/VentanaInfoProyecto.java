@@ -194,10 +194,17 @@ public class VentanaInfoProyecto extends JFrame {
 						e1.printStackTrace();
 					}
 					//Ir al listado de proyectos en financiación
-                    VentanaPrincipalApoyanos ventanaPrincipal = new VentanaPrincipalApoyanos("Votación","Todos");
-                    ventanaPrincipal.setVisible(true);
-                    setVisible(false); //you can't see me!
-                    dispose(); //Destroy the JFrame object
+                    VentanaPrincipalApoyanos ventanaPrincipal;
+					try {
+						ventanaPrincipal = new VentanaPrincipalApoyanos("Votación","Todos");
+	                    ventanaPrincipal.setVisible(true);
+	                    setVisible(false); //you can't see me!
+	                    dispose(); //Destroy the JFrame object
+					} catch (InvalidArgumentException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+
 				}
 			}
 		});

@@ -33,11 +33,11 @@ public class VentanaPrincipalApoyanos extends JFrame {
 	private LinkedList<Proyecto> listaProyectos;
 //	private Proyecto proyecto;
 	
-	public VentanaPrincipalApoyanos(){
+	public VentanaPrincipalApoyanos() throws InvalidArgumentException{
 		this("Votación", "Todos");
 	}
 	
-	public VentanaPrincipalApoyanos(String faseP, String categoriaP) {
+	public VentanaPrincipalApoyanos(String faseP, String categoriaP) throws InvalidArgumentException {
 		fase=faseP;
 		categoria=categoriaP;
 		
@@ -59,7 +59,7 @@ public class VentanaPrincipalApoyanos extends JFrame {
 			if (categoria.equals("Todos")){
 				listaProyectos = (LinkedList<Proyecto>) controlador.getProyectosEnVotacion();
 			} else {
-				listaProyectos = (LinkedList<Proyecto>) controlador.getProyectosEnVotacion(categoria);
+					listaProyectos = (LinkedList<Proyecto>) controlador.getProyectosEnVotacion(categoria);
 			}
 			///////////////////////////////////TABLA
 			tbListadoProyectosVotacion = new JTable();
@@ -74,7 +74,8 @@ public class VentanaPrincipalApoyanos extends JFrame {
 			if (categoria.equals("Todos")){
 				listaProyectos = (LinkedList<Proyecto>) controlador.getProyectosEnFinanciacion();
 			} else {
-				listaProyectos = (LinkedList<Proyecto>) controlador.getProyectosEnFinanciacion(categoria);
+
+					listaProyectos = (LinkedList<Proyecto>) controlador.getProyectosEnFinanciacion(categoria);
 			}
 			///////////////////////////////////TABLA
 			tbListadoProyectosFinanciacion = new JTable();
