@@ -10,7 +10,10 @@ import java.util.LinkedList;
 //import javax.swing.table.DefaultTableModel;
 
 
+
+
 import tds.apoyanos.controlador.Controlador;
+import tds.apoyanos.exceptions.InvalidArgumentException;
 import tds.apoyanos.modelo.Proyecto;
 
 @SuppressWarnings("serial")
@@ -19,8 +22,8 @@ public class VentanaPrincipalApoyanos extends JFrame {
 	private Menu menu_apoyanos;
 	private Controlador controlador = Controlador.getUnicaInstancia();
 	
-	private String fase="VOTACIÓN";
-	private String categoria = "TODOS";
+	private String fase="Votación";
+	private String categoria = "Todos";
 	
 	private ModeloTabla modeloVistaVotacion;
 	private ModeloTabla modeloVistaFinanciacion;
@@ -31,7 +34,7 @@ public class VentanaPrincipalApoyanos extends JFrame {
 //	private Proyecto proyecto;
 	
 	public VentanaPrincipalApoyanos(){
-		this("VOTACIÓN", "TODOS");
+		this("Votación", "Todos");
 	}
 	
 	public VentanaPrincipalApoyanos(String faseP, String categoriaP) {
@@ -52,7 +55,7 @@ public class VentanaPrincipalApoyanos extends JFrame {
 		getContentPane().add(scrollPane);
 		
 		
-		if (fase.equals("VOTACIÓN")){
+		if (fase.equals("Votación")){
 			if (categoria.equals("Todos")){
 				listaProyectos = (LinkedList<Proyecto>) controlador.getProyectosEnVotacion();
 			} else {
@@ -62,7 +65,7 @@ public class VentanaPrincipalApoyanos extends JFrame {
 			tbListadoProyectosVotacion = new JTable();
 			tbListadoProyectosVotacion.setRowSelectionAllowed(true);
 			tbListadoProyectosVotacion.setSelectionBackground(SystemColor.inactiveCaptionText);
-			tbListadoProyectosVotacion.setName("Listado de proyectos en votación.");
+			tbListadoProyectosVotacion.setName("Listado de proyectos en Votación.");
 			tbListadoProyectosVotacion.setGridColor(Color.LIGHT_GRAY);
 			scrollPane.setViewportView(tbListadoProyectosVotacion);
 			vistaTablaVotacion();
@@ -97,15 +100,25 @@ public class VentanaPrincipalApoyanos extends JFrame {
 		getContentPane().add(lbTitulo);
 		
 		JButton btnMasInfo = new JButton("Más Información");
+		btnMasInfo.setEnabled(true);
+		if (listaProyectos.isEmpty())
+			btnMasInfo.setEnabled(false);
+		
+		
 		btnMasInfo.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if (fase.equals("VOTACIÓN")){
+				if (fase.equals("Votación")){
 					DefaultTableModel dtm = (DefaultTableModel) tbListadoProyectosVotacion.getModel(); 
 					String nombreProyecto = String.valueOf(dtm.getValueAt(tbListadoProyectosVotacion.getSelectedRow(),0));
-                    VentanaInfoProyecto ventanaInfo = new VentanaInfoProyecto(nombreProyecto);
-                    ventanaInfo.setVisible(true);
-                    setVisible(false); //you can't see me!
-                    dispose(); //Destroy the JFrame object
+					try {
+						VentanaInfoProyecto ventanaInfo = new VentanaInfoProyecto(nombreProyecto);
+	                    ventanaInfo.setVisible(true);
+	                    setVisible(false); //you can't see me!
+	                    dispose(); //Destroy the JFrame object
+					} catch (InvalidArgumentException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
 				} else {
 					DefaultTableModel dtm = (DefaultTableModel) tbListadoProyectosFinanciacion.getModel(); 
 					String nombreProyecto = String.valueOf(dtm.getValueAt(tbListadoProyectosFinanciacion.getSelectedRow(),0));
@@ -136,6 +149,7 @@ public class VentanaPrincipalApoyanos extends JFrame {
 		
 	}
 	
+	@SuppressWarnings("unused")
 	private void probarListado() {		
 		for (Proyecto p : listaProyectos) {
 			System.out.print(p.getNombre()+"\n");
@@ -191,7 +205,7 @@ public class VentanaPrincipalApoyanos extends JFrame {
 				try {
 					objProyecto[0] = p.getNombre();
 					objProyecto[1] = p.getDescripcion();
-					objProyecto[2] = p.getDiasRestantes(); //PERO PARA PROYECTOS YA EN FINANCIACIÓN
+					objProyecto[2] = p.getDiasRestantes(); //PERO PARA PROYECTOS YA EN Financiación
 					objProyecto[3] = p.getCantidadRecaudada();
 					objProyecto[4] = Math.abs(p.getCantidadRecaudada()*100./p.getCantidadMinima());
 					

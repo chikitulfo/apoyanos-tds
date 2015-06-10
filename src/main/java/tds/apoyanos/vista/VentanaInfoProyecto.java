@@ -7,12 +7,22 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
+import java.util.Collection;
 
-import javax.swing.border.BevelBorder;
-import javax.swing.table.DefaultTableModel;
+//import javax.swing.border.BevelBorder;
+//import javax.swing.table.DefaultTableModel;
+
+
+
+
 
 import tds.apoyanos.controlador.Controlador;
-import tds.apoyanos.modelo.Proyecto;
+import tds.apoyanos.exceptions.InvalidArgumentException;
+import tds.apoyanos.exceptions.InvalidStateException;
+import tds.apoyanos.modelo.*;
+
+import javax.swing.border.LineBorder;
+import javax.swing.table.DefaultTableModel;
 
 @SuppressWarnings("serial")
 public class VentanaInfoProyecto extends JFrame {
@@ -22,25 +32,32 @@ public class VentanaInfoProyecto extends JFrame {
 	private JTextField textCategoria;
 	private JTextField textRestan;
 	private JTextField textVotos;
-	private JTable table;
-	private JTable table_1;
+	private JTable tbRecompensas;
+	private JTextArea textDescripcion;
+	private ModeloTabla modeloVistaRecompensa;
+	private Collection<Recompensa> listaRecompensas;
+	
 	@SuppressWarnings("unused")
 	private Menu menu_apoyanos;
-
-	private SimpleDateFormat fechaDia = new SimpleDateFormat("dd/MM/yyyy");
-	private SimpleDateFormat fechaHora = new SimpleDateFormat("HH:mm");
+	
+	private SimpleDateFormat fechaDia = new SimpleDateFormat("dd-MMM-yyyy");
+//	private SimpleDateFormat fechaHora = new SimpleDateFormat("HH:mm");
 	private DecimalFormat formatoDecimal = new DecimalFormat("#.##");
 
 	private Proyecto proyecto;
 	private Controlador controlador = Controlador.getUnicaInstancia();
 	
 	
-	public VentanaInfoProyecto(String nombreProyecto) {
+	public VentanaInfoProyecto(final String nombreProyecto) throws InvalidArgumentException {
 		proyecto = controlador.getProyecto(nombreProyecto);
+		listaRecompensas = proyecto.getRecompensas();
+		
+		boolean mismoUsuario=controlador.getUsuario().getId()==proyecto.getCreador().getId();
+		
 		
 		setResizable(false);
 		setDefaultCloseOperation(HIDE_ON_CLOSE);
-		getContentPane().setBackground(SystemColor.window);
+		getContentPane().setBackground(Color.WHITE);
 		getContentPane().setLayout(null);
 		
 		JLabel lbTitulo = new JLabel("Título del Proyecto:");
@@ -55,7 +72,7 @@ public class VentanaInfoProyecto extends JFrame {
 		
 		textTitulo = new JTextField();
 		textTitulo.setEditable(false);
-		textTitulo.setForeground(Color.GRAY);
+		textTitulo.setForeground(Color.DARK_GRAY);
 		//textTitulo.setText("La leja de la mesa");
 		textTitulo.setText(proyecto.getNombre());
 		textTitulo.setBounds(110, 48, 880, 28);
@@ -63,16 +80,15 @@ public class VentanaInfoProyecto extends JFrame {
 		textTitulo.setColumns(10);
 		
 		JTextArea textrDescripcion = new JTextArea();
+		textrDescripcion.setBorder(new LineBorder(Color.LIGHT_GRAY, 2));
 		textrDescripcion.setLineWrap(true);
-		textrDescripcion.setForeground(Color.GRAY);
+		textrDescripcion.setForeground(Color.DARK_GRAY);
 		textrDescripcion.setEditable(false);
 		textrDescripcion.setWrapStyleWord(true);
-		//textrDescripcion.setText("Este proyecto es una película del famoso director de cine Fuman Chú de los chú de toa la vida de Diós. En ella nos cuenta su vida desde su más tierna infancia hasta la maduréz y de cómo lo único que comió caliente de pequeño fue cuando se cayó de boca al brasero con el taca-tá.");
 		textrDescripcion.setText(proyecto.getDescripcion());
 		textrDescripcion.setRows(10);
 		textrDescripcion.setPreferredSize(new Dimension(375, 16));
 		textrDescripcion.setMinimumSize(new Dimension(300, 50));
-		textrDescripcion.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
 		textrDescripcion.setBounds(110, 100, 375, 164);
 		getContentPane().add(textrDescripcion);
 		
@@ -83,10 +99,9 @@ public class VentanaInfoProyecto extends JFrame {
 		
 		textFechaFin = new JTextField();
 		textFechaFin.setEditable(false);
-		textFechaFin.setForeground(Color.GRAY);
+		textFechaFin.setForeground(Color.DARK_GRAY);
 		textFechaFin.setHorizontalAlignment(SwingConstants.CENTER);
-		//textFechaFin.setText("27/04/2015");
-		textFechaFin.setText(fechaDia.format(proyecto.getPlazoFinanciacion()));
+		textFechaFin.setText(fechaDia.format(proyecto.getPlazoFinanciacion().getTime()));
 		textFechaFin.setColumns(10);
 		textFechaFin.setBounds(110, 294, 150, 28);
 		getContentPane().add(textFechaFin);
@@ -98,7 +113,7 @@ public class VentanaInfoProyecto extends JFrame {
 		
 		textImporte = new JTextField();
 		textImporte.setEditable(false);
-		textImporte.setForeground(Color.GRAY);
+		textImporte.setForeground(Color.DARK_GRAY);
 		textImporte.setHorizontalAlignment(SwingConstants.CENTER);
 		textImporte.setText((String.valueOf(formatoDecimal.format(proyecto.getCantidadMinima()))) + " €.");
 		textImporte.setColumns(10);
@@ -112,7 +127,7 @@ public class VentanaInfoProyecto extends JFrame {
 		
 		textCategoria = new JTextField();
 		textCategoria.setEditable(false);
-		textCategoria.setForeground(Color.GRAY);
+		textCategoria.setForeground(Color.DARK_GRAY);
 		textCategoria.setHorizontalAlignment(SwingConstants.CENTER);
 		textCategoria.setText(proyecto.getCategoria().getNombre());
 		textCategoria.setColumns(10);
@@ -128,7 +143,7 @@ public class VentanaInfoProyecto extends JFrame {
 		textRestan.setEditable(false);
 		textRestan.setText(String.valueOf(proyecto.getDiasRestantes()));
 		textRestan.setHorizontalAlignment(SwingConstants.CENTER);
-		textRestan.setForeground(Color.GRAY);
+		textRestan.setForeground(Color.DARK_GRAY);
 		textRestan.setColumns(10);
 		textRestan.setBounds(335, 294, 80, 28);
 		getContentPane().add(textRestan);
@@ -147,7 +162,7 @@ public class VentanaInfoProyecto extends JFrame {
 		textVotos.setEditable(false);
 		textVotos.setText(String.valueOf(proyecto.getNumvotos()));
 		textVotos.setHorizontalAlignment(SwingConstants.CENTER);
-		textVotos.setForeground(Color.GRAY);
+		textVotos.setForeground(Color.DARK_GRAY);
 		textVotos.setColumns(10);
 		textVotos.setBounds(335, 346, 80, 28);
 		getContentPane().add(textVotos);
@@ -158,14 +173,35 @@ public class VentanaInfoProyecto extends JFrame {
 		 * btnVotarProyecto.setEnabled(false);
 		 * */
 		JButton btVotar = new JButton("¡¡Votar Proyecto!!");
-		btVotar.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-			}
-		});
 		btVotar.setEnabled(true);
-		if (true){
+		if (mismoUsuario || controlador.isVotadoProyecto(nombreProyecto)) {
 			btVotar.setEnabled(false);
 		}
+		btVotar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				//Ventana confirmación
+				int n = JOptionPane.showConfirmDialog(
+					    null,
+					    "¿Deseas votar el siguiente proyecto?",
+					    "An Inane Question",
+					    JOptionPane.YES_NO_OPTION);
+				if(n==0){
+					//Apoyar el proyecto
+					try {
+						controlador.votarProyecto(nombreProyecto);
+					} catch (InvalidStateException | InvalidArgumentException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+					//Ir al listado de proyectos en financiación
+                    VentanaPrincipalApoyanos ventanaPrincipal = new VentanaPrincipalApoyanos("Votación","Todos");
+                    ventanaPrincipal.setVisible(true);
+                    setVisible(false); //you can't see me!
+                    dispose(); //Destroy the JFrame object
+				}
+			}
+		});
+
 		
 		
 		btVotar.setFont(new Font("Lucida Grande", Font.BOLD, 23));
@@ -173,71 +209,61 @@ public class VentanaInfoProyecto extends JFrame {
 		getContentPane().add(btVotar);
 		
 		JScrollPane scrollPane = new JScrollPane();
+		scrollPane.setEnabled(false);
 		scrollPane.setBounds(544, 100, 446, 75);
 		getContentPane().add(scrollPane);
 		
+		///////////////////////////////////TABLA
+        tbRecompensas = new JTable();
+		tbRecompensas.setRowSelectionAllowed(true);
+		tbRecompensas.setSelectionBackground(SystemColor.inactiveCaptionText);
+		tbRecompensas.setName("Listado de recompensas");
+		tbRecompensas.setGridColor(Color.LIGHT_GRAY);
+		scrollPane.setViewportView(tbRecompensas);
 		
-		//scrollPane.setColumnHeaderView(table);
-///////////////////////////////////////////////		
+		textDescripcion = new JTextArea();
+		textDescripcion.setWrapStyleWord(true);
+		textDescripcion.setText((String) null);
+		textDescripcion.setRows(10);
+		textDescripcion.setPreferredSize(new Dimension(375, 16));
+		textDescripcion.setMinimumSize(new Dimension(300, 50));
+		textDescripcion.setLineWrap(true);
+		textDescripcion.setForeground(Color.DARK_GRAY);
+		textDescripcion.setEditable(false);
+		textDescripcion.setBorder(new LineBorder(Color.LIGHT_GRAY, 2));
+		textDescripcion.setBounds(546, 187, 444, 77);
+		getContentPane().add(textDescripcion);
 		
-		String[] columnas = new String[]{
-	            "Recompensa",
-	            "Cantidad"};
-
-        
-        //Una única fila
-        Object[][] datos = new Object[][]{
-                {"Un duplicado oficial en BluRay firmado por el director del bódrio.",
-                2000,00}};
-		
-/////		
-		table = new JTable();
-		table.setRowSelectionAllowed(false);
-		table.setSelectionBackground(SystemColor.inactiveCaptionText);
-		table.setName("Listado de recompensas del proyecto");
-		table.setGridColor(Color.LIGHT_GRAY);
-        // Defino el TableModel y le indico los datos y nombres de columnas
-
-		table_1 = new JTable();
-		table_1.setForeground(Color.GRAY);
-		table_1.setEnabled(false);
-		table_1.setRowSelectionAllowed(false);
-		table_1.setSelectionBackground(SystemColor.inactiveCaptionText);
-		table_1.setName("Listado de proyectos en votación");
-		table_1.setGridColor(Color.LIGHT_GRAY);
-        // Defino el TableModel y le indico los datos y nombres de columnas
-        table_1.setModel(new DefaultTableModel(
-                datos,
-                columnas) {
-            
-            Class[] tipos = new Class[]{
-                    String.class,
-                    double.class
-                };
-
-            @Override
-            public Class getColumnClass(int columnIndex) {
-                // Este método es invocado por el CellRenderer para saber que dibujar en la celda,
-                // observen que estamos retornando la clase que definimos de antemano.
-                return tipos[columnIndex];
-            }
-            
-			boolean[] columnEditables = new boolean[] {
-				false, false
-			};
-			public boolean isCellEditable(int row, int column) {
-				return columnEditables[column];
+		JButton btninfo = new JButton("+Info Recompensa");
+		btninfo.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				DefaultTableModel dtm = (DefaultTableModel) tbRecompensas.getModel(); 
+				String nombreR = String.valueOf(dtm.getValueAt(tbRecompensas.getSelectedRow(),0));
+				textDescripcion.setText(buscarRecompensa(nombreR).getDescripcion());
 			}
 		});
-        
-		table_1.getColumnModel().getColumn(0).setResizable(false);
-		table_1.getColumnModel().getColumn(0).setPreferredWidth(250);
-		//scrollPane.setColumnHeaderView(table);
-		scrollPane.setViewportView(table_1);
-/////	
+		btninfo.setBounds(680, 271, 176, 29);
+		getContentPane().add(btninfo);
 		
-/////////////////////////////////////////////		
-		//TODO Solicitar al controlador las categorías y hacer los sub-menús automáticamente
+		JLabel lblSiTienesAlguna = new JLabel("Si tienes alguna duda:");
+		lblSiTienesAlguna.setHorizontalAlignment(SwingConstants.LEFT);
+		lblSiTienesAlguna.setBounds(546, 317, 150, 16);
+		getContentPane().add(lblSiTienesAlguna);
+		
+		JButton btnPreguntas = new JButton("Preguntas");
+		btnPreguntas.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+                VentanaPreguntasRespuestas ventanaPrincipal = new VentanaPreguntasRespuestas(proyecto);
+                ventanaPrincipal.setVisible(true);
+                setVisible(false); //you can't see me!
+                dispose(); //Destroy the JFrame object
+			}
+		});
+		btnPreguntas.setBounds(710, 312, 117, 29);
+		getContentPane().add(btnPreguntas);
+		vistaTablaRecompensas();
+
+		
 		
 		//Características del JFrame
 		setBackground(new Color(255, 255, 255));
@@ -248,6 +274,61 @@ public class VentanaInfoProyecto extends JFrame {
 		
 		///MENU
 		menu_apoyanos = new Menu(this);
-		
+	}
+	
+	private void vistaTablaRecompensas() {
+		modeloVistaRecompensa = new ModeloTabla();
+		modeloVistaRecompensa.addColumn("Recompensa");
+		modeloVistaRecompensa.addColumn("Cantidad (€)");
+		modeloVistaRecompensa.addColumn("Límite Apoyos");
+		//modeloVistaRecompensa.addColumn("Descripcion");
+		//modeloVistaRecompensa.addColumn("Eliminar");
+		// poner mas informacion
+
+		for (final Recompensa re : listaRecompensas) {
+			Object[] objRecompensa = new Object[4];
+
+			try {
+
+				objRecompensa[0] = re.getNombre();
+				objRecompensa[1] = re.getCantidadMinima();
+				if(re.getMaximoParticipantes()==0)
+					objRecompensa[2] = "-";
+				else
+					objRecompensa[2] = re.getMaximoParticipantes();
+				/*
+				objRecompensa[3] = new JButton("+Info");
+				((AbstractButton) objRecompensa[3]).addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						textDescripcion.setText(re.getDescripcion());
+					}
+				
+				});
+				*/
+				
+				
+			} catch (Exception e) {
+			}
+			modeloVistaRecompensa.addRow(objRecompensa);
+
+		}
+		tbRecompensas.setModel(modeloVistaRecompensa);
+		tbRecompensas.getColumnModel().getColumn(0).setResizable(false);
+		tbRecompensas.getColumnModel().getColumn(0).setPreferredWidth(150);
+		tbRecompensas.getColumnModel().getColumn(1).setResizable(false);
+		tbRecompensas.getColumnModel().getColumn(1).setPreferredWidth(50);
+		tbRecompensas.getColumnModel().getColumn(2).setResizable(false);
+		//tbRecompensas.getColumnModel().getColumn(3).setResizable(false);
+		//tbRecompensas.getColumnModel().getColumn(3).setPreferredWidth(20);
+
+	}
+	private Recompensa buscarRecompensa (String r){
+		Recompensa reEncontrada = null;
+		for (Recompensa re : listaRecompensas) {
+			if (re.getNombre().equals(r)) {
+				reEncontrada = re;
+			}
+		}
+		return reEncontrada;
 	}
 }

@@ -6,349 +6,307 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import net.miginfocom.swing.MigLayout;
+//import net.miginfocom.swing.MigLayout;
 
-import javax.swing.border.BevelBorder;
+
+
+
+//import javax.swing.border.BevelBorder;
 import javax.swing.border.LineBorder;
+//import javax.swing.table.DefaultTableModel;
+
+
 import javax.swing.table.DefaultTableModel;
 
 import tds.apoyanos.controlador.Controlador;
+import tds.apoyanos.exceptions.InvalidArgumentException;
 import tds.apoyanos.modelo.Pregunta;
+import tds.apoyanos.modelo.Proyecto;
 
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
+
+
+
+//import java.awt.event.MouseAdapter;
+//import java.awt.event.MouseEvent;
+import java.util.Collection;
 
 @SuppressWarnings("serial")
 public class VentanaPreguntasRespuestas extends JFrame {
-	private JTable table;
-	private JTextField textAsunto;
-	private JTextField textField_1;
-	private JTable table_1;
+	private JTextField textAsuntoEm;
+	private JTextField textAsuntoRe;
+	private JTable tbEmitidas;
+	private JTable tbRecibidas;
+	private ModeloTabla modeloVistaRecibidas;
+	private ModeloTabla modeloVistaEmitidas;
+	
 	@SuppressWarnings("unused")
 	private Menu menu_apoyanos;
 
 	
 	private Controlador controlador = Controlador.getUnicaInstancia();
 	private Pregunta pregunta;
-
+	private JTextField textCreadorEm;
+	private JTextField textProyectoEm;
+	private final JButton btnEnviar;
+	private final JTextArea textPreguntaEm;
 	
+	
+	private Collection<Pregunta> listaPreguntasEmitidas = controlador.getUsuario().getPreguntasEmitidas();
+	private Collection<Pregunta> listaPreguntasRecibidas = controlador.getUsuario().getPreguntasRecibidas();
+	private JTextField textProyectoRe;
+	private JTextField textMecenasRe;
+	private Proyecto proyecto;
+
 	public VentanaPreguntasRespuestas() {
+		this(null);
+	}
+	
+	
+	public VentanaPreguntasRespuestas(final Proyecto p) {
+		proyecto=p;
+		
+		
 		setResizable(false);
 		setDefaultCloseOperation(HIDE_ON_CLOSE);
-		getContentPane().setBackground(SystemColor.window);
+		getContentPane().setBackground(Color.WHITE);
 		getContentPane().setLayout(null);
 		setBounds(6,6,1024,480);
 		setLocationRelativeTo(null);
 		
 		JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
+		tabbedPane.setBackground(Color.WHITE);
 		tabbedPane.setBounds(6, 6, 1012, 480);
 		getContentPane().add(tabbedPane);
 		
 		JPanel pnRealizadas = new JPanel();
+		pnRealizadas.setBackground(Color.WHITE);
 		tabbedPane.addTab("Preguntas Realizadas", null, pnRealizadas, null);
 		pnRealizadas.setLayout(null);
 		
 		JPanel panelIzq = new JPanel();
+		panelIzq.setBackground(Color.WHITE);
 		panelIzq.setBounds(6, 6, 488, 432);
 		pnRealizadas.add(panelIzq);
 		panelIzq.setLayout(null);
 		
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(6, 64, 476, 305);
+		scrollPane.setBounds(6, 24, 476, 294);
 		panelIzq.add(scrollPane);
 		
-		String[] columnas = new String[]{
-	            "Asunto"};
-
-        
-        //Una única fila
-        Object[][] datos = new Object[][]{
-                {"¿El proyecto es único o tendrá varias fases?"},
-                {"¿El proyecto es único o tendrá varias fases?"},
-                {"¿El proyecto es único o tendrá varias fases?"},
-                {"¿El proyecto es único o tendrá varias fases?"},
-                {"¿El proyecto es único o tendrá varias fases?"},
-                {"¿El proyecto es único o tendrá varias fases?"},
-                {"¿El proyecto es único o tendrá varias fases?"},
-                {"¿El proyecto es único o tendrá varias fases?"},
-                {"¿El proyecto es único o tendrá varias fases?"},
-                {"¿El proyecto es único o tendrá varias fases?"},
-                {"¿El proyecto es único o tendrá varias fases?"},
-                {"¿El proyecto es único o tendrá varias fases?"},
-                {"¿El proyecto es único o tendrá varias fases?"},
-                {"¿El proyecto es único o tendrá varias fases?"},
-                {"¿El proyecto es único o tendrá varias fases?"},
-                {"¿El proyecto es único o tendrá varias fases?"},
-                {"¿El proyecto es único o tendrá varias fases?"},
-                {"¿El proyecto es único o tendrá varias fases?"},
-                {"¿El proyecto es único o tendrá varias fases?"},
-                {"¿El proyecto es único o tendrá varias fases?"},
-                {"¿El proyecto es único o tendrá varias fases?"},
-                {"¿El proyecto es único o tendrá varias fases?"},
-                {"¿El proyecto es único o tendrá varias fases?"},
-                {"¿El proyecto es único o tendrá varias fases?"},
-                {"¿El proyecto es único o tendrá varias fases?"},
-                {"¿El proyecto es único o tendrá varias fases?"},
-                {"¿El proyecto es único o tendrá varias fases?"},
-                {"¿El proyecto es único o tendrá varias fases?"},
-                {"¿El proyecto es único o tendrá varias fases?"},
-                {"¿El proyecto es único o tendrá varias fases?"},
-                {"¿El proyecto es único o tendrá varias fases?"},
-                {"¿El proyecto es único o tendrá varias fases?"}
-        };
 		
-        
-		table = new JTable();
-		table.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				//Al clicar envía la info de esta pregunta al formulario
-			}
-		});
-		table.setRowSelectionAllowed(false);
-		table.setSelectionBackground(SystemColor.inactiveCaptionText);
-		table.setName("Listado Preguntas");
-		table.setGridColor(Color.LIGHT_GRAY);
-        // Defino el TableModel y le indico los datos y nombres de columnas
-        table.setModel(new DefaultTableModel(
-                datos,
-                columnas) {
-            
-            Class[] tipos = new Class[]{
-                    String.class,
-                };
+		
+	///////////////////////////////////TABLA EMITIDAS
+		tbEmitidas = new JTable();
+		tbEmitidas.setRowSelectionAllowed(true);
+		tbEmitidas.setSelectionBackground(SystemColor.inactiveCaptionText);
+		tbEmitidas.setName("Listado de preguntas");
+		tbEmitidas.setGridColor(Color.LIGHT_GRAY);
+		scrollPane.setViewportView(tbEmitidas);
+		vistaTablaEmitidas();
 
-            @Override
-            public Class getColumnClass(int columnIndex) {
-                // Este método es invocado por el CellRenderer para saber que dibujar en la celda,
-                // observen que estamos retornando la clase que definimos de antemano.
-                return tipos[columnIndex];
-            }
-            
-			boolean[] columnEditables = new boolean[] {
-				false
-			};
-			public boolean isCellEditable(int row, int column) {
-				return columnEditables[column];
+		
+		JButton btnVerRespuesta = new JButton("ver respuesta");
+		btnVerRespuesta.setEnabled(true);
+		if (listaPreguntasEmitidas.isEmpty()){
+			btnVerRespuesta.setEnabled(false);
+		}
+		
+		btnVerRespuesta.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				//VER RESPUESTA
+				DefaultTableModel dtmE = (DefaultTableModel) tbEmitidas.getModel(); 
+				int idPregunta = Integer.valueOf((String) dtmE.getValueAt(tbEmitidas.getSelectedRow(),2));
+				
+				pregunta = buscarPreguntaEmitida(idPregunta);
+				textProyectoEm.setText(pregunta.getProyecto().getNombre());
+				textCreadorEm.setText(pregunta.getReceptor().getNombre()+ " "+pregunta.getReceptor().getApellidos());
+				textAsuntoEm.setText(pregunta.getAsunto());
+				textPreguntaEm.setText(pregunta.getRespuesta());
 			}
 		});
-		table.getColumnModel().getColumn(0).setResizable(false);
-		table.getColumnModel().getColumn(0).setPreferredWidth(150);
-		//scrollPane.setColumnHeaderView(table);
-		scrollPane.setViewportView(table);
+		btnVerRespuesta.setBounds(186, 370, 117, 29);
+		panelIzq.add(btnVerRespuesta);
 		
 		
 		JPanel panelDer = new JPanel();
+		panelDer.setBackground(Color.WHITE);
 		panelDer.setBounds(493, 6, 492, 432);
 		pnRealizadas.add(panelDer);
 		panelDer.setLayout(null);
 		
 		JLabel lblAsunto = new JLabel("Asunto:");
-		lblAsunto.setBounds(35, 42, 61, 16);
+		lblAsunto.setBounds(35, 106, 61, 16);
 		panelDer.add(lblAsunto);
 		
-		textAsunto = new JTextField();
-		textAsunto.setEditable(false);
-		textAsunto.setText(pregunta.getAsunto());
-		textAsunto.setBounds(60, 62, 401, 30);
-		panelDer.add(textAsunto);
-		textAsunto.setColumns(10);
+		textAsuntoEm = new JTextField();
+		textAsuntoEm.setBounds(60, 126, 401, 30);
+		panelDer.add(textAsuntoEm);
+		textAsuntoEm.setColumns(10);
 		
 		JLabel lblPregunta = new JLabel("Pregunta:");
-		lblPregunta.setBounds(35, 102, 61, 16);
+		lblPregunta.setBounds(35, 166, 61, 16);
 		panelDer.add(lblPregunta);
 		
 		JLabel label = new JLabel("Respuesta:");
 		label.setVisible(false);
-		label.setBounds(35, 237, 100, 16);
+		label.setBounds(35, 263, 100, 16);
 		panelDer.add(label);
 		
-		JTextArea textAPregunta = new JTextArea();
-		textAPregunta.setEditable(false);
-		textAPregunta.setText(pregunta.getCuerpo());
-		textAPregunta.setWrapStyleWord(true);
-		textAPregunta.setLineWrap(true);
-		textAPregunta.setColumns(10);
-		textAPregunta.setCaretColor(Color.BLACK);
-		textAPregunta.setBorder(new LineBorder(new Color(128, 128, 128)));
-		textAPregunta.setBounds(69, 122, 390, 100);
-		panelDer.add(textAPregunta);
+		textPreguntaEm = new JTextArea();
+		textPreguntaEm.setWrapStyleWord(true);
+		textPreguntaEm.setLineWrap(true);
+		textPreguntaEm.setColumns(10);
+		textPreguntaEm.setCaretColor(Color.BLACK);
+		textPreguntaEm.setBorder(new LineBorder(Color.LIGHT_GRAY, 2));
+		textPreguntaEm.setBounds(69, 186, 390, 72);
+		panelDer.add(textPreguntaEm);
 		
-		JTextArea textARespuesta = new JTextArea();
-		textARespuesta.setEditable(false);
-		textARespuesta.setText(pregunta.getRespuesta());
-		textARespuesta.setWrapStyleWord(true);
-		textARespuesta.setLineWrap(true);
-		textARespuesta.setColumns(10);
-		textARespuesta.setCaretColor(Color.BLACK);
-		textARespuesta.setBorder(new LineBorder(new Color(128, 128, 128)));
-		textARespuesta.setBounds(69, 257, 392, 100);
-		panelDer.add(textARespuesta);
-		
-		final JButton btnHacer = new JButton("Hacer Pregunta");
-		final JButton btnEnviar = new JButton("Enviar Pregunta");
-
-		btnHacer.setActionCommand("hacer");
+		JTextArea textRespuestaEm = new JTextArea();
+		textRespuestaEm.setEditable(false);
+		textRespuestaEm.setWrapStyleWord(true);
+		textRespuestaEm.setLineWrap(true);
+		textRespuestaEm.setColumns(10);
+		textRespuestaEm.setCaretColor(Color.BLACK);
+		textRespuestaEm.setBorder(new LineBorder(Color.LIGHT_GRAY, 2));
+		textRespuestaEm.setBounds(69, 283, 392, 72);
+		panelDer.add(textRespuestaEm);
+		btnEnviar = new JButton("Enviar Pregunta");
 		btnEnviar.setActionCommand("enviar");
-		btnHacer.setEnabled(true);
-		btnEnviar.setEnabled(false);
-		
-		btnHacer.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				//Si en el boton pone hacer pregunta limpia el formulario y los text los vuelve editables
-				if (e.equals("hacer")){
-					btnHacer.setEnabled(false);
-					btnEnviar.setEnabled(true);
-				}	
-			}
-		});
 		
 		btnEnviar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				//Si en el boton pone hacer pregunta limpia el formulario y los text los vuelve editables
-				if (e.equals("enviar")){
-					btnHacer.setEnabled(true);
-					btnEnviar.setEnabled(false);
-				}	
+				///////
+				if (textAsuntoEm.getText().trim().isEmpty() || textPreguntaEm.getText().trim().isEmpty()){
+					//Saltar alarma informando que son todos los campos obligatorios.
+					new VentanaMensajes("Debes incluir un asunto y una pregunta");
+				} else {
+					//Todo va bien, envía la pregunta
+						try {
+							controlador.hacerPregunta(proyecto.getNombre(), textAsuntoEm.getText(), textPreguntaEm.getText());
+							new VentanaMensajes("La pregunta se ha enviado correctamente");
+							pregunta=null;
+							proyecto=null;
+							textProyectoEm.setText(null);
+							textCreadorEm.setText(null);
+							textAsuntoEm.setText(null);
+							textPreguntaEm.setText(null);
+							//ACTUALIZAR LA VISTA DE LA TABLA
+							vistaTablaEmitidas();
+						} catch (InvalidArgumentException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						}
+
+				}
+				
+				///////
 			}
 		});
 		
 		
-		btnEnviar.setBounds(291, 369, 160, 29);
+		
+		btnEnviar.setBounds(187, 369, 160, 29);
 		panelDer.add(btnEnviar);
-		btnHacer.setBounds(79, 369, 160, 29);
-		panelDer.add(btnHacer);
+		
+		textCreadorEm = new JTextField();
+		textCreadorEm.setFont(new Font("Lucida Grande", Font.BOLD, 13));
+		textCreadorEm.setEditable(false);
+		textCreadorEm.setColumns(10);
+		textCreadorEm.setBounds(60, 60, 401, 30);
+		panelDer.add(textCreadorEm);
+		
+		textProyectoEm = new JTextField();
+		textProyectoEm.setFont(new Font("Lucida Grande", Font.BOLD, 13));
+		textProyectoEm.setEditable(false);
+		textProyectoEm.setText((String) null);
+		textProyectoEm.setColumns(10);
+		textProyectoEm.setBounds(60, 21, 401, 30);
+		panelDer.add(textProyectoEm);
+		
+		if (proyecto!=null){
+			textCreadorEm.setText(proyecto.getCreador().getNombre()+" "+proyecto.getCreador().getApellidos());
+			textProyectoEm.setText(proyecto.getNombre());
+		}
+
 		
 		
 		JPanel pnRecibidas = new JPanel();
+		pnRecibidas.setBackground(Color.WHITE);
 		tabbedPane.addTab("Preguntas Recibidas", null, pnRecibidas, null);
 		pnRecibidas.setLayout(null);
 		
 		JPanel panelIzq2 = new JPanel();
+		panelIzq2.setBackground(Color.WHITE);
 		panelIzq2.setLayout(null);
 		panelIzq2.setBounds(6, 6, 488, 432);
 		pnRecibidas.add(panelIzq2);
 		
 		JScrollPane scrollPaneRecibidas = new JScrollPane();
-		scrollPaneRecibidas.setBounds(6, 64, 476, 305);
+		scrollPaneRecibidas.setBounds(6, 22, 476, 305);
 		panelIzq2.add(scrollPaneRecibidas);
 		
+		///////////////////////////////////TABLA RECIBIDAS
+		tbRecibidas = new JTable();
+		tbRecibidas.setRowSelectionAllowed(true);
+		tbRecibidas.setSelectionBackground(SystemColor.inactiveCaptionText);
+		tbRecibidas.setName("Listado de preguntas");
+		tbRecibidas.setGridColor(Color.LIGHT_GRAY);
+		scrollPaneRecibidas.setViewportView(tbRecibidas);
 		
-		String[] columnas2 = new String[]{
-        "Título"};
-
-
-//Una única fila
-Object[][] datos2 = new Object[][]{
-        {"¿El proyecto es único o tendrá varias fases?"},
-        {"¿El proyecto es único o tendrá varias fases?"},
-        {"¿El proyecto es único o tendrá varias fases?"},
-        {"¿El proyecto es único o tendrá varias fases?"},
-        {"¿El proyecto es único o tendrá varias fases?"},
-        {"¿El proyecto es único o tendrá varias fases?"},
-        {"¿El proyecto es único o tendrá varias fases?"},
-        {"¿El proyecto es único o tendrá varias fases?"},
-        {"¿El proyecto es único o tendrá varias fases?"},
-        {"¿El proyecto es único o tendrá varias fases?"},
-        {"¿El proyecto es único o tendrá varias fases?"},
-        {"¿El proyecto es único o tendrá varias fases?"},
-        {"¿El proyecto es único o tendrá varias fases?"},
-        {"¿El proyecto es único o tendrá varias fases?"},
-        {"¿El proyecto es único o tendrá varias fases?"},
-        {"¿El proyecto es único o tendrá varias fases?"},
-        {"¿El proyecto es único o tendrá varias fases?"},
-        {"¿El proyecto es único o tendrá varias fases?"},
-        {"¿El proyecto es único o tendrá varias fases?"},
-        {"¿El proyecto es único o tendrá varias fases?"},
-        {"¿El proyecto es único o tendrá varias fases?"},
-        {"¿El proyecto es único o tendrá varias fases?"},
-        {"¿El proyecto es único o tendrá varias fases?"},
-        {"¿El proyecto es único o tendrá varias fases?"},
-        {"¿El proyecto es único o tendrá varias fases?"},
-        {"¿El proyecto es único o tendrá varias fases?"},
-        {"¿El proyecto es único o tendrá varias fases?"},
-        {"¿El proyecto es único o tendrá varias fases?"},
-        {"¿El proyecto es único o tendrá varias fases?"},
-        {"¿El proyecto es único o tendrá varias fases?"},
-        {"¿El proyecto es único o tendrá varias fases?"},
-        {"¿El proyecto es único o tendrá varias fases?"}
-};
-
-		
-		JTable table2 = new JTable();
-		table2.setRowSelectionAllowed(false);
-		table2.setSelectionBackground(SystemColor.inactiveCaptionText);
-		table2.setName("Listado Preguntas");
-		table2.setGridColor(Color.LIGHT_GRAY);
-        // Defino el TableModel y le indico los datos y nombres de columnas
-        table2.setModel(new DefaultTableModel(
-                datos2,
-                columnas2) {
-            
-            Class[] tipos = new Class[]{
-                    String.class,
-                };
-
-            @Override
-            public Class getColumnClass(int columnIndex) {
-                // Este método es invocado por el CellRenderer para saber que dibujar en la celda,
-                // observen que estamos retornando la clase que definimos de antemano.
-                return tipos[columnIndex];
-            }
-            
-			boolean[] columnEditables = new boolean[] {
-				false
-			};
-			public boolean isCellEditable(int row, int column) {
-				return columnEditables[column];
+		JButton button = new JButton("ver pregunta");
+		button.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
 			}
 		});
-		table2.getColumnModel().getColumn(0).setResizable(false);
-		table2.getColumnModel().getColumn(0).setPreferredWidth(150);
-		//scrollPane.setColumnHeaderView(table);
-		scrollPaneRecibidas.setViewportView(table2);
+		button.setEnabled(true);
+		button.setBounds(186, 370, 117, 29);
+		panelIzq2.add(button);
+		vistaTablaRecibidas();
+		
+		
 		
 		JPanel panelDer2 = new JPanel();
+		panelDer2.setBackground(Color.WHITE);
 		panelDer2.setLayout(null);
 		panelDer2.setBounds(493, 6, 492, 432);
 		pnRecibidas.add(panelDer2);
 		
-		JLabel label_1 = new JLabel("Título:");
-		label_1.setBounds(35, 42, 61, 16);
-		panelDer2.add(label_1);
+		JLabel lblAsunto_1 = new JLabel("Pregunta:");
+		lblAsunto_1.setBounds(35, 166, 61, 16);
+		panelDer2.add(lblAsunto_1);
 		
-		textField_1 = new JTextField();
-		textField_1.setEditable(false);
-		textField_1.setColumns(10);
-		textField_1.setBounds(60, 62, 401, 30);
-		panelDer2.add(textField_1);
+		textAsuntoRe = new JTextField();
+		textAsuntoRe.setEditable(false);
+		textAsuntoRe.setColumns(10);
+		textAsuntoRe.setBounds(60, 126, 401, 30);
+		panelDer2.add(textAsuntoRe);
 		
-		JLabel label_2 = new JLabel("Pregunta:");
-		label_2.setBounds(35, 102, 61, 16);
-		panelDer2.add(label_2);
+		JLabel lblAsunto_2 = new JLabel("Asunto:");
+		lblAsunto_2.setBounds(35, 102, 61, 16);
+		panelDer2.add(lblAsunto_2);
 		
 		JLabel label_3 = new JLabel("Respuesta:");
-		label_3.setBounds(35, 237, 100, 16);
+		label_3.setBounds(35, 263, 100, 16);
 		panelDer2.add(label_3);
 		
-		JTextArea textArea_2 = new JTextArea();
-		textArea_2.setEditable(false);
-		textArea_2.setWrapStyleWord(true);
-		textArea_2.setLineWrap(true);
-		textArea_2.setColumns(10);
-		textArea_2.setCaretColor(Color.BLACK);
-		textArea_2.setBorder(new LineBorder(new Color(128, 128, 128)));
-		textArea_2.setBounds(69, 122, 390, 100);
-		panelDer2.add(textArea_2);
+		JTextArea textPreguntaRe = new JTextArea();
+		textPreguntaRe.setEditable(false);
+		textPreguntaRe.setWrapStyleWord(true);
+		textPreguntaRe.setLineWrap(true);
+		textPreguntaRe.setColumns(10);
+		textPreguntaRe.setCaretColor(Color.BLACK);
+		textPreguntaRe.setBorder(new LineBorder(Color.LIGHT_GRAY, 2));
+		textPreguntaRe.setBounds(69, 186, 390, 72);
+		panelDer2.add(textPreguntaRe);
 		
-		JTextArea textArea_3 = new JTextArea();
-		textArea_3.setWrapStyleWord(true);
-		textArea_3.setLineWrap(true);
-		textArea_3.setColumns(10);
-		textArea_3.setCaretColor(Color.BLACK);
-		textArea_3.setBorder(new LineBorder(new Color(128, 128, 128)));
-		textArea_3.setBounds(69, 257, 392, 100);
-		panelDer2.add(textArea_3);
+		JTextArea textRespuestaRe = new JTextArea();
+		textRespuestaRe.setWrapStyleWord(true);
+		textRespuestaRe.setLineWrap(true);
+		textRespuestaRe.setColumns(10);
+		textRespuestaRe.setCaretColor(Color.BLACK);
+		textRespuestaRe.setBorder(new LineBorder(Color.LIGHT_GRAY, 2));
+		textRespuestaRe.setBounds(69, 283, 392, 72);
+		panelDer2.add(textRespuestaRe);
 		
 		JButton button_2 = new JButton("Responder");
 		button_2.addActionListener(new ActionListener() {
@@ -358,6 +316,21 @@ Object[][] datos2 = new Object[][]{
 		button_2.setBounds(186, 369, 160, 29);
 		panelDer2.add(button_2);
 		
+		textProyectoRe = new JTextField();
+		textProyectoRe.setText((String) null);
+		textProyectoRe.setFont(new Font("Lucida Grande", Font.BOLD, 13));
+		textProyectoRe.setEditable(false);
+		textProyectoRe.setColumns(10);
+		textProyectoRe.setBounds(60, 21, 401, 30);
+		panelDer2.add(textProyectoRe);
+		
+		textMecenasRe = new JTextField();
+		textMecenasRe.setFont(new Font("Lucida Grande", Font.BOLD, 13));
+		textMecenasRe.setEditable(false);
+		textMecenasRe.setColumns(10);
+		textMecenasRe.setBounds(60, 60, 401, 30);
+		panelDer2.add(textMecenasRe);
+		
 				
 		//TODO Solicitar al controlador las categorías y hacer los sub-menús automáticamente
 		
@@ -366,9 +339,87 @@ Object[][] datos2 = new Object[][]{
 		setTitle("Apóyanos - Tu plataforma crowdfunding para lanzar tus proyectos.");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 1024, 600);
+		setLocationRelativeTo(null);
 		
 		//MENU
 		menu_apoyanos = new Menu(this);
 		
 	}
+	
+	private void vistaTablaRecibidas() {
+		modeloVistaRecibidas = new ModeloTabla();
+		modeloVistaRecibidas.addColumn("Pregunta recibida");
+
+		for (Pregunta pe : listaPreguntasRecibidas) {
+			Object[] objRecibida = new Object[1];
+
+			try {
+
+				objRecibida[0] = pe.getAsunto();
+
+				
+			} catch (Exception e) {
+			}
+			modeloVistaRecibidas.addRow(objRecibida);
+
+		}
+		tbRecibidas.setModel(modeloVistaRecibidas);
+		tbRecibidas.getColumnModel().getColumn(0).setResizable(false);
+		tbRecibidas.getColumnModel().getColumn(0).setPreferredWidth(150);
+
+	}
+	
+	private void vistaTablaEmitidas() {
+		modeloVistaEmitidas = new ModeloTabla();
+		modeloVistaEmitidas.addColumn("Pregunta emitida");
+		modeloVistaEmitidas.addColumn("Respondida");
+		modeloVistaEmitidas.addColumn("Id");
+		
+		for (Pregunta pe : listaPreguntasEmitidas) {
+			Object[] objEmitida = new Object[2];
+
+			try {
+				objEmitida[0] = pe.getAsunto();
+				if (pe.getRespuesta().trim().isEmpty()){
+					objEmitida[1] = (String) "No";
+				} else {
+					objEmitida[1] = (String) "Sí";
+				}
+				objEmitida[2] = pe.getId();
+			} catch (Exception e) {
+			}
+			modeloVistaEmitidas.addRow(objEmitida);
+
+		}
+		tbEmitidas.setModel(modeloVistaEmitidas);
+		tbEmitidas.getColumnModel().getColumn(0).setResizable(false);
+		tbEmitidas.getColumnModel().getColumn(0).setPreferredWidth(150);
+		tbEmitidas.getColumnModel().getColumn(1).setResizable(false);
+		tbEmitidas.getColumnModel().getColumn(1).setPreferredWidth(10);
+		tbEmitidas.getColumnModel().getColumn(2).setResizable(false);
+		tbEmitidas.getColumnModel().getColumn(2).setPreferredWidth(0);
+		tbEmitidas.getColumnModel().getColumn(2).setMaxWidth(0);
+		tbEmitidas.getColumnModel().getColumn(2).setMinWidth(0);
+	}
+	
+	private Pregunta buscarPreguntaEmitida(int id){
+		Pregunta preguntaEncontrada = null;
+		for (Pregunta p : listaPreguntasEmitidas) {
+			if (p.getId()==id) {
+				preguntaEncontrada = p;
+			}
+		}
+		return preguntaEncontrada;
+	}
+	
+	private Pregunta buscarPreguntaRecibida(int id){
+		Pregunta preguntaEncontrada = null;
+		for (Pregunta p : listaPreguntasRecibidas) {
+			if (p.getId()==id) {
+				preguntaEncontrada = p;
+			}
+		}
+		return preguntaEncontrada;
+	}
+	
 }

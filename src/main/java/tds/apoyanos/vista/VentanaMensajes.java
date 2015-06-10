@@ -5,7 +5,7 @@ import javax.swing.JOptionPane;
 public class VentanaMensajes {
 	
 	public VentanaMensajes(String s){
-		JOptionPane.showMessageDialog(null, s);
+			JOptionPane.showMessageDialog(null, s);
 	}
 
 }

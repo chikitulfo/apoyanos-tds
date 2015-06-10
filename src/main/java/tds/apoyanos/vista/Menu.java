@@ -51,7 +51,7 @@ public class Menu {
                 JMenuItem mntmTodos = new JMenuItem("Todos");
                 mntmTodos.addActionListener(new ActionListener() {
                     public void actionPerformed(ActionEvent arg0) {
-                        VentanaPrincipalApoyanos ventanaPrincipal = new VentanaPrincipalApoyanos("VOTACIÓN","Todos");
+                        VentanaPrincipalApoyanos ventanaPrincipal = new VentanaPrincipalApoyanos("Votación","Todos");
                         ventanaPrincipal.setVisible(true);
                         jf.setVisible(false); //you can't see me!
                         jf.dispose(); //Destroy the JFrame object
@@ -62,7 +62,7 @@ public class Menu {
                 JMenuItem mntmMusica = new JMenuItem("Música");
                 mntmMusica.addActionListener(new ActionListener() {
                     public void actionPerformed(ActionEvent arg0) {
-                        VentanaPrincipalApoyanos ventanaPrincipal = new VentanaPrincipalApoyanos("VOTACIÓN","Música");
+                        VentanaPrincipalApoyanos ventanaPrincipal = new VentanaPrincipalApoyanos("Votación","Música");
                         ventanaPrincipal.setVisible(true);
                         jf.setVisible(false); //you can't see me!
                         jf.dispose(); //Destroy the JFrame object
@@ -74,7 +74,7 @@ public class Menu {
                 JMenuItem mntmLibros = new JMenuItem("Libros");
                 mntmLibros.addActionListener(new ActionListener() {
                     public void actionPerformed(ActionEvent arg0) {
-                        VentanaPrincipalApoyanos ventanaPrincipal = new VentanaPrincipalApoyanos("VOTACIÓN","Libros");
+                        VentanaPrincipalApoyanos ventanaPrincipal = new VentanaPrincipalApoyanos("Votación","Libros");
                         ventanaPrincipal.setVisible(true);
                         jf.setVisible(false); //you can't see me!
                         jf.dispose(); //Destroy the JFrame object
@@ -85,7 +85,7 @@ public class Menu {
                 JMenuItem mntmCine = new JMenuItem("Cine");
                 mntmCine.addActionListener(new ActionListener() {
                     public void actionPerformed(ActionEvent arg0) {
-                        VentanaPrincipalApoyanos ventanaPrincipal = new VentanaPrincipalApoyanos("VOTACIÓN","Cine");
+                        VentanaPrincipalApoyanos ventanaPrincipal = new VentanaPrincipalApoyanos("Votación","Cine");
                         ventanaPrincipal.setVisible(true);
                         jf.setVisible(false); //you can't see me!
                         jf.dispose(); //Destroy the JFrame object
@@ -96,7 +96,7 @@ public class Menu {
                 JMenuItem mntmSocial = new JMenuItem("Social");
                 mntmSocial.addActionListener(new ActionListener() {
                     public void actionPerformed(ActionEvent arg0) {
-                        VentanaPrincipalApoyanos ventanaPrincipal = new VentanaPrincipalApoyanos("VOTACIÓN","Social");
+                        VentanaPrincipalApoyanos ventanaPrincipal = new VentanaPrincipalApoyanos("Votación","Social");
                         ventanaPrincipal.setVisible(true);
                         jf.setVisible(false); //you can't see me!
                         jf.dispose(); //Destroy the JFrame object
@@ -107,7 +107,7 @@ public class Menu {
                 JMenuItem mntmSoftware = new JMenuItem("Software");
                 mntmSoftware.addActionListener(new ActionListener() {
                     public void actionPerformed(ActionEvent arg0) {
-                        VentanaPrincipalApoyanos ventanaPrincipal = new VentanaPrincipalApoyanos("VOTACIÓN","Software");
+                        VentanaPrincipalApoyanos ventanaPrincipal = new VentanaPrincipalApoyanos("Votación","Software");
                         ventanaPrincipal.setVisible(true);
                         jf.setVisible(false); //you can't see me!
                         jf.dispose(); //Destroy the JFrame object
@@ -118,7 +118,7 @@ public class Menu {
                 JMenuItem mntmDeportes = new JMenuItem("Deportes");
                 mntmDeportes.addActionListener(new ActionListener() {
                     public void actionPerformed(ActionEvent arg0) {
-                        VentanaPrincipalApoyanos ventanaPrincipal = new VentanaPrincipalApoyanos("VOTACIÓN","Deportes");
+                        VentanaPrincipalApoyanos ventanaPrincipal = new VentanaPrincipalApoyanos("Votación","Deportes");
                         ventanaPrincipal.setVisible(true);
                         jf.setVisible(false); //you can't see me!
                         jf.dispose(); //Destroy the JFrame object
@@ -132,7 +132,7 @@ public class Menu {
                 JMenuItem mntmTodosV = new JMenuItem("Todos");
                 mntmTodosV.addActionListener(new ActionListener() {
                     public void actionPerformed(ActionEvent arg0) {
-                        VentanaPrincipalApoyanos ventanaPrincipal = new VentanaPrincipalApoyanos("FINANCIACIÓN","Todos");
+                        VentanaPrincipalApoyanos ventanaPrincipal = new VentanaPrincipalApoyanos("Financiación","Todos");
                         ventanaPrincipal.setVisible(true);
                         jf.setVisible(false); //you can't see me!
                         jf.dispose(); //Destroy the JFrame object
@@ -143,7 +143,7 @@ public class Menu {
                 JMenuItem mntmMusicaV = new JMenuItem("Música");
                 mntmMusicaV.addActionListener(new ActionListener() {
                     public void actionPerformed(ActionEvent arg0) {
-                        VentanaPrincipalApoyanos ventanaPrincipal = new VentanaPrincipalApoyanos("FINANCIACIÓN","Música");
+                        VentanaPrincipalApoyanos ventanaPrincipal = new VentanaPrincipalApoyanos("Financiación","Música");
                         ventanaPrincipal.setVisible(true);
                         jf.setVisible(false); //you can't see me!
                         jf.dispose(); //Destroy the JFrame object
@@ -154,7 +154,7 @@ public class Menu {
                 JMenuItem mntmLibrosV = new JMenuItem("Libros");
                 mntmLibrosV.addActionListener(new ActionListener() {
                     public void actionPerformed(ActionEvent arg0) {
-                        VentanaPrincipalApoyanos ventanaPrincipal = new VentanaPrincipalApoyanos("FINANCIACIÓN","Libros");
+                        VentanaPrincipalApoyanos ventanaPrincipal = new VentanaPrincipalApoyanos("Financiación","Libros");
                         ventanaPrincipal.setVisible(true);
                         jf.setVisible(false); //you can't see me!
                         jf.dispose(); //Destroy the JFrame object
@@ -165,7 +165,7 @@ public class Menu {
                 JMenuItem mntmCineV = new JMenuItem("Cine");
                 mntmCineV.addActionListener(new ActionListener() {
                     public void actionPerformed(ActionEvent arg0) {
-                        VentanaPrincipalApoyanos ventanaPrincipal = new VentanaPrincipalApoyanos("FINANCIACIÓN","Cine");
+                        VentanaPrincipalApoyanos ventanaPrincipal = new VentanaPrincipalApoyanos("Financiación","Cine");
                         ventanaPrincipal.setVisible(true);
                         jf.setVisible(false); //you can't see me!
                         jf.dispose(); //Destroy the JFrame object
@@ -176,7 +176,7 @@ public class Menu {
                 JMenuItem mntmSocialV = new JMenuItem("Social");
                 mntmSocialV.addActionListener(new ActionListener() {
                     public void actionPerformed(ActionEvent arg0) {
-                        VentanaPrincipalApoyanos ventanaPrincipal = new VentanaPrincipalApoyanos("FINANCIACIÓN","Social");
+                        VentanaPrincipalApoyanos ventanaPrincipal = new VentanaPrincipalApoyanos("Financiación","Social");
                         ventanaPrincipal.setVisible(true);
                         jf.setVisible(false); //you can't see me!
                         jf.dispose(); //Destroy the JFrame object
@@ -187,7 +187,7 @@ public class Menu {
                 JMenuItem mntmSoftwareV = new JMenuItem("Software");
                 mntmSoftwareV.addActionListener(new ActionListener() {
                     public void actionPerformed(ActionEvent arg0) {
-                        VentanaPrincipalApoyanos ventanaPrincipal = new VentanaPrincipalApoyanos("FINANCIACIÓN","Software");
+                        VentanaPrincipalApoyanos ventanaPrincipal = new VentanaPrincipalApoyanos("Financiación","Software");
                         ventanaPrincipal.setVisible(true);
                         jf.setVisible(false); //you can't see me!
                         jf.dispose(); //Destroy the JFrame object
@@ -198,7 +198,7 @@ public class Menu {
                 JMenuItem mntmDeportesV = new JMenuItem("Deportes");
                 mntmDeportesV.addActionListener(new ActionListener() {
                     public void actionPerformed(ActionEvent arg0) {
-                        VentanaPrincipalApoyanos ventanaPrincipal = new VentanaPrincipalApoyanos("FINANCIACIÓN","Deportes");
+                        VentanaPrincipalApoyanos ventanaPrincipal = new VentanaPrincipalApoyanos("Financiación","Deportes");
                         ventanaPrincipal.setVisible(true);
                         jf.setVisible(false); //you can't see me!
                         jf.dispose(); //Destroy the JFrame object
@@ -252,11 +252,16 @@ public class Menu {
                 });
                 menuBar.add(btnPreguntas);
 
-                JButton btnSalir = new JButton("Salir");
+                JButton btnSalir = new JButton("LogOut");
                 btnSalir.addActionListener(new ActionListener(){
                     public void actionPerformed(ActionEvent e) {
-                            //frame.dispose(); /*cuando se destruye la última ventana termina la maquina virtual*/
-                            System.exit(0);  /*no sería necesario en este caso*/
+                    	LoginW ventana= new LoginW();
+                        ventana.mostrarVentana();
+                        jf.setVisible(false); //you can't see me!
+                        jf.dispose(); //Destroy the JFrame object
+                    	
+                        //frame.dispose(); /*cuando se destruye la última ventana termina la maquina virtual*/
+                        //System.exit(0);  /*no sería necesario en este caso*/
                     }
                 });
 

@@ -6,10 +6,12 @@ import java.awt.SystemColor;
 import javax.swing.*;
 
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.util.Collection;
 
 import javax.swing.table.DefaultTableModel;
+
+import tds.apoyanos.controlador.Controlador;
+import tds.apoyanos.modelo.Notificacion;
 
 @SuppressWarnings("serial")
 public class VentanaNotificaciones extends JFrame {
@@ -17,7 +19,10 @@ public class VentanaNotificaciones extends JFrame {
 	@SuppressWarnings("unused")
 	private Menu menu_apoyanos;
 
-
+	private ModeloTabla modeloVistaNotificacion;
+	
+	private Controlador controlador = Controlador.getUnicaInstancia();
+	private Collection<Notificacion> listaNotificacion =  controlador.getUsuario().getNotificaciones();
 	
 	public VentanaNotificaciones() {
 		setResizable(false);
@@ -30,56 +35,18 @@ public class VentanaNotificaciones extends JFrame {
 		scrollPane.setBounds(100, 105, 794, 248);
 		getContentPane().add(scrollPane);
 		
-		
-		String[] columnas = new String[]{
-	            "Título",
-	            "Creador",
-	            "Estado"};
-		 //“Proyecto supera no supera la fase de financiación con % financiación de un total de x euros
-        
-        //Una única fila
-        Object[][] datos = new Object[][]{
-                {"El proyecto de pepito", "Antonio Fuengirola","El proyecto <<supero>> <<no supera>> la fase de financiación con un % financiado de un total de xx €."}};
-		
-/////		
 		table = new JTable();
 		table.setEnabled(false);
 		table.setRowSelectionAllowed(false);
 		table.setSelectionBackground(SystemColor.inactiveCaptionText);
-		table.setName("Listado de proyectos en votación");
+		table.setName("Listado de notificaciones.");
 		table.setGridColor(Color.LIGHT_GRAY);
-        // Defino el TableModel y le indico los datos y nombres de columnas
-        table.setModel(new DefaultTableModel(
-                datos,
-                columnas) {
-            
-            Class[] tipos = new Class[]{
-                    String.class,
-                    String.class,
-                    String.class
-                };
+		//Muestra la vista de la tabla
+		vistaTablaNotificaciones();
+		
+		scrollPane.setViewportView(table);	
 
-            @Override
-            public Class getColumnClass(int columnIndex) {
-                // Este método es invocado por el CellRenderer para saber que dibujar en la celda,
-                // observen que estamos retornando la clase que definimos de antemano.
-                return tipos[columnIndex];
-            }
-            
-			boolean[] columnEditables = new boolean[] {
-				false, false, false
-			};
-			public boolean isCellEditable(int row, int column) {
-				return columnEditables[column];
-			}
-		});
-		table.getColumnModel().getColumn(0).setResizable(false);
-		table.getColumnModel().getColumn(0).setPreferredWidth(50);
-		table.getColumnModel().getColumn(1).setResizable(false);
-		table.getColumnModel().getColumn(1).setPreferredWidth(50);
-		table.getColumnModel().getColumn(2).setResizable(false);
-		table.getColumnModel().getColumn(2).setPreferredWidth(350);
-		//scrollPane.setColumnHeaderView(table);
+		
 		scrollPane.setViewportView(table);
 		
 		JLabel lblNotificaciones = new JLabel("Notificaciones");
@@ -102,4 +69,37 @@ public class VentanaNotificaciones extends JFrame {
 		menu_apoyanos = new Menu(this);
 		
 	}
+	
+	private void vistaTablaNotificaciones() {
+		modeloVistaNotificacion = new ModeloTabla();
+		modeloVistaNotificacion.addColumn("Proyecto");
+		modeloVistaNotificacion.addColumn("Creador");
+		modeloVistaNotificacion.addColumn("Estado");
+		
+		for (Notificacion not : listaNotificacion) {
+			Object[] objNot = new Object[3];
+
+			try {
+				
+				objNot[0] = not.getProyecto().getNombre();
+				objNot[1] = not.getProyecto().getCreador().getNombre() + " " + not.getProyecto().getCreador().getApellidos() + " (@" + not.getProyecto().getCreador().getLogin() + ") ";
+				objNot[2] = not.getDescripcion();
+				//objApoyo[3] = apoyo.getId();
+				
+			} catch (Exception e) {
+			}
+			modeloVistaNotificacion.addRow(objNot);
+
+		}
+		table.setModel(modeloVistaNotificacion);
+		
+		table.getColumnModel().getColumn(0).setResizable(false);
+		table.getColumnModel().getColumn(0).setPreferredWidth(175);
+		table.getColumnModel().getColumn(1).setResizable(false);
+		table.getColumnModel().getColumn(1).setPreferredWidth(175);
+		table.getColumnModel().getColumn(2).setResizable(false);
+		table.getColumnModel().getColumn(2).setPreferredWidth(50);
+
+	}
+	
 }

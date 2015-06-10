@@ -5,12 +5,12 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.text.DecimalFormat;
-import java.text.SimpleDateFormat;
+//import java.text.DecimalFormat;
+//import java.text.SimpleDateFormat;
 import java.util.GregorianCalendar;
 import java.util.LinkedList;
 
-import javax.swing.border.BevelBorder;
+//import javax.swing.border.BevelBorder;
 import javax.swing.border.LineBorder;
 import javax.swing.table.DefaultTableModel;
 
@@ -39,8 +39,8 @@ public class VentanaCrearProyecto extends JFrame{
 	
 	private String msg_error="HAY UN ERROR. Revisa todos los campos y recuerda: \n - Título obligatorio.\n - Descripción obligatoria. \n - Fecha obligatoria, formato dd/mm/aaaa y a partir del día de mañana. \n - Importe ###.## \n - Una o más recompensas.";
 	private String msg_exito="Proyecto Registrado Correctamente.\n";
-	private SimpleDateFormat fechaDia = new SimpleDateFormat("dd/MM/yyyy");
-	private DecimalFormat formatoDecimal = new DecimalFormat("#.##");
+//	private SimpleDateFormat fechaDia = new SimpleDateFormat("dd/MM/yyyy");
+//	private DecimalFormat formatoDecimal = new DecimalFormat("#.##");
 	private String nombreProyecto;
 	private String descripcionProyecto;
 	private String categoriaProyecto;
@@ -481,7 +481,7 @@ public class VentanaCrearProyecto extends JFrame{
 		            	//fechaFin.getCalendar()
 		            	//cplazoProyecto.setTime(fechaDia.parse(fechaFin.getDateFormatString()));
 		            	cplazoProyecto.setTime(fechaFin.getDate());
-		                controlador.crearProyecto(textProyecto.getText(), txtDescripcionProyecto.getText(), cantidadProyecto, cplazoProyecto, (String)cbCategoria.getSelectedItem(),listaRecompensas);
+		                controlador.crearProyecto(nombreProyecto, descripcionProyecto, cantidadProyecto, cplazoProyecto, categoriaProyecto,listaRecompensas);
 		                new VentanaMensajes(msg_exito);
 		                
 		            } catch (InvalidArgumentException e1) {

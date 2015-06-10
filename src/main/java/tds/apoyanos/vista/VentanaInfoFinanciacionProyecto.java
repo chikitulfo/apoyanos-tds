@@ -7,15 +7,21 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
+import java.util.Collection;
 
-import javax.swing.border.BevelBorder;
-import javax.swing.table.DefaultTableModel;
+//import javax.swing.border.BevelBorder;
+//import javax.swing.table.DefaultTableModel;
+
+
+
 
 import tds.apoyanos.controlador.Controlador;
-import tds.apoyanos.modelo.Proyecto;
+import tds.apoyanos.exceptions.InvalidArgumentException;
+import tds.apoyanos.exceptions.InvalidStateException;
+import tds.apoyanos.modelo.*;
 
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
+import javax.swing.border.LineBorder;
+import javax.swing.table.DefaultTableModel;
 
 @SuppressWarnings("serial")
 public class VentanaInfoFinanciacionProyecto extends JFrame {
@@ -25,14 +31,19 @@ public class VentanaInfoFinanciacionProyecto extends JFrame {
 	private JTextField txtSoftware;
 	private JTextField textField_2;
 	private JTextField textField_3;
-	private JTable table;
-	private JTable table_1;
 	private JTextField textField_4;
+	
+	private JTable tbRecompensas;
+	private ModeloTabla modeloVistaRecompensa;
+	private Collection<Recompensa> listaRecompensas;
+	
 	@SuppressWarnings("unused")
 	private Menu menu_apoyanos;
 	
+	
+	
 	private SimpleDateFormat fechaDia = new SimpleDateFormat("dd/MM/yyyy");
-	private SimpleDateFormat fechaHora = new SimpleDateFormat("HH:mm");
+//	private SimpleDateFormat fechaHora = new SimpleDateFormat("HH:mm");
 	private DecimalFormat formatoDecimal = new DecimalFormat("#.##");
 	
 	private Controlador controlador = Controlador.getUnicaInstancia();
@@ -42,10 +53,11 @@ public class VentanaInfoFinanciacionProyecto extends JFrame {
 	
 	public VentanaInfoFinanciacionProyecto(String nombreProyecto) {
 		proyecto = controlador.getProyecto(nombreProyecto);
+		listaRecompensas = proyecto.getRecompensas();
 		
 		setResizable(false);
 		setDefaultCloseOperation(HIDE_ON_CLOSE);
-		getContentPane().setBackground(SystemColor.window);
+		getContentPane().setBackground(Color.WHITE);
 		getContentPane().setLayout(null);
 		
 		JLabel lblTtuloDelProyecto = new JLabel("Título del Proyecto:");
@@ -60,7 +72,7 @@ public class VentanaInfoFinanciacionProyecto extends JFrame {
 		
 		txtTtuloDelProyecot = new JTextField();
 		txtTtuloDelProyecot.setEditable(false);
-		txtTtuloDelProyecot.setForeground(Color.GRAY);
+		txtTtuloDelProyecot.setForeground(Color.DARK_GRAY);
 		txtTtuloDelProyecot.setText(proyecto.getNombre());
 		txtTtuloDelProyecot.setBounds(110, 48, 880, 28);
 		getContentPane().add(txtTtuloDelProyecot);
@@ -68,14 +80,14 @@ public class VentanaInfoFinanciacionProyecto extends JFrame {
 		
 		JTextArea txtrEsteProyectoEs = new JTextArea();
 		txtrEsteProyectoEs.setLineWrap(true);
-		txtrEsteProyectoEs.setForeground(Color.GRAY);
+		txtrEsteProyectoEs.setForeground(Color.DARK_GRAY);
 		txtrEsteProyectoEs.setEditable(false);
 		txtrEsteProyectoEs.setWrapStyleWord(true);
 		txtrEsteProyectoEs.setText(proyecto.getDescripcion());
 		txtrEsteProyectoEs.setRows(10);
 		txtrEsteProyectoEs.setPreferredSize(new Dimension(375, 16));
 		txtrEsteProyectoEs.setMinimumSize(new Dimension(300, 50));
-		txtrEsteProyectoEs.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
+		txtrEsteProyectoEs.setBorder(new LineBorder(Color.LIGHT_GRAY, 2));
 		txtrEsteProyectoEs.setBounds(110, 100, 375, 164);
 		getContentPane().add(txtrEsteProyectoEs);
 		
@@ -86,9 +98,9 @@ public class VentanaInfoFinanciacionProyecto extends JFrame {
 		
 		textField = new JTextField();
 		textField.setEditable(false);
-		textField.setForeground(Color.GRAY);
+		textField.setForeground(Color.DARK_GRAY);
 		textField.setHorizontalAlignment(SwingConstants.CENTER);
-		textField.setText(fechaDia.format(proyecto.getPlazoFinanciacion()));
+		textField.setText(fechaDia.format(proyecto.getPlazoFinanciacion().getTime()));
 		textField.setColumns(10);
 		textField.setBounds(110, 294, 150, 28);
 		getContentPane().add(textField);
@@ -100,7 +112,7 @@ public class VentanaInfoFinanciacionProyecto extends JFrame {
 		
 		textField_1 = new JTextField();
 		textField_1.setEditable(false);
-		textField_1.setForeground(Color.GRAY);
+		textField_1.setForeground(Color.DARK_GRAY);
 		textField_1.setHorizontalAlignment(SwingConstants.CENTER);
 		textField_1.setText(formatoDecimal.format(proyecto.getCantidadMinima()) + " €.");
 		textField_1.setColumns(10);
@@ -114,7 +126,7 @@ public class VentanaInfoFinanciacionProyecto extends JFrame {
 		
 		txtSoftware = new JTextField();
 		txtSoftware.setEditable(false);
-		txtSoftware.setForeground(Color.GRAY);
+		txtSoftware.setForeground(Color.DARK_GRAY);
 		txtSoftware.setHorizontalAlignment(SwingConstants.CENTER);
 		txtSoftware.setText(proyecto.getCategoria().getNombre());
 		txtSoftware.setColumns(10);
@@ -130,7 +142,7 @@ public class VentanaInfoFinanciacionProyecto extends JFrame {
 		textField_2.setEditable(false);
 		textField_2.setText(String.valueOf(proyecto.getDiasRestantes()));
 		textField_2.setHorizontalAlignment(SwingConstants.CENTER);
-		textField_2.setForeground(Color.GRAY);
+		textField_2.setForeground(Color.DARK_GRAY);
 		textField_2.setColumns(10);
 		textField_2.setBounds(335, 294, 80, 28);
 		getContentPane().add(textField_2);
@@ -149,83 +161,23 @@ public class VentanaInfoFinanciacionProyecto extends JFrame {
 		textField_3.setEditable(false);
 		textField_3.setText(formatoDecimal.format(proyecto.getCantidadRecaudada()) + " €.");
 		textField_3.setHorizontalAlignment(SwingConstants.CENTER);
-		textField_3.setForeground(Color.GRAY);
+		textField_3.setForeground(Color.DARK_GRAY);
 		textField_3.setColumns(10);
 		textField_3.setBounds(335, 346, 120, 28);
 		getContentPane().add(textField_3);
 		
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(544, 100, 446, 164);
+		scrollPane.setBounds(544, 100, 446, 82);
 		getContentPane().add(scrollPane);
 		
-		
-		//scrollPane.setColumnHeaderView(table);
-///////////////////////////////////////////////		
-		
-		String[] columnas = new String[]{
-	            "Recompensa",
-	            "Cantidad",
-	            "Apoyar"};
-
-///        
-		JButton btApoyo = new JButton("Apoyar");
-		
-        //Una única fila
-        Object[][] datos = new Object[][]{
-                {"Un duplicado oficial en BluRay firmado por el director del bódrio.",
-                2000.00,
-                btApoyo}};
-		
-/////		
-		table = new JTable();
-		table.setRowSelectionAllowed(false);
-		table.setSelectionBackground(SystemColor.inactiveCaptionText);
-		table.setName("Listado de recompensas del proyecto");
-		table.setGridColor(Color.LIGHT_GRAY);
-        // Defino el TableModel y le indico los datos y nombres de columnas
-
-		table_1 = new JTable();
-		table_1.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-			}
-		});
-		table_1.setEnabled(false);
-		table_1.setForeground(Color.GRAY);
-		table_1.setRowSelectionAllowed(false);
-		table_1.setSelectionBackground(SystemColor.inactiveCaptionText);
-		table_1.setName("Listado de proyectos en votación");
-		table_1.setGridColor(Color.LIGHT_GRAY);
-        // Defino el TableModel y le indico los datos y nombres de columnas
-        table_1.setModel(new DefaultTableModel(
-                datos,
-                columnas) {
-            
-            Class[] tipos = new Class[]{
-                    String.class,
-                    double.class,
-                    JButton.class
-                };
-
-            @Override
-            public Class getColumnClass(int columnIndex) {
-                // Este método es invocado por el CellRenderer para saber que dibujar en la celda,
-                // observen que estamos retornando la clase que definimos de antemano.
-                return tipos[columnIndex];
-            }
-            
-			boolean[] columnEditables = new boolean[] {
-				false, false
-			};
-			public boolean isCellEditable(int row, int column) {
-				return columnEditables[column];
-			}
-		});
-        
-		table_1.getColumnModel().getColumn(0).setResizable(false);
-		table_1.getColumnModel().getColumn(0).setPreferredWidth(250);
-		//scrollPane.setColumnHeaderView(table);
-		scrollPane.setViewportView(table_1);
+		///////////////////////////////////TABLA
+        tbRecompensas = new JTable();
+		tbRecompensas.setRowSelectionAllowed(true);
+		tbRecompensas.setSelectionBackground(SystemColor.inactiveCaptionText);
+		tbRecompensas.setName("Listado de recompensas");
+		tbRecompensas.setGridColor(Color.LIGHT_GRAY);
+		scrollPane.setViewportView(tbRecompensas);
+		vistaTablaRecompensas();
 		
 		JLabel lblFinanciado = new JLabel("% Financiado:");
 		lblFinanciado.setHorizontalAlignment(SwingConstants.LEFT);
@@ -235,7 +187,7 @@ public class VentanaInfoFinanciacionProyecto extends JFrame {
 		textField_4 = new JTextField();
 		textField_4.setText(formatoDecimal.format(proyecto.getCantidadRecaudada()*100./proyecto.getCantidadMinima()));
 		textField_4.setHorizontalAlignment(SwingConstants.CENTER);
-		textField_4.setForeground(Color.GRAY);
+		textField_4.setForeground(Color.DARK_GRAY);
 		textField_4.setEditable(false);
 		textField_4.setColumns(10);
 		textField_4.setBounds(335, 398, 120, 28);
@@ -244,16 +196,70 @@ public class VentanaInfoFinanciacionProyecto extends JFrame {
 		JButton button = new JButton("¡¡Apoyar Proyecto!!");
 		button.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				DefaultTableModel dtm = (DefaultTableModel) tbRecompensas.getModel(); 
+				String nombreRecompensa = String.valueOf(dtm.getValueAt(tbRecompensas.getSelectedRow(),0));
+				double cantidadRecompensa = (Double) dtm.getValueAt(tbRecompensas.getSelectedRow(),1);
+				String nombreProyecto = proyecto.getNombre();
+				//Ventana confirmación
+				int n = JOptionPane.showConfirmDialog(
+					    null,
+					    "¿Deseas apoyar el siguiente proyecto con la recompensa seleccionada?",
+					    "An Inane Question",
+					    JOptionPane.YES_NO_OPTION);
+				if(n==0){
+					//Apoyar el proyecto
+					try {
+						controlador.apoyarProyecto(nombreProyecto, nombreRecompensa, cantidadRecompensa, "");
+					} catch (InvalidStateException | InvalidArgumentException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+					//Ir al listado de proyectos en financiación
+                    VentanaPrincipalApoyanos ventanaPrincipal = new VentanaPrincipalApoyanos("Financiación","Todos");
+                    ventanaPrincipal.setVisible(true);
+                    setVisible(false); //you can't see me!
+                    dispose(); //Destroy the JFrame object
+				}
+
 			}
 		});
 		button.setFont(new Font("Lucida Grande", Font.BOLD, 23));
 		button.setEnabled(true);
-		button.setBounds(544, 294, 444, 66);
+		button.setBounds(544, 360, 444, 66);
 		getContentPane().add(button);
-/////	
 		
-/////////////////////////////////////////////		
-		//TODO Solicitar al controlador las categorías y hacer los sub-menús automáticamente
+		final JTextArea textDescripcion = new JTextArea();
+		textDescripcion.setWrapStyleWord(true);
+		textDescripcion.setText((String) null);
+		textDescripcion.setRows(10);
+		textDescripcion.setPreferredSize(new Dimension(375, 16));
+		textDescripcion.setMinimumSize(new Dimension(300, 50));
+		textDescripcion.setLineWrap(true);
+		textDescripcion.setForeground(Color.DARK_GRAY);
+		textDescripcion.setEditable(false);
+		textDescripcion.setBorder(new LineBorder(Color.LIGHT_GRAY, 2));
+		textDescripcion.setBounds(545, 187, 444, 77);
+		getContentPane().add(textDescripcion);
+		
+		JButton btninfo = new JButton("+Info Recompensa");
+		btninfo.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				DefaultTableModel dtm = (DefaultTableModel) tbRecompensas.getModel(); 
+				String nombreR = String.valueOf(dtm.getValueAt(tbRecompensas.getSelectedRow(),0));
+				textDescripcion.setText(buscarRecompensa(nombreR).getDescripcion());
+			}
+		});
+		btninfo.setBounds(680, 271, 176, 29);
+		getContentPane().add(btninfo);
+		
+		JLabel lblSiTienesAlguna = new JLabel("Si tienes alguna duda:");
+		lblSiTienesAlguna.setHorizontalAlignment(SwingConstants.LEFT);
+		lblSiTienesAlguna.setBounds(544, 322, 150, 16);
+		getContentPane().add(lblSiTienesAlguna);
+		
+		JButton btnPreguntas = new JButton("Preguntas");
+		btnPreguntas.setBounds(706, 317, 117, 29);
+		getContentPane().add(btnPreguntas);
 		
 		//Características del JFrame
 		setBackground(new Color(255, 255, 255));
@@ -264,5 +270,48 @@ public class VentanaInfoFinanciacionProyecto extends JFrame {
 		//Menú
 		menu_apoyanos = new Menu(this);
 		
+	}
+	private void vistaTablaRecompensas() {
+		modeloVistaRecompensa = new ModeloTabla();
+		modeloVistaRecompensa.addColumn("Recompensa");
+		modeloVistaRecompensa.addColumn("Cantidad (€)");
+		modeloVistaRecompensa.addColumn("Límite Apoyos");
+		//modeloVistaRecompensa.addColumn("Eliminar");
+		// poner mas informacion
+
+		for (Recompensa re : listaRecompensas) {
+			Object[] objRecompensa = new Object[3];
+
+			try {
+
+				objRecompensa[0] = re.getNombre();
+				objRecompensa[1] = re.getCantidadMinima();
+				if(re.getMaximoParticipantes()==0)
+					objRecompensa[2] = "-";
+				else
+					objRecompensa[2] = re.getMaximoParticipantes();
+				
+			} catch (Exception e) {
+			}
+			modeloVistaRecompensa.addRow(objRecompensa);
+
+		}
+		tbRecompensas.setModel(modeloVistaRecompensa);
+		tbRecompensas.getColumnModel().getColumn(0).setResizable(false);
+		tbRecompensas.getColumnModel().getColumn(0).setPreferredWidth(150);
+		tbRecompensas.getColumnModel().getColumn(1).setResizable(false);
+		tbRecompensas.getColumnModel().getColumn(1).setPreferredWidth(50);
+		tbRecompensas.getColumnModel().getColumn(2).setResizable(false);
+
+	}
+	
+	private Recompensa buscarRecompensa (String r){
+		Recompensa reEncontrada = null;
+		for (Recompensa re : listaRecompensas) {
+			if (re.getNombre().equals(r)) {
+				reEncontrada = re;
+			}
+		}
+		return reEncontrada;
 	}
 }

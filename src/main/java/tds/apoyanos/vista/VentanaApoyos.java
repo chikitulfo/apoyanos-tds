@@ -4,13 +4,17 @@ import java.awt.Color;
 import java.awt.SystemColor;
 
 import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.LinkedList;
+import java.util.Collection;
 
-import javax.swing.table.DefaultTableModel;
+//import javax.swing.table.DefaultTableModel;
+
+
+
 
 import tds.apoyanos.controlador.Controlador;
 import tds.apoyanos.modelo.Apoyo;
@@ -18,13 +22,13 @@ import tds.apoyanos.modelo.Apoyo;
 @SuppressWarnings("serial")
 public class VentanaApoyos extends JFrame {
 	private JTable table;
-	private ModeloTabla modeloVistaApoyo;
 	@SuppressWarnings("unused")
 	private Menu menu_apoyanos;
 
+	private ModeloTabla modeloVistaApoyo;
 
 	private Controlador controlador = Controlador.getUnicaInstancia();
-	private LinkedList<Apoyo> listaApoyos = (LinkedList<Apoyo>) controlador.getApoyos();
+	private Collection<Apoyo> listaApoyos =  controlador.getApoyos();
 	
 	public VentanaApoyos() {
 		setResizable(false);
@@ -41,11 +45,14 @@ public class VentanaApoyos extends JFrame {
 		getContentPane().add(scrollPane);
 		
 		
+		//recorrerApoyos();
+		
+		
 		table = new JTable();
 		table.setEnabled(false);
 		table.setRowSelectionAllowed(false);
 		table.setSelectionBackground(SystemColor.inactiveCaptionText);
-		table.setName("Listado de proyectos en votación");
+		table.setName("Listado apoyos a proyectos.");
 		table.setGridColor(Color.LIGHT_GRAY);
 		//Muestra la vista de la tabla
 		vistaTablaProyectosApoyados();
@@ -59,12 +66,18 @@ public class VentanaApoyos extends JFrame {
 		getContentPane().add(lblNotificaciones);
 		
 		JButton btnapoyar = new JButton("Más Info");
+		btnapoyar.setEnabled(true);
+		if (listaApoyos.isEmpty())
+			btnapoyar.setEnabled(false);
+		
 		btnapoyar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				//Proyecto proyecto = apoyo.;
-				//VentanaInfoFinaciacionProyecto ventanaInfoFinanciacion = new VentanaInfoFinaciacionProyecto(proyecto);
-				//ventanaCrearProyecto.setVisible(true);
-				//setVisible(false);
+				DefaultTableModel dtm = (DefaultTableModel) table.getModel(); 
+				String nombreProyecto = String.valueOf(dtm.getValueAt(table.getSelectedRow(),0));
+				VentanaInfoFinanciacionProyecto ventanaInfoFinanciacion = new VentanaInfoFinanciacionProyecto(nombreProyecto);
+				ventanaInfoFinanciacion.setVisible(true);
+	            setVisible(false); //you can't see me!
+	            dispose(); //Destroy the JFrame object
 			}
 		});
 		btnapoyar.setBounds(432, 365, 117, 29);
@@ -84,31 +97,22 @@ public class VentanaApoyos extends JFrame {
 		menu_apoyanos = new Menu(this);
 	}
 	
-	public class ModeloTabla extends DefaultTableModel {
-
-		public boolean isCellEditable(int row, int column) {
-			return false;
-		}
-
-	}
-	
-	
 	private void vistaTablaProyectosApoyados() {
 		modeloVistaApoyo = new ModeloTabla();
 		modeloVistaApoyo.addColumn("Proyecto");
 		modeloVistaApoyo.addColumn("Recompensa");
 		modeloVistaApoyo.addColumn("Cantidad (€)");
-		modeloVistaApoyo.addColumn("Id");
+		//modeloVistaApoyo.addColumn("Id");
 		
 		for (Apoyo apoyo : listaApoyos) {
 			Object[] objApoyo = new Object[3];
 
 			try {
 				
-				objApoyo[0] = apoyo.getProyecto();
+				objApoyo[0] = apoyo.getProyecto().getNombre();
 				objApoyo[1] = apoyo.getRecompensa().getNombre();
 				objApoyo[2] = apoyo.getCantidad();
-				objApoyo[3] = apoyo.getId();
+				//objApoyo[3] = apoyo.getId();
 				
 			} catch (Exception e) {
 			}
@@ -123,10 +127,10 @@ public class VentanaApoyos extends JFrame {
 		table.getColumnModel().getColumn(1).setPreferredWidth(175);
 		table.getColumnModel().getColumn(2).setResizable(false);
 		table.getColumnModel().getColumn(2).setPreferredWidth(50);
-		table.getColumnModel().getColumn(3).setResizable(false);
-		table.getColumnModel().getColumn(3).setMaxWidth(0);
-		table.getColumnModel().getColumn(3).setMinWidth(0);
-		table.getColumnModel().getColumn(3).setPreferredWidth(0);
+		//table.getColumnModel().getColumn(3).setResizable(false);
+		//table.getColumnModel().getColumn(3).setMaxWidth(0);
+		//table.getColumnModel().getColumn(3).setMinWidth(0);
+		//table.getColumnModel().getColumn(3).setPreferredWidth(0);
 	}
 	
 	@SuppressWarnings("unused")
@@ -149,6 +153,14 @@ public class VentanaApoyos extends JFrame {
 			}
 		}
 		return existe;
+	}
+	
+	@SuppressWarnings("unused")
+	private void recorrerApoyos (){
+		System.out.print("Veamos los apoyos de: " + controlador.getUsuario().getLogin() + " con " + controlador.getApoyos().size() + " apoyos.\n");
+		for (Apoyo ap : listaApoyos) {
+			System.out.print(ap.getProyecto().getNombre() + " " + ap.getRecompensa().getNombre() + " " + ap.getCantidad());
+		}
 	}
 	
 	
