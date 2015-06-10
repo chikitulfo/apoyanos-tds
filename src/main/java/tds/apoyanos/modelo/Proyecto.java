@@ -42,14 +42,7 @@ public class Proyecto {
         this.cantidadRecaudada = 0;
         this.recompensas = new ArrayList<Recompensa>();
 
-        // Creación de la política de comisiones adecuada
-        if (categoria == Categoria.SOCIAL) {
-            politicaComisiones = new ComisionSocial();
-        } else if (categoria == Categoria.CINE && cantidadMinima >6000) {
-            politicaComisiones = new ComisionCinePlus();
-        } else {
-            politicaComisiones = new ComisionStandard();
-        }
+        this.politicaComisiones = FactoriaPoliticaComisiones.createPoliticaComisiones(categoria, cantidadMinima);
 
     }
 
