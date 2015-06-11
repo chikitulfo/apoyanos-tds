@@ -1,20 +1,19 @@
 package tds.apoyanos.vista;
 
-import javax.swing.*;
-import javax.swing.table.DefaultTableModel;
-
-import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.util.LinkedList;
-//import javax.swing.table.DefaultTableModel;
-
-
-
-
 import tds.apoyanos.controlador.Controlador;
 import tds.apoyanos.exceptions.InvalidArgumentException;
 import tds.apoyanos.modelo.Proyecto;
+
+import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.LinkedList;
+
+//import javax.swing.table.DefaultTableModel;
 
 @SuppressWarnings("serial")
 public class VentanaPrincipalApoyanos extends JFrame {
@@ -61,6 +60,7 @@ public class VentanaPrincipalApoyanos extends JFrame {
 			} else {
 					listaProyectos = (LinkedList<Proyecto>) controlador.getProyectosEnVotacion(categoria);
 			}
+			Collections.sort(listaProyectos, comparadorVotacion);
 			///////////////////////////////////TABLA
 			tbListadoProyectosVotacion = new JTable();
 			tbListadoProyectosVotacion.setRowSelectionAllowed(true);
@@ -77,6 +77,7 @@ public class VentanaPrincipalApoyanos extends JFrame {
 
 					listaProyectos = (LinkedList<Proyecto>) controlador.getProyectosEnFinanciacion(categoria);
 			}
+			Collections.sort(listaProyectos, comparadorFinanciacion);
 			///////////////////////////////////TABLA
 			tbListadoProyectosFinanciacion = new JTable();
 			tbListadoProyectosFinanciacion.setRowSelectionAllowed(true);
@@ -86,7 +87,6 @@ public class VentanaPrincipalApoyanos extends JFrame {
 			scrollPane.setViewportView(tbListadoProyectosFinanciacion);
 			vistaTablaFinanciacion();
 		}
-		
 		
 		JLabel lbTitulo = new JLabel();
 		/*
@@ -235,4 +235,18 @@ public class VentanaPrincipalApoyanos extends JFrame {
 			tbListadoProyectosFinanciacion.getColumnModel().getColumn(4).setResizable(false);
 			tbListadoProyectosFinanciacion.getColumnModel().getColumn(4).setPreferredWidth(30);
 		}
+
+	Comparator<Proyecto> comparadorVotacion = new Comparator<Proyecto>() {
+		@Override
+		public int compare(Proyecto proyecto, Proyecto t1) {
+			return Integer.compare(t1.getNumvotos(),proyecto.getNumvotos());
+		}
+	};
+
+	Comparator<Proyecto> comparadorFinanciacion = new Comparator<Proyecto>() {
+		@Override
+		public int compare(Proyecto proyecto, Proyecto t1) {
+			return Integer.compare(proyecto.getDiasRestantes(),t1.getDiasRestantes());
+		}
+	};
 }
