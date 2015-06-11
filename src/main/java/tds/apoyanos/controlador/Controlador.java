@@ -88,6 +88,9 @@ public final class Controlador implements IFinanciacionListener {
         if ( recompensas == null || recompensas.isEmpty()) {
             throw new InvalidArgumentException("El proyecto necesita al menos una recompensa");
         }
+        if (plazoFinanciacion == null) {
+            throw new InvalidArgumentException("El proyecto necesita al menos una recompensa");
+        }
         Proyecto proyec = new Proyecto(nombre, descripcion, usuario, cantidadMinima,
                 plazoFinanciacion, Categoria.valueOfNombre(categoria));
         for (RecompensaVista r : recompensas) {

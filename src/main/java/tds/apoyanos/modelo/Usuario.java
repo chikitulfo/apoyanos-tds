@@ -6,6 +6,7 @@ import tds.apoyanos.exceptions.InvalidStateException;
 import tds.apoyanos.persistencia.DAOException;
 import tds.apoyanos.persistencia.FactoriaDAO;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Deque;
 import java.util.LinkedList;
@@ -92,11 +93,12 @@ public class Usuario {
     }
 
     public Collection<Pregunta> getPreguntasEmitidas() {
-        return new LinkedList<Pregunta>(preguntasEmitidas);
+
+        return new ArrayList<Pregunta>(preguntasEmitidas);
     }
 
     public Collection<Pregunta> getPreguntasRecibidas() {
-        return new LinkedList<Pregunta>(preguntasRecibidas);
+        return new ArrayList<Pregunta>(preguntasRecibidas);
     }
 
     public void addProyectoCreado(Proyecto proyecto) {

@@ -144,6 +144,10 @@ public class Proyecto {
     }
 
     public boolean esFinanciado(){
+        return cantidadRecaudada >= cantidadMinima;
+    }
+
+    public boolean esCompletado(){
         return estado == Estado.COMPLETADO;
     }
 
@@ -213,13 +217,14 @@ public class Proyecto {
 
     public void comprobarPlazo() {
         if (plazoFinanciacion.before(new GregorianCalendar())) {
-            if ( estaEnVotacion() || estaEnFinanciacion()) {
+            if ( estaEnVotacion() || !esFinanciado()) {
                 estado = Estado.CANCELADO;
                 this.actualizarPersistencia();
                 notificarUsuarios("El proyecto " + nombre + " ha sido cancelado antes de alcanzar su meta de "
                         + cantidadMinima + "." +
                         "\nLo sentimos");
             } else if ( esFinanciado()) {
+                estado = Estado.COMPLETADO;
                 notificarUsuarios("El proyecto "+nombre+" ha finalizado la campaña logrando recaudar un total de "
                         +cantidadRecaudada+" sobre un mínimo de "+cantidadMinima+"." +
                         "\n¡Fantásticas noticias!");
@@ -232,9 +237,9 @@ public class Proyecto {
     }
 
     private void addFinanciacion (double cantidad){
+        double oldRecaudada=cantidadRecaudada;
         cantidadRecaudada += cantidad;
-        if (cantidadRecaudada >= cantidadMinima) {
-            estado = Estado.COMPLETADO;
+        if (cantidadRecaudada >= cantidadMinima && oldRecaudada < cantidadMinima ) {
             notificarUsuarios("El proyecto "+nombre+" acaba de alcanzar su objetivo de "+cantidadMinima+"." +
                     "\n¡Fantásticas noticias!" +
                     "\nLa campaña continúa hasta vencer el plazo.");
