@@ -215,19 +215,27 @@ public class Proyecto {
         throw new InvalidStateException("El proyecto no está en fase de financiación");
     }
 
+    // Comprueba el plazo con respecto al la fecha local actual
     public void comprobarPlazo() {
-        if (plazoFinanciacion.before(new GregorianCalendar())) {
+        comprobarPlazo(new GregorianCalendar());
+    }
+
+    // Comprueba el plazo con respecto al Calendario Recibido
+    public void comprobarPlazo(GregorianCalendar comprobacion) {
+        if (plazoFinanciacion.before(comprobacion)) {
             if ( estaEnVotacion() || !esFinanciado()) {
                 estado = Estado.CANCELADO;
                 this.actualizarPersistencia();
                 notificarUsuarios("El proyecto " + nombre + " ha sido cancelado antes de alcanzar su meta de "
                         + cantidadMinima + "." +
                         "\nLo sentimos");
+                actualizarPersistencia();
             } else if ( esFinanciado()) {
                 estado = Estado.COMPLETADO;
                 notificarUsuarios("El proyecto "+nombre+" ha finalizado la campaña logrando recaudar un total de "
                         +cantidadRecaudada+" sobre un mínimo de "+cantidadMinima+"." +
                         "\n¡Fantásticas noticias!");
+                actualizarPersistencia();
             }
         }
     }

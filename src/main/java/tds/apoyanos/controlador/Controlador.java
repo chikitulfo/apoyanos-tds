@@ -8,6 +8,7 @@ import umu.tds.cargador.ComponenteCargadorFinanciacion;
 import umu.tds.cargador.FinanciacionEvent;
 import umu.tds.cargador.IFinanciacionListener;
 
+import java.util.Calendar;
 import java.util.Collection;
 import java.util.GregorianCalendar;
 import java.util.List;
@@ -18,6 +19,7 @@ public final class Controlador implements IFinanciacionListener {
     private Usuario usuario = null;
     private CatalogoUsuarios catalogoUsuarios = CatalogoUsuarios.getUnicaInstancia();
     private CatalogoProyectos catalogoProyectos = CatalogoProyectos.getUnicaInstancia();
+    private int adelantoReloj = 0;
 
 	private Controlador() {	}
 
@@ -88,8 +90,8 @@ public final class Controlador implements IFinanciacionListener {
         if ( recompensas == null || recompensas.isEmpty()) {
             throw new InvalidArgumentException("El proyecto necesita al menos una recompensa");
         }
-        if (plazoFinanciacion == null) {
-            throw new InvalidArgumentException("El proyecto necesita al menos una recompensa");
+        if (plazoFinanciacion == null || plazoFinanciacion.before(new GregorianCalendar())) {
+            throw new InvalidArgumentException("El proyecto necesita un plazo de financiación válido");
         }
         Proyecto proyec = new Proyecto(nombre, descripcion, usuario, cantidadMinima,
                 plazoFinanciacion, Categoria.valueOfNombre(categoria));
@@ -186,10 +188,16 @@ public final class Controlador implements IFinanciacionListener {
         usuario.apoyar(p,nRecompensa,cantidad, comentario);
     }
 
+    public void adelantarRelojUnDia(){
+        adelantoReloj+=1;
+    }
+
     public void comprobarPlazoFinalizacionProyectos() {
+        GregorianCalendar Fecha = new GregorianCalendar();
+        Fecha.add(Calendar.DAY_OF_YEAR, adelantoReloj);
         Collection<Proyecto> proyectos = catalogoProyectos.getAllProyectos();
         for (Proyecto p : proyectos ) {
-            p.comprobarPlazo();
+            p.comprobarPlazo(Fecha);
         }
     }
 
