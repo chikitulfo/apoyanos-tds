@@ -82,7 +82,7 @@ public class VentanaNotificaciones extends JFrame {
 			try {
 				
 				objNot[0] = not.getProyecto().getNombre();
-				objNot[1] = not.getProyecto().getCreador().getNombre() + " " + not.getProyecto().getCreador().getApellidos() + " (@" + not.getProyecto().getCreador().getLogin() + ") ";
+				objNot[1] = not.getProyecto().getCreador().getNombre() + " " + not.getProyecto().getCreador().getApellidos();
 				objNot[2] = not.getDescripcion();
 				//objApoyo[3] = apoyo.getId();
 				
@@ -94,11 +94,13 @@ public class VentanaNotificaciones extends JFrame {
 		table.setModel(modeloVistaNotificacion);
 		
 		table.getColumnModel().getColumn(0).setResizable(false);
-		table.getColumnModel().getColumn(0).setPreferredWidth(175);
+		table.getColumnModel().getColumn(0).setPreferredWidth(100);
+		table.getColumnModel().getColumn(0).setMaxWidth(100);
 		table.getColumnModel().getColumn(1).setResizable(false);
-		table.getColumnModel().getColumn(1).setPreferredWidth(175);
+		table.getColumnModel().getColumn(1).setPreferredWidth(100);
+		table.getColumnModel().getColumn(1).setMaxWidth(100);
 		table.getColumnModel().getColumn(2).setResizable(false);
-		table.getColumnModel().getColumn(2).setPreferredWidth(50);
+		//table.getColumnModel().getColumn(2).setPreferredWidth(50);
 
 	}
 	
