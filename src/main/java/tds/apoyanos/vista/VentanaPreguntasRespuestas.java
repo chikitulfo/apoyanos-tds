@@ -1,35 +1,23 @@
 package tds.apoyanos.vista;
 
-import javax.swing.*;
-
-import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-
-//import net.miginfocom.swing.MigLayout;
-
-
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-
-
-
-//import javax.swing.border.BevelBorder;
-import javax.swing.border.LineBorder;
-//import javax.swing.table.DefaultTableModel;
-
-
-import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableCellRenderer;
-
 import tds.apoyanos.controlador.Controlador;
 import tds.apoyanos.exceptions.InvalidArgumentException;
 import tds.apoyanos.exceptions.InvalidStateException;
 import tds.apoyanos.modelo.Pregunta;
 import tds.apoyanos.modelo.Proyecto;
 
+import javax.swing.*;
+import javax.swing.border.LineBorder;
+import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableCellRenderer;
+import java.awt.*;
+import java.awt.event.*;
 import java.util.ArrayList;
+
+//import net.miginfocom.swing.MigLayout;
+//import javax.swing.border.BevelBorder;
+//import javax.swing.table.DefaultTableModel;
 //import java.awt.event.MouseAdapter;
 //import java.awt.event.MouseEvent;
 //import java.util.Collection;
@@ -42,6 +30,8 @@ public class VentanaPreguntasRespuestas extends JFrame {
 	private JTable tbRecibidas;
 	private ModeloTabla modeloVistaRecibidas;
 	private ModeloTabla modeloVistaEmitidas;
+	private MouseListener mouseListenerRecibidas;
+	private MouseListener mouseListenerEmitidas;
 	
 	@SuppressWarnings("unused")
 	private Menu menu_apoyanos;
@@ -139,7 +129,35 @@ public class VentanaPreguntasRespuestas extends JFrame {
 		});
 		btnVerRespuesta.setBounds(186, 370, 117, 29);
 		panelIzq.add(btnVerRespuesta);
-		
+
+		mouseListenerEmitidas = new MouseAdapter() {
+			public void mouseClicked(MouseEvent mouseEvent){
+
+				//listaPreguntasRecibidas = (JList) mouseEvent.getSource();
+				if(mouseEvent.getClickCount() == 1 ){
+					int index = ((JTable) mouseEvent.getSource()).rowAtPoint(mouseEvent.getPoint());
+					if(index >=0) {
+						//Relleno información ventana respuestas y lo muestro.
+						DefaultTableModel dtmE = (DefaultTableModel) tbEmitidas.getModel();
+						int idPregunta = Integer.valueOf(String.valueOf(dtmE.getValueAt(index, 2)));
+						pregunta = listaPreguntasEmitidas.get(index);
+						//VER RESPUESTA
+						//System.out.print(idPregunta);
+						textProyectoEm.setText(pregunta.getProyecto().getNombre());
+						textCreadorEm.setText(pregunta.getReceptor().getNombre() + " " + pregunta.getReceptor().getApellidos());
+						textAsuntoEm.setText(pregunta.getAsunto());
+						textPreguntaEm.setText(pregunta.getCuerpo());
+						textRespuestaEm.setText(pregunta.getRespuesta());
+						if (pregunta.getRespuesta() != null) {
+							btnEnviar.setText("Nueva pregunta");
+						}
+						pregunta = null; //??
+					}
+				}
+			}
+		};
+
+
 		
 		JPanel panelDer = new JPanel();
 		panelDer.setBackground(Color.WHITE);
@@ -375,8 +393,7 @@ public class VentanaPreguntasRespuestas extends JFrame {
 		textId.setColumns(10);
 		
 				
-		//TODO Solicitar al controlador las categorías y hacer los sub-menús automáticamente
-		
+
 		//Características del JFrame
 		setBackground(new Color(255, 255, 255));
 		setTitle("Apóyanos - Tu plataforma crowdfunding para lanzar tus proyectos.");
@@ -405,6 +422,34 @@ public class VentanaPreguntasRespuestas extends JFrame {
 				}
 			}
 		});
+
+		mouseListenerRecibidas = new MouseAdapter() {
+			public void mouseClicked(MouseEvent mouseEvent){
+
+				//listaPreguntasRecibidas = (JList) mouseEvent.getSource();
+				if(mouseEvent.getClickCount() == 1 ){
+					int index = ((JTable) mouseEvent.getSource()).rowAtPoint(mouseEvent.getPoint());
+					if(index >=0){
+						//Relleno información ventana respuestas y lo muestro.
+						DefaultTableModel dtmR = (DefaultTableModel) tbRecibidas.getModel();
+						int idPregunta = Integer.valueOf(String.valueOf(dtmR.getValueAt(index,1)));
+						pregunta = listaPreguntasRecibidas.get(index);
+						//VER RESPUESTA
+						textId.setText(String.valueOf(idPregunta));
+						textProyectoRe.setText(pregunta.getProyecto().getNombre());
+						textMecenasRe.setText(pregunta.getEmisor().getNombre()+ " "+pregunta.getEmisor().getApellidos());
+						textAsuntoRe.setText(pregunta.getAsunto());
+						textPreguntaRe.setText(pregunta.getCuerpo());
+						textRespuestaRe.setText(pregunta.getRespuesta());
+						if(pregunta.getRespuesta()!=null){
+							btResponder.setEnabled(false);
+						} else {
+							btResponder.setEnabled(true);
+						}
+					}
+				}
+			}
+		};
 		button.setEnabled(true);
 		button.setBounds(186, 370, 117, 29);
 		panelIzq2.add(button);
@@ -454,9 +499,8 @@ public class VentanaPreguntasRespuestas extends JFrame {
 
 		}
 		tbRecibidas.setModel(modeloVistaRecibidas);
-		tbRecibidas.addMouseListener(mouseListener);
-		negrita.setDecorado(tbRecibidas.getColumnModel().getColumn(0).getCellRenderer());
-		tbRecibidas.getColumnModel().getColumn(0).setCellRenderer(negrita);
+		tbRecibidas.addMouseListener(mouseListenerRecibidas);
+		tbRecibidas.getColumnModel().getColumn(0).setCellRenderer(new CustomTableCellRenderer());
 		tbRecibidas.getColumnModel().getColumn(0).setResizable(false);
 		tbRecibidas.getColumnModel().getColumn(0).setPreferredWidth(150);
 		tbRecibidas.getTableHeader().getColumnModel().getColumn(1).setMinWidth(0);
@@ -486,6 +530,7 @@ public class VentanaPreguntasRespuestas extends JFrame {
 		}
 		
 		tbEmitidas.setModel(modeloVistaEmitidas);
+		tbEmitidas.addMouseListener(mouseListenerEmitidas);
 		tbEmitidas.getColumnModel().getColumn(0).setResizable(false);
 		tbEmitidas.getColumnModel().getColumn(0).setPreferredWidth(250);
 		tbEmitidas.getColumnModel().getColumn(1).setResizable(false);
@@ -526,56 +571,27 @@ public class VentanaPreguntasRespuestas extends JFrame {
 	}
 	
 	
-	private class CustomTableCellRenderer implements TableCellRenderer {
+	private class CustomTableCellRenderer extends DefaultTableCellRenderer {
 		TableCellRenderer decorado;
-		
-		//public CustomTableCellRenderer(){}
 		
 		public void setDecorado(TableCellRenderer tcr){
 			this.decorado=tcr;
 		}
 	    public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
-            Component lbl;
+            /*Component lbl;
 	    	//Si values es nulo dara problemas de renderizado, por lo tanto se pone como vacio
 	    	if (decorado==null){
 	    		lbl = new JLabel(value == null? "": value.toString());
 	    	} else {
 	    		lbl = decorado.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
-	    	}
-          
+	    	} */
+			JLabel lbl = (JLabel)super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
+
             		//new JLabel(value == null? "": value.toString());
             if (!listaPreguntasRecibidas.isEmpty() && listaPreguntasRecibidas.get(row).getRespuesta() == null)
             	lbl.setFont(new Font("Lucida Grande", Font.BOLD, 13));
             return lbl;
         }
     }
-    
-	CustomTableCellRenderer negrita = new CustomTableCellRenderer();
-	
-	
-    MouseListener mouseListener = new MouseAdapter() {
-    	public void mouseClicked(MouseEvent mouseEvent){
-    		
-    		//listaPreguntasRecibidas = (JList) mouseEvent.getSource();
-    		if(mouseEvent.getClickCount() == 1 ){
-    			int index = ((JTable) mouseEvent.getSource()).rowAtPoint(mouseEvent.getPoint());
-    			if(index >=0){
-    				//Relleno información ventana respuestas y lo muestro.
-    				pregunta = listaPreguntasRecibidas.get(index);
-    				//VER RESPUESTA
-    				textProyectoEm.setText(pregunta.getProyecto().getNombre());
-    				textCreadorEm.setText(pregunta.getReceptor().getNombre()+ " "+pregunta.getReceptor().getApellidos());
-    				textAsuntoEm.setText(pregunta.getAsunto());
-    				textPreguntaEm.setText(pregunta.getCuerpo());
-    				textRespuestaEm.setText(pregunta.getRespuesta());
-    				if(pregunta.getRespuesta()==null){
-    					btnEnviar.setText("Nueva pregunta");
-    				}
-    			}
-    		}
-    	}
-    };
-    
-    
-    
+
 }
