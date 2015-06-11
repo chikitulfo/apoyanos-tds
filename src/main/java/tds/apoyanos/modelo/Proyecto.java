@@ -226,14 +226,15 @@ public class Proyecto {
             if ( estaEnVotacion() || !esFinanciado()) {
                 estado = Estado.CANCELADO;
                 this.actualizarPersistencia();
-                notificarUsuarios("El proyecto " + nombre + " ha sido cancelado antes de alcanzar su meta de "
-                        + cantidadMinima + "." +
+                notificarUsuarios("El proyecto \""+nombre+"\" ha sido cancelado antes de alcanzar su meta de "
+                        + cantidadMinima + "€." +
                         "\nLo sentimos");
                 actualizarPersistencia();
             } else if ( esFinanciado()) {
                 estado = Estado.COMPLETADO;
-                notificarUsuarios("El proyecto "+nombre+" ha finalizado la campaña logrando recaudar un total de "
-                        +cantidadRecaudada+" sobre un mínimo de "+cantidadMinima+"." +
+                notificarUsuarios("El proyecto \""+nombre+"\" ha finalizado la campaña logrando recaudar un total de "
+                        +cantidadRecaudada+"€ sobre un mínimo de "+cantidadMinima+"." +
+                        "\nLa comisión que se retendrá asciende a "+calcularComision()+"€"+
                         "\n¡Fantásticas noticias!");
                 actualizarPersistencia();
             }
@@ -248,7 +249,7 @@ public class Proyecto {
         double oldRecaudada=cantidadRecaudada;
         cantidadRecaudada += cantidad;
         if (cantidadRecaudada >= cantidadMinima && oldRecaudada < cantidadMinima ) {
-            notificarUsuarios("El proyecto "+nombre+" acaba de alcanzar su objetivo de "+cantidadMinima+"." +
+            notificarUsuarios("El proyecto \""+nombre+"\" acaba de alcanzar su objetivo de "+cantidadMinima+"€." +
                     "\n¡Fantásticas noticias!" +
                     "\nLa campaña continúa hasta vencer el plazo.");
         }
