@@ -9,6 +9,10 @@ import java.awt.event.ActionListener;
 //import net.miginfocom.swing.MigLayout;
 
 
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+
 
 
 //import javax.swing.border.BevelBorder;
@@ -17,18 +21,18 @@ import javax.swing.border.LineBorder;
 
 
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableCellRenderer;
 
 import tds.apoyanos.controlador.Controlador;
 import tds.apoyanos.exceptions.InvalidArgumentException;
+import tds.apoyanos.exceptions.InvalidStateException;
 import tds.apoyanos.modelo.Pregunta;
 import tds.apoyanos.modelo.Proyecto;
 
-
-
-
+import java.util.ArrayList;
 //import java.awt.event.MouseAdapter;
 //import java.awt.event.MouseEvent;
-import java.util.Collection;
+//import java.util.Collection;
 
 @SuppressWarnings("serial")
 public class VentanaPreguntasRespuestas extends JFrame {
@@ -49,13 +53,18 @@ public class VentanaPreguntasRespuestas extends JFrame {
 	private JTextField textProyectoEm;
 	private final JButton btnEnviar;
 	private final JTextArea textPreguntaEm;
+	private JTextArea textRespuestaEm;
+	private JButton btResponder;
 	
 	
-	private Collection<Pregunta> listaPreguntasEmitidas = controlador.getUsuario().getPreguntasEmitidas();
-	private Collection<Pregunta> listaPreguntasRecibidas = controlador.getUsuario().getPreguntasRecibidas();
+	private ArrayList<Pregunta> listaPreguntasEmitidas = (ArrayList<Pregunta>)controlador.getUsuario().getPreguntasEmitidas();
+	private ArrayList<Pregunta> listaPreguntasRecibidas = (ArrayList<Pregunta>)controlador.getUsuario().getPreguntasRecibidas();
+
+	
 	private JTextField textProyectoRe;
 	private JTextField textMecenasRe;
 	private Proyecto proyecto;
+	private JTextField textId;
 
 	public VentanaPreguntasRespuestas() {
 		this(null);
@@ -102,7 +111,6 @@ public class VentanaPreguntasRespuestas extends JFrame {
 		tbEmitidas.setName("Listado de preguntas");
 		tbEmitidas.setGridColor(Color.LIGHT_GRAY);
 		scrollPane.setViewportView(tbEmitidas);
-		vistaTablaEmitidas();
 
 		
 		JButton btnVerRespuesta = new JButton("ver respuesta");
@@ -115,13 +123,18 @@ public class VentanaPreguntasRespuestas extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				//VER RESPUESTA
 				DefaultTableModel dtmE = (DefaultTableModel) tbEmitidas.getModel(); 
-				int idPregunta = Integer.valueOf((String) dtmE.getValueAt(tbEmitidas.getSelectedRow(),2));
-				
+				int idPregunta = Integer.valueOf(String.valueOf(dtmE.getValueAt(tbEmitidas.getSelectedRow(),2)));
+				//System.out.print(idPregunta);
 				pregunta = buscarPreguntaEmitida(idPregunta);
 				textProyectoEm.setText(pregunta.getProyecto().getNombre());
 				textCreadorEm.setText(pregunta.getReceptor().getNombre()+ " "+pregunta.getReceptor().getApellidos());
 				textAsuntoEm.setText(pregunta.getAsunto());
-				textPreguntaEm.setText(pregunta.getRespuesta());
+				textPreguntaEm.setText(pregunta.getCuerpo());
+				textRespuestaEm.setText(pregunta.getRespuesta());
+				if(pregunta.getRespuesta()!=null){
+					btnEnviar.setText("Nueva pregunta");
+				}
+				pregunta = null; //??
 			}
 		});
 		btnVerRespuesta.setBounds(186, 370, 117, 29);
@@ -161,7 +174,7 @@ public class VentanaPreguntasRespuestas extends JFrame {
 		textPreguntaEm.setBounds(69, 186, 390, 72);
 		panelDer.add(textPreguntaEm);
 		
-		JTextArea textRespuestaEm = new JTextArea();
+		textRespuestaEm = new JTextArea();
 		textRespuestaEm.setEditable(false);
 		textRespuestaEm.setWrapStyleWord(true);
 		textRespuestaEm.setLineWrap(true);
@@ -172,17 +185,19 @@ public class VentanaPreguntasRespuestas extends JFrame {
 		panelDer.add(textRespuestaEm);
 		btnEnviar = new JButton("Enviar Pregunta");
 		btnEnviar.setActionCommand("enviar");
-		
 		btnEnviar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				///////
-				if (textAsuntoEm.getText().trim().isEmpty() || textPreguntaEm.getText().trim().isEmpty()){
-					//Saltar alarma informando que son todos los campos obligatorios.
-					new VentanaMensajes("Debes incluir un asunto y una pregunta");
-				} else {
-					//Todo va bien, envía la pregunta
+				if (btnEnviar.getText().equals("Enviar Pregunta")){
+					if (textAsuntoEm.getText().trim().isEmpty() || textPreguntaEm.getText().trim().isEmpty()){
+						//Saltar alarma informando que son todos los campos obligatorios.
+						new VentanaMensajes("Debes incluir un asunto y una pregunta");
+					} else {
+						//Todo va bien, envía la pregunta
 						try {
-							controlador.hacerPregunta(proyecto.getNombre(), textAsuntoEm.getText(), textPreguntaEm.getText());
+							controlador.hacerPregunta(textProyectoEm.getText(), textAsuntoEm.getText(), textPreguntaEm.getText());
+							listaPreguntasEmitidas = (ArrayList<Pregunta>) controlador.getUsuario().getPreguntasEmitidas();
+							//ACTUALIZAR LA VISTA DE LA TABLA
+							vistaTablaEmitidas();
 							new VentanaMensajes("La pregunta se ha enviado correctamente");
 							pregunta=null;
 							proyecto=null;
@@ -190,20 +205,21 @@ public class VentanaPreguntasRespuestas extends JFrame {
 							textCreadorEm.setText(null);
 							textAsuntoEm.setText(null);
 							textPreguntaEm.setText(null);
-							//ACTUALIZAR LA VISTA DE LA TABLA
-							vistaTablaEmitidas();
 						} catch (InvalidArgumentException e1) {
 							// TODO Auto-generated catch block
 							e1.printStackTrace();
 						}
 
+					}
+				} else {
+					//Nueva Pregunta
+					textAsuntoEm.setText(null);
+					textPreguntaEm.setText(null);
+					textRespuestaEm.setText(null);
+					btnEnviar.setText("Enviar Pregunta");
 				}
-				
-				///////
 			}
-		});
-		
-		
+			});
 		
 		btnEnviar.setBounds(187, 369, 160, 29);
 		panelDer.add(btnEnviar);
@@ -253,18 +269,6 @@ public class VentanaPreguntasRespuestas extends JFrame {
 		tbRecibidas.setGridColor(Color.LIGHT_GRAY);
 		scrollPaneRecibidas.setViewportView(tbRecibidas);
 		
-		JButton button = new JButton("ver pregunta");
-		button.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-			}
-		});
-		button.setEnabled(true);
-		button.setBounds(186, 370, 117, 29);
-		panelIzq2.add(button);
-		vistaTablaRecibidas();
-		
-		
-		
 		JPanel panelDer2 = new JPanel();
 		panelDer2.setBackground(Color.WHITE);
 		panelDer2.setLayout(null);
@@ -289,7 +293,7 @@ public class VentanaPreguntasRespuestas extends JFrame {
 		label_3.setBounds(35, 263, 100, 16);
 		panelDer2.add(label_3);
 		
-		JTextArea textPreguntaRe = new JTextArea();
+		final JTextArea textPreguntaRe = new JTextArea();
 		textPreguntaRe.setEditable(false);
 		textPreguntaRe.setWrapStyleWord(true);
 		textPreguntaRe.setLineWrap(true);
@@ -299,7 +303,7 @@ public class VentanaPreguntasRespuestas extends JFrame {
 		textPreguntaRe.setBounds(69, 186, 390, 72);
 		panelDer2.add(textPreguntaRe);
 		
-		JTextArea textRespuestaRe = new JTextArea();
+		final JTextArea textRespuestaRe = new JTextArea();
 		textRespuestaRe.setWrapStyleWord(true);
 		textRespuestaRe.setLineWrap(true);
 		textRespuestaRe.setColumns(10);
@@ -308,13 +312,44 @@ public class VentanaPreguntasRespuestas extends JFrame {
 		textRespuestaRe.setBounds(69, 283, 392, 72);
 		panelDer2.add(textRespuestaRe);
 		
-		JButton button_2 = new JButton("Responder");
-		button_2.addActionListener(new ActionListener() {
+		btResponder = new JButton("Responder");
+		btResponder.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				
+					if (textRespuestaRe.getText().trim().isEmpty()){
+						//Saltar alarma informando que son todos los campos obligatorios.
+						new VentanaMensajes("Debes responder la pregunta");
+					} else {
+						//Todo va bien, envía la pregunta
+						try {
+							//controlador.hacerPregunta(textProyectoEm.getText(), textAsuntoEm.getText(), textPreguntaEm.getText());
+							//listaPreguntasEmitidas = controlador.getUsuario().getPreguntasEmitidas();
+							
+							
+							controlador.responderPregunta(textProyectoRe.getText(), Integer.valueOf(textId.getText()), textRespuestaRe.getText());
+							listaPreguntasRecibidas = (ArrayList<Pregunta>) controlador.getUsuario().getPreguntasRecibidas();
+							
+							
+							//ACTUALIZAR LA VISTA DE LA TABLA
+							vistaTablaRecibidas();
+							new VentanaMensajes("La pregunta se ha enviado correctamente");
+							pregunta=null;
+							proyecto=null;
+							textProyectoRe.setText(null);
+							textMecenasRe.setText(null);
+							textAsuntoRe.setText(null);
+							textPreguntaRe.setText(null);
+							textRespuestaRe.setText(null);
+						} catch (InvalidArgumentException | InvalidStateException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						}
+
+					}
 			}
 		});
-		button_2.setBounds(186, 369, 160, 29);
-		panelDer2.add(button_2);
+		btResponder.setBounds(186, 369, 160, 29);
+		panelDer2.add(btResponder);
 		
 		textProyectoRe = new JTextField();
 		textProyectoRe.setText((String) null);
@@ -331,6 +366,14 @@ public class VentanaPreguntasRespuestas extends JFrame {
 		textMecenasRe.setBounds(60, 60, 401, 30);
 		panelDer2.add(textMecenasRe);
 		
+		textId = new JTextField();
+		textId.setVisible(false);
+		textId.setEnabled(false);
+		textId.setEditable(false);
+		textId.setBounds(35, 367, 134, 28);
+		panelDer2.add(textId);
+		textId.setColumns(10);
+		
 				
 		//TODO Solicitar al controlador las categorías y hacer los sub-menús automáticamente
 		
@@ -341,6 +384,38 @@ public class VentanaPreguntasRespuestas extends JFrame {
 		setBounds(100, 100, 1024, 600);
 		setLocationRelativeTo(null);
 		
+		JButton button = new JButton("ver pregunta");
+		button.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				//VER RESPUESTA
+				DefaultTableModel dtmR = (DefaultTableModel) tbRecibidas.getModel(); 
+				int idPregunta = Integer.valueOf(String.valueOf(dtmR.getValueAt(tbRecibidas.getSelectedRow(),1)));
+				//System.out.print(idPregunta);
+				pregunta = buscarPreguntaRecibida(idPregunta);
+				textId.setText(String.valueOf(idPregunta));
+				textProyectoRe.setText(pregunta.getProyecto().getNombre());
+				textMecenasRe.setText(pregunta.getEmisor().getNombre()+ " "+pregunta.getEmisor().getApellidos());
+				textAsuntoRe.setText(pregunta.getAsunto());
+				textPreguntaRe.setText(pregunta.getCuerpo());
+				textRespuestaRe.setText(pregunta.getRespuesta());
+				if(pregunta.getRespuesta()!=null){
+					btResponder.setEnabled(false);
+				} else {
+					btResponder.setEnabled(true);
+				}
+			}
+		});
+		button.setEnabled(true);
+		button.setBounds(186, 370, 117, 29);
+		panelIzq2.add(button);
+		vistaTablaRecibidas();
+		
+		
+		
+		//PINTAR LAS TABLAS
+		vistaTablaEmitidas();
+		recorrerPreguntaEmitida();
+		
 		//MENU
 		menu_apoyanos = new Menu(this);
 		
@@ -349,14 +424,29 @@ public class VentanaPreguntasRespuestas extends JFrame {
 	private void vistaTablaRecibidas() {
 		modeloVistaRecibidas = new ModeloTabla();
 		modeloVistaRecibidas.addColumn("Pregunta recibida");
+		modeloVistaRecibidas.addColumn("Id");
+		
+		
 
 		for (Pregunta pe : listaPreguntasRecibidas) {
-			Object[] objRecibida = new Object[1];
+			Object[] objRecibida = new Object[2];
 
 			try {
 
 				objRecibida[0] = pe.getAsunto();
-
+				objRecibida[1] = pe.getId();
+				//JLabel lbl = new JLabel(pe.getAsunto());
+				//if (pe.getRespuesta()==null){
+				//	lbl.setFont(new Font("Lucida Grande", Font.BOLD, 13));
+				//} else {
+				//	lbl.setFont(new Font("Lucida Grande", Font.PLAIN, 13));
+				//}
+				//objRecibida[0] = lbl;
+				if (pe.getRespuesta()==null){
+					( (JTextField) objRecibida[0]).setFont(new Font("Lucida Grande", Font.BOLD, 13));
+				} else {
+					( (JComponent) objRecibida[0]).setFont(new Font("Lucida Grande", Font.PLAIN, 10));
+				}
 				
 			} catch (Exception e) {
 			}
@@ -364,9 +454,13 @@ public class VentanaPreguntasRespuestas extends JFrame {
 
 		}
 		tbRecibidas.setModel(modeloVistaRecibidas);
+		tbRecibidas.addMouseListener(mouseListener);
+		negrita.setDecorado(tbRecibidas.getColumnModel().getColumn(0).getCellRenderer());
+		tbRecibidas.getColumnModel().getColumn(0).setCellRenderer(negrita);
 		tbRecibidas.getColumnModel().getColumn(0).setResizable(false);
 		tbRecibidas.getColumnModel().getColumn(0).setPreferredWidth(150);
-
+		tbRecibidas.getTableHeader().getColumnModel().getColumn(1).setMinWidth(0);
+		tbRecibidas.getTableHeader().getColumnModel().getColumn(1).setMaxWidth(0);
 	}
 	
 	private void vistaTablaEmitidas() {
@@ -375,31 +469,40 @@ public class VentanaPreguntasRespuestas extends JFrame {
 		modeloVistaEmitidas.addColumn("Respondida");
 		modeloVistaEmitidas.addColumn("Id");
 		
-		for (Pregunta pe : listaPreguntasEmitidas) {
-			Object[] objEmitida = new Object[2];
+		for (Pregunta pre : listaPreguntasEmitidas) {
+			Object[] objEmitida = new Object[3];
 
 			try {
-				objEmitida[0] = pe.getAsunto();
-				if (pe.getRespuesta().trim().isEmpty()){
-					objEmitida[1] = (String) "No";
+				objEmitida[0] = pre.getAsunto();
+				if (pre.getRespuesta()==null) {
+					objEmitida[1] = "No";
 				} else {
-					objEmitida[1] = (String) "Sí";
+					objEmitida[1] = "Sí";
 				}
-				objEmitida[2] = pe.getId();
+				objEmitida[2] = pre.getId();
 			} catch (Exception e) {
 			}
 			modeloVistaEmitidas.addRow(objEmitida);
-
 		}
+		
 		tbEmitidas.setModel(modeloVistaEmitidas);
 		tbEmitidas.getColumnModel().getColumn(0).setResizable(false);
-		tbEmitidas.getColumnModel().getColumn(0).setPreferredWidth(150);
+		tbEmitidas.getColumnModel().getColumn(0).setPreferredWidth(250);
 		tbEmitidas.getColumnModel().getColumn(1).setResizable(false);
-		tbEmitidas.getColumnModel().getColumn(1).setPreferredWidth(10);
+		//tbEmitidas.getColumnModel().getColumn(1).setPreferredWidth(20);
 		tbEmitidas.getColumnModel().getColumn(2).setResizable(false);
 		tbEmitidas.getColumnModel().getColumn(2).setPreferredWidth(0);
 		tbEmitidas.getColumnModel().getColumn(2).setMaxWidth(0);
 		tbEmitidas.getColumnModel().getColumn(2).setMinWidth(0);
+		tbEmitidas.getTableHeader().getColumnModel().getColumn(2).setMinWidth(0);
+		tbEmitidas.getTableHeader().getColumnModel().getColumn(2).setMaxWidth(0);
+	   
+	}
+	
+	private void recorrerPreguntaEmitida(){
+		for(Pregunta p : listaPreguntasEmitidas){
+			System.out.print(p.getAsunto() + " " + p.getCuerpo() +" "+ p.getRespuesta() + " " + p.getId());
+		}
 	}
 	
 	private Pregunta buscarPreguntaEmitida(int id){
@@ -422,4 +525,57 @@ public class VentanaPreguntasRespuestas extends JFrame {
 		return preguntaEncontrada;
 	}
 	
+	
+	private class CustomTableCellRenderer implements TableCellRenderer {
+		TableCellRenderer decorado;
+		
+		//public CustomTableCellRenderer(){}
+		
+		public void setDecorado(TableCellRenderer tcr){
+			this.decorado=tcr;
+		}
+	    public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
+            Component lbl;
+	    	//Si values es nulo dara problemas de renderizado, por lo tanto se pone como vacio
+	    	if (decorado==null){
+	    		lbl = new JLabel(value == null? "": value.toString());
+	    	} else {
+	    		lbl = decorado.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
+	    	}
+          
+            		//new JLabel(value == null? "": value.toString());
+            if (!listaPreguntasRecibidas.isEmpty() && listaPreguntasRecibidas.get(row).getRespuesta() == null)
+            	lbl.setFont(new Font("Lucida Grande", Font.BOLD, 13));
+            return lbl;
+        }
+    }
+    
+	CustomTableCellRenderer negrita = new CustomTableCellRenderer();
+	
+	
+    MouseListener mouseListener = new MouseAdapter() {
+    	public void mouseClicked(MouseEvent mouseEvent){
+    		
+    		//listaPreguntasRecibidas = (JList) mouseEvent.getSource();
+    		if(mouseEvent.getClickCount() == 1 ){
+    			int index = ((JTable) mouseEvent.getSource()).rowAtPoint(mouseEvent.getPoint());
+    			if(index >=0){
+    				//Relleno información ventana respuestas y lo muestro.
+    				pregunta = listaPreguntasRecibidas.get(index);
+    				//VER RESPUESTA
+    				textProyectoEm.setText(pregunta.getProyecto().getNombre());
+    				textCreadorEm.setText(pregunta.getReceptor().getNombre()+ " "+pregunta.getReceptor().getApellidos());
+    				textAsuntoEm.setText(pregunta.getAsunto());
+    				textPreguntaEm.setText(pregunta.getCuerpo());
+    				textRespuestaEm.setText(pregunta.getRespuesta());
+    				if(pregunta.getRespuesta()==null){
+    					btnEnviar.setText("Nueva pregunta");
+    				}
+    			}
+    		}
+    	}
+    };
+    
+    
+    
 }

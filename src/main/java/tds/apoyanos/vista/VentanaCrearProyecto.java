@@ -36,9 +36,12 @@ public class VentanaCrearProyecto extends JFrame{
 	private JTextField textCantidad;
 	@SuppressWarnings("unused")
 	private Menu menu_apoyanos;
+	private JButton btnEditar;
+	private JButton btnEliminar;
 	
 	private String msg_error="HAY UN ERROR. Revisa todos los campos y recuerda: \n - Título obligatorio.\n - Descripción obligatoria. \n - Fecha obligatoria, formato dd/mm/aaaa y a partir del día de mañana. \n - Importe ###.## \n - Una o más recompensas.";
 	private String msg_exito="Proyecto Registrado Correctamente.\n";
+	private String msg_cancelar = "ATENCIÓN. Toda la información se va a perder.";
 //	private SimpleDateFormat fechaDia = new SimpleDateFormat("dd/MM/yyyy");
 //	private DecimalFormat formatoDecimal = new DecimalFormat("#.##");
 	private String nombreProyecto;
@@ -365,6 +368,9 @@ public class VentanaCrearProyecto extends JFrame{
 					textCantidad.setText(null);
 					txtrDescripcion.setText(null);
 					textNumApoyos.setText(null);
+					//Activar botones
+					activaDesactivaBotones();
+					
 					//ACTUALIZAR LA VISTA DE LA TABLA
 					vistaTablaRecompensas();
 					
@@ -428,8 +434,10 @@ public class VentanaCrearProyecto extends JFrame{
 		scrollPane.setViewportView(tbRecompensas);
 		vistaTablaRecompensas();
 		
-		JButton btnNewButton = new JButton("Editar");
-		btnNewButton.addActionListener(new ActionListener() {
+		btnEditar = new JButton("Editar");
+		
+		
+		btnEditar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				//Obtenemos el modelo de la vista de la tabla
 				//Capturamos de la fila seleccionada el valor de la celda primera (0) que contiene el nombre de la recompensa
@@ -450,16 +458,20 @@ public class VentanaCrearProyecto extends JFrame{
 				}
 			}
 		});
-		btnNewButton.setBounds(75, 179, 117, 29);
-		panel_2.add(btnNewButton);
+		btnEditar.setBounds(75, 179, 117, 29);
+		panel_2.add(btnEditar);
 		
-		JButton btnEliminar = new JButton("Eliminar");
+		btnEliminar = new JButton("Eliminar");
+		
+		activaDesactivaBotones();
+		
 		btnEliminar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				DefaultTableModel dtm = (DefaultTableModel) tbRecompensas.getModel(); 
 				String nombreRecompensa = String.valueOf(dtm.getValueAt(tbRecompensas.getSelectedRow(),0));
 				dtm.removeRow(tbRecompensas.getSelectedRow()); 
 				eliminarRecompensa (nombreRecompensa);
+				activaDesactivaBotones();
 				vistaTablaRecompensas();
 				
 			}
@@ -483,7 +495,10 @@ public class VentanaCrearProyecto extends JFrame{
 		            	cplazoProyecto.setTime(fechaFin.getDate());
 		                controlador.crearProyecto(nombreProyecto, descripcionProyecto, cantidadProyecto, cplazoProyecto, categoriaProyecto,listaRecompensas);
 		                new VentanaMensajes(msg_exito);
-		                
+						VentanaPrincipalApoyanos ventanaPrincipal = new VentanaPrincipalApoyanos("Votación","Todos");
+                        ventanaPrincipal.setVisible(true);
+                        setVisible(false); //you can't see me!
+                        dispose(); //Destroy the JFrame object
 		            } catch (InvalidArgumentException e1) {
 						// TODO Auto-generated catch block
 						e1.printStackTrace();
@@ -499,6 +514,19 @@ public class VentanaCrearProyecto extends JFrame{
 		JButton btnNewButton_1 = new JButton("Cancelar");
 		btnNewButton_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+
+				try {
+	                new VentanaMensajes(msg_cancelar);
+					VentanaPrincipalApoyanos ventanaPrincipal;
+					ventanaPrincipal = new VentanaPrincipalApoyanos("Votación","Todos");
+	                ventanaPrincipal.setVisible(true);
+	                setVisible(false); //you can't see me!
+	                dispose(); //Destroy the JFrame object
+				} catch (InvalidArgumentException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+
 			}
 		});
 		btnNewButton_1.setBounds(284, 315, 165, 29);
@@ -603,5 +631,16 @@ public class VentanaCrearProyecto extends JFrame{
 			categoriaProyecto = (String)cbCategoria.getSelectedItem();
 		}	
 		return todoOk;
+	}
+	
+	private void activaDesactivaBotones(){
+		if (listaRecompensas.isEmpty()){
+			btnEditar.setEnabled(false);
+			btnEliminar.setEnabled(false);
+		
+		} else {
+			btnEditar.setEnabled(true);
+			btnEliminar.setEnabled(true);
+		}
 	}
 }

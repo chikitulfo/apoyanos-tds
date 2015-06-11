@@ -8,7 +8,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.Collection;
 
-import javax.swing.table.DefaultTableModel;
+//import javax.swing.table.DefaultTableModel;
 
 import tds.apoyanos.controlador.Controlador;
 import tds.apoyanos.modelo.Notificacion;

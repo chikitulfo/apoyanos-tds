@@ -172,7 +172,11 @@ public class VentanaPrincipalApoyanos extends JFrame {
 
 			try {
 				objProyecto[0] = p.getNombre();
-				objProyecto[1] = p.getDescripcion();
+				if (p.getDescripcion().length()>119){
+					objProyecto[1] = p.getDescripcion().substring(0, 119) + "...";
+				} else {
+					objProyecto[1] = p.getDescripcion();
+				}
 				objProyecto[2] = p.getDiasRestantes();
 				objProyecto[3] = p.getNumvotos();
 				
@@ -205,7 +209,11 @@ public class VentanaPrincipalApoyanos extends JFrame {
 
 				try {
 					objProyecto[0] = p.getNombre();
-					objProyecto[1] = p.getDescripcion();
+					if (p.getDescripcion().length()>119){
+						objProyecto[1] = p.getDescripcion().substring(0, 119) + "...";
+					} else {
+						objProyecto[1] = p.getDescripcion();
+					}
 					objProyecto[2] = p.getDiasRestantes(); //PERO PARA PROYECTOS YA EN Financiación
 					objProyecto[3] = p.getCantidadRecaudada();
 					objProyecto[4] = Math.abs(p.getCantidadRecaudada()*100./p.getCantidadMinima());
