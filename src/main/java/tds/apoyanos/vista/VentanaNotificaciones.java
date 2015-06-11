@@ -38,7 +38,7 @@ public class VentanaNotificaciones extends JFrame {
 		table = new JTable();
 		table.setEnabled(false);
 		table.setRowSelectionAllowed(false);
-		table.setSelectionBackground(SystemColor.inactiveCaptionText);
+		table.setSelectionBackground(UIManager.getColor("Button.background"));
 		table.setName("Listado de notificaciones.");
 		table.setGridColor(Color.LIGHT_GRAY);
 		//Muestra la vista de la tabla
@@ -94,7 +94,7 @@ public class VentanaNotificaciones extends JFrame {
 		table.setModel(modeloVistaNotificacion);
 		
 		table.getColumnModel().getColumn(0).setResizable(false);
-		table.getColumnModel().getColumn(0).setPreferredWidth(100);
+		table.getColumnModel().getColumn(0).setPreferredWidth(120);
 		table.getColumnModel().getColumn(0).setMaxWidth(100);
 		table.getColumnModel().getColumn(1).setResizable(false);
 		table.getColumnModel().getColumn(1).setPreferredWidth(100);

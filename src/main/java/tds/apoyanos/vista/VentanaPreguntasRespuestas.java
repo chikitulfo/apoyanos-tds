@@ -1,5 +1,29 @@
 package tds.apoyanos.vista;
 
+import javax.swing.*;
+
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+//import net.miginfocom.swing.MigLayout;
+
+
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+
+
+
+
+//import javax.swing.border.BevelBorder;
+import javax.swing.border.LineBorder;
+//import javax.swing.table.DefaultTableModel;
+
+
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableCellRenderer;
+
 import tds.apoyanos.controlador.Controlador;
 import tds.apoyanos.exceptions.InvalidArgumentException;
 import tds.apoyanos.exceptions.InvalidStateException;
@@ -14,10 +38,6 @@ import javax.swing.table.TableCellRenderer;
 import java.awt.*;
 import java.awt.event.*;
 import java.util.ArrayList;
-
-//import net.miginfocom.swing.MigLayout;
-//import javax.swing.border.BevelBorder;
-//import javax.swing.table.DefaultTableModel;
 //import java.awt.event.MouseAdapter;
 //import java.awt.event.MouseEvent;
 //import java.util.Collection;
@@ -102,33 +122,6 @@ public class VentanaPreguntasRespuestas extends JFrame {
 		tbEmitidas.setGridColor(Color.LIGHT_GRAY);
 		scrollPane.setViewportView(tbEmitidas);
 
-		
-		JButton btnVerRespuesta = new JButton("ver respuesta");
-		btnVerRespuesta.setEnabled(true);
-		if (listaPreguntasEmitidas.isEmpty()){
-			btnVerRespuesta.setEnabled(false);
-		}
-		
-		btnVerRespuesta.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				//VER RESPUESTA
-				DefaultTableModel dtmE = (DefaultTableModel) tbEmitidas.getModel(); 
-				int idPregunta = Integer.valueOf(String.valueOf(dtmE.getValueAt(tbEmitidas.getSelectedRow(),2)));
-				//System.out.print(idPregunta);
-				pregunta = buscarPreguntaEmitida(idPregunta);
-				textProyectoEm.setText(pregunta.getProyecto().getNombre());
-				textCreadorEm.setText(pregunta.getReceptor().getNombre()+ " "+pregunta.getReceptor().getApellidos());
-				textAsuntoEm.setText(pregunta.getAsunto());
-				textPreguntaEm.setText(pregunta.getCuerpo());
-				textRespuestaEm.setText(pregunta.getRespuesta());
-				if(pregunta.getRespuesta()!=null){
-					btnEnviar.setText("Nueva pregunta");
-				}
-				pregunta = null; //??
-			}
-		});
-		btnVerRespuesta.setBounds(186, 370, 117, 29);
-		panelIzq.add(btnVerRespuesta);
 
 		mouseListenerEmitidas = new MouseAdapter() {
 			public void mouseClicked(MouseEvent mouseEvent){
@@ -158,6 +151,7 @@ public class VentanaPreguntasRespuestas extends JFrame {
 		};
 
 
+		
 		
 		JPanel panelDer = new JPanel();
 		panelDer.setBackground(Color.WHITE);
@@ -400,28 +394,6 @@ public class VentanaPreguntasRespuestas extends JFrame {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 1024, 600);
 		setLocationRelativeTo(null);
-		
-		JButton button = new JButton("ver pregunta");
-		button.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				//VER RESPUESTA
-				DefaultTableModel dtmR = (DefaultTableModel) tbRecibidas.getModel(); 
-				int idPregunta = Integer.valueOf(String.valueOf(dtmR.getValueAt(tbRecibidas.getSelectedRow(),1)));
-				//System.out.print(idPregunta);
-				pregunta = buscarPreguntaRecibida(idPregunta);
-				textId.setText(String.valueOf(idPregunta));
-				textProyectoRe.setText(pregunta.getProyecto().getNombre());
-				textMecenasRe.setText(pregunta.getEmisor().getNombre()+ " "+pregunta.getEmisor().getApellidos());
-				textAsuntoRe.setText(pregunta.getAsunto());
-				textPreguntaRe.setText(pregunta.getCuerpo());
-				textRespuestaRe.setText(pregunta.getRespuesta());
-				if(pregunta.getRespuesta()!=null){
-					btResponder.setEnabled(false);
-				} else {
-					btResponder.setEnabled(true);
-				}
-			}
-		});
 
 		mouseListenerRecibidas = new MouseAdapter() {
 			public void mouseClicked(MouseEvent mouseEvent){
@@ -450,16 +422,14 @@ public class VentanaPreguntasRespuestas extends JFrame {
 				}
 			}
 		};
-		button.setEnabled(true);
-		button.setBounds(186, 370, 117, 29);
-		panelIzq2.add(button);
+		
 		vistaTablaRecibidas();
 		
 		
 		
 		//PINTAR LAS TABLAS
 		vistaTablaEmitidas();
-		recorrerPreguntaEmitida();
+		//recorrerPreguntaEmitida();
 		
 		//MENU
 		menu_apoyanos = new Menu(this);
@@ -544,6 +514,7 @@ public class VentanaPreguntasRespuestas extends JFrame {
 	   
 	}
 	
+	@SuppressWarnings("unused")
 	private void recorrerPreguntaEmitida(){
 		for(Pregunta p : listaPreguntasEmitidas){
 			System.out.print(p.getAsunto() + " " + p.getCuerpo() +" "+ p.getRespuesta() + " " + p.getId());
@@ -578,13 +549,6 @@ public class VentanaPreguntasRespuestas extends JFrame {
 			this.decorado=tcr;
 		}
 	    public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
-            /*Component lbl;
-	    	//Si values es nulo dara problemas de renderizado, por lo tanto se pone como vacio
-	    	if (decorado==null){
-	    		lbl = new JLabel(value == null? "": value.toString());
-	    	} else {
-	    		lbl = decorado.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
-	    	} */
 			JLabel lbl = (JLabel)super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
 
             		//new JLabel(value == null? "": value.toString());

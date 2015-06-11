@@ -10,7 +10,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 //import javax.swing.JDialog;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
+//import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
@@ -18,6 +18,7 @@ import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
 import tds.apoyanos.exceptions.InvalidArgumentException;
+import java.awt.Rectangle;
 
 //import java.awt.event.MouseAdapter;
 //import java.awt.event.MouseEvent;
@@ -40,11 +41,30 @@ public class Menu {
                 menuBar.add(panelIcon);
                 panelIcon.setLayout(new GridLayout(0, 1, 0, 0));
 
-                JLabel lblNewLabel = new JLabel("");
-                lblNewLabel.setHorizontalAlignment(SwingConstants.LEFT);
-                lblNewLabel.setIcon(new ImageIcon(Menu.class.getResource("/recursos/apoyanos_75aire-50.png")));
+                JButton bInicio = new JButton("");
+                bInicio.setFocusable(false);
+                bInicio.setBounds(new Rectangle(0, 0, 261, 75));
+                bInicio.setBackground(Color.WHITE);
+                bInicio.setBorder(null);
+                bInicio.setIcon(new ImageIcon(Menu.class.getResource("/recursos/apoyanos_75aire-50.png")));
+                bInicio.addActionListener(new ActionListener(){
+                	public void actionPerformed(ActionEvent e) {
+                        VentanaIntroApoyanos ventanaIntro = new VentanaIntroApoyanos();
+                        ventanaIntro.setVisible(true);
+                        jf.setVisible(false); //you can't see me!
+                        jf.dispose(); //Destroy the JFrame object
+                	}
+                });
+                
+                panelIcon.add(bInicio);
+                
+                //261 × 75		
+
+                //JLabel lblNewLabel = new JLabel("");
+                //lblNewLabel.setHorizontalAlignment(SwingConstants.LEFT);
+                //lblNewLabel.setIcon(new ImageIcon(Menu.class.getResource("/recursos/apoyanos_75aire-50.png")));
                 //lblNewLabel.setIcon(new ImageIcon("/Volumes/HD-Datos/Dropbox/Universidad/workspace/apoyanos/src/main/java/recursos/apoyanos_75aire-50.png"));
-                panelIcon.add(lblNewLabel);
+                //panelIcon.add(lblNewLabel);
 
                 JMenu mnProyectosEnVotacion = new JMenu("Votación");
                 mnProyectosEnVotacion.setHorizontalAlignment(SwingConstants.LEFT);
