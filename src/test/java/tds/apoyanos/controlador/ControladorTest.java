@@ -222,4 +222,36 @@ public class ControladorTest  {
         Controlador.getUnicaInstancia().comprobarPlazoFinalizacionProyectos();
         assertTrue(p.esCompletado());
     }
+
+    @Test
+    public void test99DejarProyectoCon49Votos() throws InvalidArgumentException, InvalidStateException {
+        // Se crea un último proyecto y se deja con 49 votos,
+        // listo para ser votado y apoyado.
+
+        Controlador controlador = Controlador.getUnicaInstancia();
+        controlador.registrarUsuario("Juanjo","Andreu","123455a3","email","jj","jj");
+        controlador.login("jj","jj");
+
+        LinkedList<RecompensaVista> recompensas = new LinkedList<>();
+        recompensas.add(new RecompensaVista("Luna1", "Apoyas nuestro proyecto, y sales en los créditos", 10, 0));
+        recompensas.add(new RecompensaVista("Luna3", "Dibujamos tu nombre en la luna con pipí", 500, 10));
+        recompensas.add(new RecompensaVista("Astronauta", "Te vienes con nosotros", 5000, 1));
+        recompensas.add(new RecompensaVista("Luna2", "Te invitamos a la fiesta que montaremos a la ida", 200, 100));
+        //Registramos el proyecto
+        GregorianCalendar manana= new GregorianCalendar();
+        manana.add(GregorianCalendar.DAY_OF_YEAR, 5);
+        controlador.crearProyecto("A la luna",
+                "Vamos a la luna en un cohete, nos damos un paseo y nos volvemos.", 10000,
+                manana, "Otros", recompensas);
+        controlador.logout();
+
+        //Votamos para pasarlo a financiación
+        for (int i = 1; i<50; i++) {
+            if (!controlador.esRegistrado("u"+i))
+                controlador.registrarUsuario("u" + i, "u" + i, "u" + i, "u" + i, "u" + i, "u" + i);
+            controlador.login("u" + i, "u" + i);
+            controlador.votarProyecto("A la luna");
+            controlador.logout();
+        }
+    }
 }
