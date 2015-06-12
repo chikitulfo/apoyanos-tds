@@ -109,27 +109,41 @@ public class VentanaPrincipalApoyanos extends JFrame {
 			btnMasInfo.setEnabled(false);
 		
 		
+		
 		btnMasInfo.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if (fase.equals("Votación")){
-					DefaultTableModel dtm = (DefaultTableModel) tbListadoProyectosVotacion.getModel(); 
-					String nombreProyecto = String.valueOf(dtm.getValueAt(tbListadoProyectosVotacion.getSelectedRow(),0));
+
 					try {
-						VentanaInfoProyecto ventanaInfo = new VentanaInfoProyecto(nombreProyecto);
-	                    ventanaInfo.setVisible(true);
-	                    setVisible(false); //you can't see me!
-	                    dispose(); //Destroy the JFrame object
+						DefaultTableModel dtm = (DefaultTableModel) tbListadoProyectosVotacion.getModel();
+						if (tbListadoProyectosVotacion.getSelectedRow()==-1){
+							//Alerta
+							new VentanaMensajes("Debes seleccionar un proyecto");
+						} else {
+							//TODO VA BIEN
+							String nombreProyecto = String.valueOf(dtm.getValueAt(tbListadoProyectosVotacion.getSelectedRow(),0));
+							VentanaInfoProyecto ventanaInfo = new VentanaInfoProyecto(nombreProyecto);
+		                    ventanaInfo.setVisible(true);
+		                    setVisible(false); //you can't see me!
+		                    dispose(); //Destroy the JFrame object
+						}
 					} catch (InvalidArgumentException e1) {
 						// TODO Auto-generated catch block
 						e1.printStackTrace();
 					}
 				} else {
 					DefaultTableModel dtm = (DefaultTableModel) tbListadoProyectosFinanciacion.getModel(); 
-					String nombreProyecto = String.valueOf(dtm.getValueAt(tbListadoProyectosFinanciacion.getSelectedRow(),0));
-                    VentanaInfoFinanciacionProyecto ventanaInfo = new VentanaInfoFinanciacionProyecto(nombreProyecto);
-                    ventanaInfo.setVisible(true);
-                    setVisible(false); //you can't see me!
-                    dispose(); //Destroy the JFrame object
+					if (tbListadoProyectosFinanciacion.getSelectedRow()==-1){
+						//Alerta
+						new VentanaMensajes("Debes seleccionar un proyecto");
+					} else {
+						//TODO VA BIEN
+						String nombreProyecto = String.valueOf(dtm.getValueAt(tbListadoProyectosFinanciacion.getSelectedRow(),0));
+						VentanaInfoFinanciacionProyecto ventanaInfo = new VentanaInfoFinanciacionProyecto(nombreProyecto);
+	                    ventanaInfo.setVisible(true);
+	                    setVisible(false); //you can't see me!
+	                    dispose(); //Destroy the JFrame object
+					}
 				}
 			}
 		});

@@ -39,7 +39,7 @@ public class VentanaCrearProyecto extends JFrame{
 	private JButton btnEditar;
 	private JButton btnEliminar;
 	
-	private String msg_error="HAY UN ERROR. Revisa todos los campos y recuerda: \n - Título obligatorio.\n - Descripción obligatoria. \n - Fecha obligatoria, formato dd/mm/aaaa y a partir del día de mañana. \n - Importe ###.## \n - Una o más recompensas.";
+	private String msg_error="HAY UN ERROR. Revisa todos los campos y recuerda: \n - Título obligatorio.\n - Descripción obligatoria. \n - Fecha obligatoria mayor al día de hoy. \n - Importe ###.## \n - Una o más recompensas.";
 	private String msg_exito="Proyecto Registrado Correctamente.\n";
 	private String msg_cancelar = "ATENCIÓN. Toda la información se va a perder.";
 //	private SimpleDateFormat fechaDia = new SimpleDateFormat("dd/MM/yyyy");
@@ -445,16 +445,21 @@ public class VentanaCrearProyecto extends JFrame{
 				//Rellenamos el formulario con esos valores
 				//Posteriormente una vez en el formulario si se pulsa limpiar no hará nada y si se pulsa añadir no la añadirá (ya que ya existe en la lista) sino que modificará sus datos
 				DefaultTableModel dtm = (DefaultTableModel) tbRecompensas.getModel(); 
-				String nombreRecompensa = String.valueOf(dtm.getValueAt(tbRecompensas.getSelectedRow(),0));
-				
-				reV = buscarRecompensa(nombreRecompensa);
-				textRecompensa.setText(reV.getNombre());
-				textCantidad.setText(String.valueOf(reV.getCantidadMinima()));
-				txtrDescripcion.setText(reV.getDescripcion());
-				if (reV.getMaximoParticipantes()==0){
-					textNumApoyos.setText(null);
+				if (tbRecompensas.getSelectedRow()==-1){
+					//Alerta
+					new VentanaMensajes("Para EDITAR una recompensa hay que seleccionar primero una.");
 				} else {
-					textNumApoyos.setText(String.valueOf(reV.getMaximoParticipantes()));
+					//TODO VA BIEN
+					String nombreRecompensa = String.valueOf(dtm.getValueAt(tbRecompensas.getSelectedRow(),0));
+					reV = buscarRecompensa(nombreRecompensa);
+					textRecompensa.setText(reV.getNombre());
+					textCantidad.setText(String.valueOf(reV.getCantidadMinima()));
+					txtrDescripcion.setText(reV.getDescripcion());
+					if (reV.getMaximoParticipantes()==0){
+						textNumApoyos.setText(null);
+					} else {
+						textNumApoyos.setText(String.valueOf(reV.getMaximoParticipantes()));
+					}
 				}
 			}
 		});
@@ -467,12 +472,25 @@ public class VentanaCrearProyecto extends JFrame{
 		
 		btnEliminar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				//DefaultTableModel dtm = (DefaultTableModel) tbRecompensas.getModel(); 
+				//String nombreRecompensa = String.valueOf(dtm.getValueAt(tbRecompensas.getSelectedRow(),0));
+				//dtm.removeRow(tbRecompensas.getSelectedRow()); 
+				//eliminarRecompensa (nombreRecompensa);
+				//activaDesactivaBotones();
+				//vistaTablaRecompensas();
+				
 				DefaultTableModel dtm = (DefaultTableModel) tbRecompensas.getModel(); 
-				String nombreRecompensa = String.valueOf(dtm.getValueAt(tbRecompensas.getSelectedRow(),0));
-				dtm.removeRow(tbRecompensas.getSelectedRow()); 
-				eliminarRecompensa (nombreRecompensa);
-				activaDesactivaBotones();
-				vistaTablaRecompensas();
+				if (tbRecompensas.getSelectedRow()==-1){
+					//Alerta
+					new VentanaMensajes("Para ELIMINAR una recompensa hay que seleccionar primero una.");
+				} else {
+					//TODO VA BIEN
+					String nombreRecompensa = String.valueOf(dtm.getValueAt(tbRecompensas.getSelectedRow(),0));
+					dtm.removeRow(tbRecompensas.getSelectedRow()); 
+					eliminarRecompensa (nombreRecompensa);
+					activaDesactivaBotones();
+					vistaTablaRecompensas();
+				}
 				
 			}
 		});
@@ -492,7 +510,7 @@ public class VentanaCrearProyecto extends JFrame{
 		            try {
 		            	//fechaFin.getCalendar()
 		            	//cplazoProyecto.setTime(fechaDia.parse(fechaFin.getDateFormatString()));
-		            	cplazoProyecto.setTime(fechaFin.getDate());
+		            	//cplazoProyecto.setTime(fechaFin.getDate());
 		                controlador.crearProyecto(nombreProyecto, descripcionProyecto, cantidadProyecto, cplazoProyecto, categoriaProyecto,listaRecompensas);
 		                new VentanaMensajes(msg_exito);
 						VentanaPrincipalApoyanos ventanaPrincipal = new VentanaPrincipalApoyanos("Votación","Todos");
@@ -619,16 +637,22 @@ public class VentanaCrearProyecto extends JFrame{
 	
 	private boolean datosCorrectos(){
 		boolean todoOk;
+		GregorianCalendar fechaProyecto = new GregorianCalendar();
+		GregorianCalendar ahora = new GregorianCalendar();
 		todoOk=(!listaRecompensas.isEmpty());
 		todoOk=((textImporte.getText()!="####.##") && (textImporte.getText().trim().length()!=0));
 		todoOk=(txtDescripcionProyecto.getText().trim().length()!=0);
 		todoOk=(!controlador.esCreado(textProyecto.getText()) && (textProyecto.getText().trim().length()!=0));
-				
+		fechaProyecto.setTime(fechaFin.getDate());
+		todoOk=ahora.before(fechaProyecto);
+		
+		
 		if (todoOk) {
 			nombreProyecto = textProyecto.getText();
 			descripcionProyecto = txtDescripcionProyecto.getText();
 			cantidadProyecto = Double.valueOf(textImporte.getText());
 			categoriaProyecto = (String)cbCategoria.getSelectedItem();
+			cplazoProyecto.setTime(fechaFin.getDate());
 		}	
 		return todoOk;
 	}

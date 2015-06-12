@@ -72,12 +72,19 @@ public class VentanaApoyos extends JFrame {
 		
 		btnapoyar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				DefaultTableModel dtm = (DefaultTableModel) table.getModel(); 
-				String nombreProyecto = String.valueOf(dtm.getValueAt(table.getSelectedRow(),0));
-				VentanaInfoFinanciacionProyecto ventanaInfoFinanciacion = new VentanaInfoFinanciacionProyecto(nombreProyecto);
-				ventanaInfoFinanciacion.setVisible(true);
-	            setVisible(false); //you can't see me!
-	            dispose(); //Destroy the JFrame object
+	            DefaultTableModel dtm = (DefaultTableModel) table.getModel();  
+				if (table.getSelectedRow()==-1){
+					//Alerta
+					new VentanaMensajes("Debes seleccionar un proyecto");
+				} else {
+					//TODO VA BIEN
+					String nombreProyecto = String.valueOf(dtm.getValueAt(table.getSelectedRow(),0));
+					VentanaInfoFinanciacionProyecto ventanaInfoFinanciacion = new VentanaInfoFinanciacionProyecto(nombreProyecto);
+					ventanaInfoFinanciacion.setVisible(true);
+					setVisible(false); //you can't see me!
+		            dispose(); //Destroy the JFrame object
+				}
+	            
 			}
 		});
 		btnapoyar.setBounds(432, 365, 117, 29);
