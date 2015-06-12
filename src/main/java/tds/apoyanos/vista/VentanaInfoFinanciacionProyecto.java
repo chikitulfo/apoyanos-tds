@@ -15,6 +15,7 @@ import java.util.Collection;
 
 
 
+
 import tds.apoyanos.controlador.Controlador;
 import tds.apoyanos.exceptions.InvalidArgumentException;
 import tds.apoyanos.exceptions.InvalidStateException;
@@ -41,7 +42,6 @@ public class VentanaInfoFinanciacionProyecto extends JFrame {
 	private Menu menu_apoyanos;
 	
 	
-	
 	private SimpleDateFormat fechaDia = new SimpleDateFormat("dd/MM/yyyy");
 //	private SimpleDateFormat fechaHora = new SimpleDateFormat("HH:mm");
 	private DecimalFormat formatoDecimal = new DecimalFormat("#.##");
@@ -54,7 +54,6 @@ public class VentanaInfoFinanciacionProyecto extends JFrame {
 	public VentanaInfoFinanciacionProyecto(String nombreProyecto) {
 		proyecto = controlador.getProyecto(nombreProyecto);
 		listaRecompensas = proyecto.getRecompensas();
-		
 		setResizable(false);
 		setDefaultCloseOperation(HIDE_ON_CLOSE);
 		getContentPane().setBackground(Color.WHITE);
@@ -176,6 +175,8 @@ public class VentanaInfoFinanciacionProyecto extends JFrame {
 		tbRecompensas.setSelectionBackground(SystemColor.inactiveCaptionText);
 		tbRecompensas.setName("Listado de recompensas");
 		tbRecompensas.setGridColor(Color.LIGHT_GRAY);
+		tbRecompensas.setSelectionBackground(SystemColor.inactiveCaptionText);
+		tbRecompensas.setSelectionBackground(UIManager.getColor("Button.background"));
 		scrollPane.setViewportView(tbRecompensas);
 		vistaTablaRecompensas();
 		
@@ -199,33 +200,42 @@ public class VentanaInfoFinanciacionProyecto extends JFrame {
 				DefaultTableModel dtm = (DefaultTableModel) tbRecompensas.getModel(); 
 				String nombreRecompensa = String.valueOf(dtm.getValueAt(tbRecompensas.getSelectedRow(),0));
 				double cantidadRecompensa = (Double) dtm.getValueAt(tbRecompensas.getSelectedRow(),1);
+				int idRecompensa = (int) dtm.getValueAt(tbRecompensas.getSelectedRow(),3);
+				
+				Recompensa re = buscarRecompensa(idRecompensa);
 				String nombreProyecto = proyecto.getNombre();
-				//Ventana confirmación
-				int n = JOptionPane.showConfirmDialog(
-					    null,
-					    "¿Deseas apoyar el siguiente proyecto con la recompensa seleccionada?",
-					    "An Inane Question",
-					    JOptionPane.YES_NO_OPTION);
-				if(n==0){
-					//Apoyar el proyecto
-					try {
-						controlador.apoyarProyecto(nombreProyecto, nombreRecompensa, cantidadRecompensa, "");
-					} catch (InvalidStateException | InvalidArgumentException e1) {
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
-					}
-					//Ir al listado de proyectos en financiación
-                    VentanaPrincipalApoyanos ventanaPrincipal;
-					try {
-						ventanaPrincipal = new VentanaPrincipalApoyanos("Financiación","Todos");
-	                    ventanaPrincipal.setVisible(true);
-	                    setVisible(false); //you can't see me!
-	                    dispose(); //Destroy the JFrame object
-					} catch (InvalidArgumentException e1) {
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
-					}
+				
+				if ((re.getMaximoParticipantes() == 0) || (re.getApoyos().size() < re.getMaximoParticipantes())){
+					//se puede
+					//Ventana confirmación
+					int n = JOptionPane.showConfirmDialog(
+						    null,
+						    "¿Deseas apoyar el siguiente proyecto con la recompensa seleccionada?",
+						    "An Inane Question",
+						    JOptionPane.YES_NO_OPTION);
+					if(n==0){
+						//Apoyar el proyecto
+						try {
+							controlador.apoyarProyecto(nombreProyecto, nombreRecompensa, cantidadRecompensa, "");
+						} catch (InvalidStateException | InvalidArgumentException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						}
+						//Ir al listado de proyectos en financiación
+	                    VentanaPrincipalApoyanos ventanaPrincipal;
+						try {
+							ventanaPrincipal = new VentanaPrincipalApoyanos("Financiación","Todos");
+		                    ventanaPrincipal.setVisible(true);
+		                    setVisible(false); //you can't see me!
+		                    dispose(); //Destroy the JFrame object
+						} catch (InvalidArgumentException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						}
 
+					}
+				} else {
+					new VentanaMensajes("La recompensa elegida ha llegado a su máximo de apoyos.");
 				}
 
 			}
@@ -252,8 +262,16 @@ public class VentanaInfoFinanciacionProyecto extends JFrame {
 		btninfo.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				DefaultTableModel dtm = (DefaultTableModel) tbRecompensas.getModel(); 
-				String nombreR = String.valueOf(dtm.getValueAt(tbRecompensas.getSelectedRow(),0));
-				textDescripcion.setText(buscarRecompensa(nombreR).getDescripcion());
+				if (tbRecompensas.getSelectedRow()==-1){
+					//Alerta
+					new VentanaMensajes("Para +Info de una recompensa hay que seleccionar primero una.");
+				} else {
+					//TODO VA BIEN
+					//String nombreR = String.valueOf(dtm.getValueAt(tbRecompensas.getSelectedRow(),0));
+					int reId = Integer.valueOf((String) dtm.getValueAt(tbRecompensas.getSelectedRow(),3));
+					//Recompensa r = buscarRecompensa(reId);
+					textDescripcion.setText(buscarRecompensa(reId).getDescripcion());
+				}
 			}
 		});
 		btninfo.setBounds(680, 271, 176, 29);
@@ -283,11 +301,11 @@ public class VentanaInfoFinanciacionProyecto extends JFrame {
 		modeloVistaRecompensa.addColumn("Recompensa");
 		modeloVistaRecompensa.addColumn("Cantidad (€)");
 		modeloVistaRecompensa.addColumn("Límite Apoyos");
-		//modeloVistaRecompensa.addColumn("Eliminar");
+		modeloVistaRecompensa.addColumn("Id");
 		// poner mas informacion
 
 		for (Recompensa re : listaRecompensas) {
-			Object[] objRecompensa = new Object[3];
+			Object[] objRecompensa = new Object[4];
 
 			try {
 
@@ -297,6 +315,7 @@ public class VentanaInfoFinanciacionProyecto extends JFrame {
 					objRecompensa[2] = "-";
 				else
 					objRecompensa[2] = re.getMaximoParticipantes();
+				objRecompensa[3] = re.getId();
 				
 			} catch (Exception e) {
 			}
@@ -309,13 +328,15 @@ public class VentanaInfoFinanciacionProyecto extends JFrame {
 		tbRecompensas.getColumnModel().getColumn(1).setResizable(false);
 		tbRecompensas.getColumnModel().getColumn(1).setPreferredWidth(50);
 		tbRecompensas.getColumnModel().getColumn(2).setResizable(false);
+		tbRecompensas.getTableHeader().getColumnModel().getColumn(3).setMinWidth(0);
+		tbRecompensas.getTableHeader().getColumnModel().getColumn(3).setMaxWidth(0);
 
 	}
 	
-	private Recompensa buscarRecompensa (String r){
+	private Recompensa buscarRecompensa (int id){
 		Recompensa reEncontrada = null;
 		for (Recompensa re : listaRecompensas) {
-			if (re.getNombre().equals(r)) {
+			if (re.getId()==id) {
 				reEncontrada = re;
 			}
 		}

@@ -226,6 +226,8 @@ public class VentanaInfoProyecto extends JFrame {
 		tbRecompensas.setSelectionBackground(SystemColor.inactiveCaptionText);
 		tbRecompensas.setName("Listado de recompensas");
 		tbRecompensas.setGridColor(Color.LIGHT_GRAY);
+		tbRecompensas.setSelectionBackground(SystemColor.inactiveCaptionText);
+		tbRecompensas.setSelectionBackground(UIManager.getColor("Button.background"));
 		scrollPane.setViewportView(tbRecompensas);
 		
 		textDescripcion = new JTextArea();
@@ -244,9 +246,15 @@ public class VentanaInfoProyecto extends JFrame {
 		JButton btninfo = new JButton("+Info Recompensa");
 		btninfo.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				DefaultTableModel dtm = (DefaultTableModel) tbRecompensas.getModel(); 
-				String nombreR = String.valueOf(dtm.getValueAt(tbRecompensas.getSelectedRow(),0));
-				textDescripcion.setText(buscarRecompensa(nombreR).getDescripcion());
+				DefaultTableModel dtm = (DefaultTableModel) tbRecompensas.getModel();  
+				if (tbRecompensas.getSelectedRow()==-1){
+					//Alerta
+					new VentanaMensajes("Para +Info de una recompensa hay que seleccionar primero una.");
+				} else {
+					//TODO VA BIEN
+					String nombreR = String.valueOf(dtm.getValueAt(tbRecompensas.getSelectedRow(),0));
+					textDescripcion.setText(buscarRecompensa(nombreR).getDescripcion());
+				}
 			}
 		});
 		btninfo.setBounds(680, 271, 176, 29);

@@ -120,6 +120,8 @@ public class VentanaPreguntasRespuestas extends JFrame {
 		tbEmitidas.setSelectionBackground(SystemColor.inactiveCaptionText);
 		tbEmitidas.setName("Listado de preguntas");
 		tbEmitidas.setGridColor(Color.LIGHT_GRAY);
+		tbEmitidas.setSelectionBackground(SystemColor.inactiveCaptionText);
+		tbEmitidas.setSelectionBackground(UIManager.getColor("Button.background"));
 		scrollPane.setViewportView(tbEmitidas);
 
 
@@ -279,6 +281,8 @@ public class VentanaPreguntasRespuestas extends JFrame {
 		tbRecibidas.setSelectionBackground(SystemColor.inactiveCaptionText);
 		tbRecibidas.setName("Listado de preguntas");
 		tbRecibidas.setGridColor(Color.LIGHT_GRAY);
+		tbRecibidas.setSelectionBackground(SystemColor.inactiveCaptionText);
+		tbRecibidas.setSelectionBackground(UIManager.getColor("Button.background"));
 		scrollPaneRecibidas.setViewportView(tbRecibidas);
 		
 		JPanel panelDer2 = new JPanel();

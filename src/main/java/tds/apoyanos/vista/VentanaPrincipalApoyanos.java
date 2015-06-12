@@ -67,6 +67,7 @@ public class VentanaPrincipalApoyanos extends JFrame {
 			tbListadoProyectosVotacion.setSelectionBackground(SystemColor.inactiveCaptionText);
 			tbListadoProyectosVotacion.setName("Listado de proyectos en Votación.");
 			tbListadoProyectosVotacion.setGridColor(Color.LIGHT_GRAY);
+			tbListadoProyectosVotacion.setSelectionBackground(SystemColor.inactiveCaptionText);
 			tbListadoProyectosVotacion.setSelectionBackground(UIManager.getColor("Button.background"));
 			//tbListadoProyectosVotacion.setSe
 			scrollPane.setViewportView(tbListadoProyectosVotacion);
@@ -84,6 +85,7 @@ public class VentanaPrincipalApoyanos extends JFrame {
 			tbListadoProyectosFinanciacion = new JTable();
 			tbListadoProyectosFinanciacion.setRowSelectionAllowed(true);
 			tbListadoProyectosFinanciacion.setSelectionBackground(SystemColor.inactiveCaptionText);
+			tbListadoProyectosFinanciacion.setSelectionBackground(UIManager.getColor("Button.background"));
 			tbListadoProyectosFinanciacion.setName("Listado de proyectos en finaciación.");
 			tbListadoProyectosFinanciacion.setGridColor(Color.LIGHT_GRAY);
 			tbListadoProyectosFinanciacion.setSelectionBackground(UIManager.getColor("Button.background"));

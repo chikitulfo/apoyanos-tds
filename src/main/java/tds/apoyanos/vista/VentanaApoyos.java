@@ -44,16 +44,15 @@ public class VentanaApoyos extends JFrame {
 		scrollPane.setBounds(100, 105, 794, 248);
 		getContentPane().add(scrollPane);
 		
-		
-		//recorrerApoyos();
-		
-		
 		table = new JTable();
-		table.setEnabled(false);
-		table.setRowSelectionAllowed(false);
-		table.setSelectionBackground(SystemColor.inactiveCaptionText);
-		table.setName("Listado apoyos a proyectos.");
+		table.setEnabled(true);
+		table.setRowSelectionAllowed(true);
 		table.setGridColor(Color.LIGHT_GRAY);
+		table.setSelectionBackground(SystemColor.inactiveCaptionText);
+		table.setSelectionBackground(UIManager.getColor("Button.background"));
+		table.setName("Listado de apoyos.");
+		
+		
 		//Muestra la vista de la tabla
 		vistaTablaProyectosApoyados();
 		

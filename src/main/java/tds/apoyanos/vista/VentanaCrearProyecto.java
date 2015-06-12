@@ -431,6 +431,8 @@ public class VentanaCrearProyecto extends JFrame{
 		tbRecompensas.setSelectionBackground(SystemColor.inactiveCaptionText);
 		tbRecompensas.setName("Listado de recompensas");
 		tbRecompensas.setGridColor(Color.LIGHT_GRAY);
+		tbRecompensas.setSelectionBackground(SystemColor.inactiveCaptionText);
+		tbRecompensas.setSelectionBackground(UIManager.getColor("Button.background"));
 		scrollPane.setViewportView(tbRecompensas);
 		vistaTablaRecompensas();
 		
