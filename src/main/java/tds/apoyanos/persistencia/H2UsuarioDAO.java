@@ -184,7 +184,9 @@ public final class H2UsuarioDAO implements UsuarioDAO {
 		List<Entidad> entidades = servPersistencia.recuperarEntidades("usuario");
 		List<Usuario> usuarios  = new LinkedList<Usuario>();
 		
-		for (Entidad eUsuario : entidades) {usuarios.add(recuperar(eUsuario.getId()));}
+		for (Entidad eUsuario : entidades) {
+			usuarios.add(recuperar(eUsuario.getId()));
+		}
 		return usuarios;
 	}
 	

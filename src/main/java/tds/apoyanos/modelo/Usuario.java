@@ -177,7 +177,7 @@ public class Usuario {
     }
 
     public void setApoyos(LinkedList<Apoyo> apoyos) {
-        if (this.apoyos == null) {
+        if (this.apoyos.isEmpty()) {
             this.apoyos = apoyos;
         }
     }
