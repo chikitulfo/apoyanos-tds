@@ -1,7 +1,14 @@
 package tds.apoyanos.vista;
 
-import javax.swing.*;
+import tds.apoyanos.controlador.Controlador;
+import tds.apoyanos.exceptions.InvalidArgumentException;
+import tds.apoyanos.exceptions.InvalidStateException;
+import tds.apoyanos.modelo.Proyecto;
+import tds.apoyanos.modelo.Recompensa;
 
+import javax.swing.*;
+import javax.swing.border.LineBorder;
+import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -11,18 +18,6 @@ import java.util.Collection;
 
 //import javax.swing.border.BevelBorder;
 //import javax.swing.table.DefaultTableModel;
-
-
-
-
-
-import tds.apoyanos.controlador.Controlador;
-import tds.apoyanos.exceptions.InvalidArgumentException;
-import tds.apoyanos.exceptions.InvalidStateException;
-import tds.apoyanos.modelo.*;
-
-import javax.swing.border.LineBorder;
-import javax.swing.table.DefaultTableModel;
 
 @SuppressWarnings("serial")
 public class VentanaInfoFinanciacionProyecto extends JFrame {
@@ -241,7 +236,9 @@ public class VentanaInfoFinanciacionProyecto extends JFrame {
 			}
 		});
 		button.setFont(new Font("Lucida Grande", Font.BOLD, 23));
-		button.setEnabled(true);
+		button.setEnabled(proyecto.estaEnFinanciacion());
+		if (proyecto.esCompletado())
+			button.setText("¡¡Proyecto Completado!!");
 		button.setBounds(544, 360, 444, 66);
 		getContentPane().add(button);
 		
