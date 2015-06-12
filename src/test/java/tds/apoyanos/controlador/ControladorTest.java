@@ -221,6 +221,5 @@ public class ControladorTest  {
         Controlador.getUnicaInstancia().adelantarRelojUnDia();
         Controlador.getUnicaInstancia().comprobarPlazoFinalizacionProyectos();
         assertTrue(p.esCompletado());
-
     }
 }

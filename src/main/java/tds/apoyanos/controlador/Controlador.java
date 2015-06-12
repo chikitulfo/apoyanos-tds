@@ -237,8 +237,7 @@ public final class Controlador implements IFinanciacionListener {
     public void obtenerFinanciacion(FinanciacionEvent ev) {
         umu.tds.cargador.Proyectos proyectosexternos = ev.getProyectos();
         for (umu.tds.cargador.Proyecto pexterno : proyectosexternos.getProyecto()) {
-            int pid = Integer.parseInt(pexterno.getId());
-            Proyecto p = catalogoProyectos.getProyecto(pid);
+            Proyecto p = catalogoProyectos.getProyecto(pexterno.getId());
             for (umu.tds.cargador.Ingreso ingreso : pexterno.getIngreso()) {
                 p.addFinanciacionExterna(ingreso.getImporte());
             }

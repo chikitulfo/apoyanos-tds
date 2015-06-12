@@ -1,17 +1,16 @@
 package tds.apoyanos.vista;
 
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.GridLayout;
-import java.awt.Panel;
+import net.miginfocom.swing.MigLayout;
+import pulsador.IEncendidoListener;
+import pulsador.Luz;
+import tds.apoyanos.controlador.Controlador;
+import umu.tds.cargador.ComponenteCargadorFinanciacion;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
-import pulsador.Luz;
-import java.awt.Dimension;
-import java.awt.FlowLayout;
-import java.awt.Rectangle;
-import net.miginfocom.swing.MigLayout;
+import java.awt.*;
+import java.io.File;
+import java.util.EventObject;
 
 
 @SuppressWarnings("serial")
@@ -61,12 +60,12 @@ public class VentanaIntroApoyanos extends JFrame {
 		panelNorte.setBounds(new Rectangle(500, 500, 500, 500));
 		panelNorte.setBackground(new Color(255, 255, 255));
 		panelNorte.setBorder(new EmptyBorder(5, 5, 5, 5));
-		JLabel lblAvanzar = new JLabel("Avanzamos un día: ");
+		JLabel lblAvanzar = new JLabel("Avanzar un día: ");
 		lblAvanzar.setHorizontalAlignment(SwingConstants.RIGHT);
 		panelNorte.setLayout(new MigLayout("", "[502px][502px]", "[30px][30px]"));
 		panelNorte.add(lblAvanzar, "cell 0 0,grow");
-		Luz luzCargar = new Luz();
-		panelNorte.add(luzCargar, "flowx,cell 1 0,grow");
+		Luz luzAvanzar = new Luz();
+		panelNorte.add(luzAvanzar, "flowx,cell 1 0,grow");
 		
 		
 		
@@ -79,12 +78,13 @@ public class VentanaIntroApoyanos extends JFrame {
 		panelNorte.add(label_1, "flowx,cell 0 1,grow");
 		panelContenidos.add(panelNorte, BorderLayout.NORTH);
 		
-		JLabel label_2 = new JLabel("Cargar Financiación externa: ");
+		JLabel label_2 = new JLabel("Cargar financiación externa: ");
 		label_2.setHorizontalAlignment(SwingConstants.RIGHT);
 		panelNorte.add(label_2, "cell 0 1");
 		
-		Luz luz = new Luz();
-		panelNorte.add(luz, "cell 1 1");
+		Luz luzCargar = new Luz();
+		panelNorte.add(luzCargar, "cell 1 1");
+		luzCargar.addEncendidoListener(crearListenerLuzFinanciacion());
 		
 		
 	
@@ -97,6 +97,25 @@ public class VentanaIntroApoyanos extends JFrame {
 		//panelContenidos.updateUI();
 		panelContenidos.add(jp);
 		panelContenidos.updateUI();
+	}
+
+	private IEncendidoListener crearListenerLuzFinanciacion(){
+		return new IEncendidoListener() {
+			@Override
+			public void enteradoCambioEncendido(EventObject eventObject) {
+				Luz pulsador = (Luz)eventObject.getSource();
+				if (pulsador.isEncendido()) {
+					JFileChooser fileChooser = new JFileChooser();
+					int returnVal = fileChooser.showOpenDialog(panelContenidos);
+					if (returnVal == JFileChooser.APPROVE_OPTION) {
+						File file = fileChooser.getSelectedFile();
+						ComponenteCargadorFinanciacion cargador = new ComponenteCargadorFinanciacion();
+						Controlador.getUnicaInstancia().setComponenteFinanciacion(cargador);
+						cargador.asignarArchivo(file.getPath());
+					}
+				}
+			}
+		};
 	}
 
 }
