@@ -31,6 +31,7 @@ public class Menu {
     //public Menu(final VentanaIntroApoyanos jf){
         //MENÚ
 
+    			menuBar.setBackground(Color.WHITE);
                 jf.setJMenuBar(menuBar);
 
                 JPanel panelIcon = new JPanel();
@@ -325,7 +326,6 @@ public class Menu {
                 mnProyectosEnFinanciacion.add(mntmDeportesV);
 
                 JButton btnCrearNuevoProyecto = new JButton("Nuevo Proyecto");
-                btnCrearNuevoProyecto.setBackground(Color.WHITE);
                 btnCrearNuevoProyecto.setFocusPainted(false);
                 btnCrearNuevoProyecto.addActionListener(new ActionListener() {
                     public void actionPerformed(ActionEvent e) {
@@ -338,7 +338,6 @@ public class Menu {
                 menuBar.add(btnCrearNuevoProyecto);
 
                 JButton btnApoyos = new JButton("Apoyos");
-                btnApoyos.setBackground(Color.WHITE);
                 btnApoyos.addActionListener(new ActionListener() {
                     public void actionPerformed(ActionEvent e) {
                         VentanaApoyos ventanaApoyos = new VentanaApoyos();
