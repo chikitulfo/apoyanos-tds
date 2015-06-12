@@ -1,17 +1,17 @@
 package tds.apoyanos.vista;
 
-import java.awt.Color;
-import java.awt.SystemColor;
-
-import javax.swing.*;
-
-import java.awt.*;
-import java.util.Collection;
-
-//import javax.swing.table.DefaultTableModel;
-
 import tds.apoyanos.controlador.Controlador;
 import tds.apoyanos.modelo.Notificacion;
+
+import javax.swing.*;
+import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.DefaultTableModel;
+import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.util.LinkedList;
+
+//import javax.swing.table.DefaultTableModel;
 
 @SuppressWarnings("serial")
 public class VentanaNotificaciones extends JFrame {
@@ -22,7 +22,7 @@ public class VentanaNotificaciones extends JFrame {
 	private ModeloTabla modeloVistaNotificacion;
 	
 	private Controlador controlador = Controlador.getUnicaInstancia();
-	private Collection<Notificacion> listaNotificacion =  controlador.getUsuario().getNotificaciones();
+	private LinkedList<Notificacion> listaNotificacion =  (LinkedList<Notificacion>)controlador.getUsuario().getNotificaciones();
 	
 	public VentanaNotificaciones() {
 		setResizable(false);
@@ -36,11 +36,12 @@ public class VentanaNotificaciones extends JFrame {
 		getContentPane().add(scrollPane);
 		
 		table = new JTable();
-		table.setEnabled(false);
-		table.setRowSelectionAllowed(false);
+		table.setEnabled(true);
+		table.setRowSelectionAllowed(true);
+		table.setGridColor(Color.LIGHT_GRAY);
+		table.setSelectionBackground(SystemColor.inactiveCaptionText);
 		table.setSelectionBackground(UIManager.getColor("Button.background"));
 		table.setName("Listado de notificaciones.");
-		table.setGridColor(Color.LIGHT_GRAY);
 		//Muestra la vista de la tabla
 		vistaTablaNotificaciones();
 		
@@ -92,7 +93,8 @@ public class VentanaNotificaciones extends JFrame {
 
 		}
 		table.setModel(modeloVistaNotificacion);
-		
+		table.setDefaultRenderer(Object.class, new CustomTableCellRenderer());
+		table.addMouseListener(mouseListenerRecibidas);
 		table.getColumnModel().getColumn(0).setResizable(false);
 		table.getColumnModel().getColumn(0).setPreferredWidth(120);
 		table.getColumnModel().getColumn(0).setMaxWidth(100);
@@ -103,5 +105,36 @@ public class VentanaNotificaciones extends JFrame {
 		//table.getColumnModel().getColumn(2).setPreferredWidth(50);
 
 	}
-	
+
+	private class CustomTableCellRenderer extends DefaultTableCellRenderer {
+
+		public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
+			JLabel lbl = (JLabel)super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
+
+			//new JLabel(value == null? "": value.toString());
+			if (!listaNotificacion.isEmpty()) {
+				if (!listaNotificacion.get(row).isLeida()) {
+					lbl.setFont(new Font("Lucida Grande", Font.BOLD, 13));
+				}
+				lbl.setToolTipText(lbl.getText());
+			}
+			return lbl;
+		}
+	}
+
+	MouseAdapter mouseListenerRecibidas = new MouseAdapter() {
+		public void mouseClicked(MouseEvent mouseEvent){
+
+			if(mouseEvent.getClickCount() == 1 ){
+				int index = ((JTable) mouseEvent.getSource()).rowAtPoint(mouseEvent.getPoint());
+				if(index >=0){
+					Notificacion n = listaNotificacion.get(index);
+					n.marcarLeida();
+					DefaultTableModel dtmR = (DefaultTableModel) table.getModel();
+					dtmR.fireTableRowsUpdated(index,index);
+					new VentanaMensajes(n.getDescripcion());
+				}
+			}
+		}
+	};
 }

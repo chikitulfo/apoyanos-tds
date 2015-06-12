@@ -66,7 +66,7 @@ public class VentanaIntroApoyanos extends JFrame {
 		panelNorte.add(lblAvanzar, "cell 0 0,grow");
 		Luz luzAvanzar = new Luz();
 		panelNorte.add(luzAvanzar, "flowx,cell 1 0,grow");
-		
+		luzAvanzar.addEncendidoListener(crearListenerLuzPasarDia());
 		
 		
 		
@@ -114,6 +114,17 @@ public class VentanaIntroApoyanos extends JFrame {
 						cargador.asignarArchivo(file.getPath());
 					}
 				}
+			}
+		};
+	}
+
+	private IEncendidoListener crearListenerLuzPasarDia(){
+		return new IEncendidoListener() {
+			@Override
+			public void enteradoCambioEncendido(EventObject eventObject) {
+				Luz pulsador = (Luz)eventObject.getSource();
+				Controlador.getUnicaInstancia().adelantarRelojUnDia();
+				Controlador.getUnicaInstancia().comprobarPlazoFinalizacionProyectos();
 			}
 		};
 	}

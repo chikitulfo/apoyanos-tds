@@ -230,7 +230,7 @@ public class Proyecto {
                         + cantidadMinima + "€." +
                         "\nLo sentimos");
                 actualizarPersistencia();
-            } else if ( esFinanciado()) {
+            } else if ( esFinanciado() && estaEnFinanciacion()) {
                 estado = Estado.COMPLETADO;
                 notificarUsuarios("El proyecto \""+nombre+"\" ha finalizado la campaña logrando recaudar un total de "
                         +cantidadRecaudada+"€ sobre un mínimo de "+cantidadMinima+"." +
