@@ -128,7 +128,7 @@ public class RegistroW extends JPanel {
 		linea_6.add(lblPassword); linea_6.add(txtPassword); linea_6.add(lblPasswordChk); linea_6.add(txtPasswordChk); 
 		
 		/*linea 7*/
-		chkTerminos= new JCheckBox("Marcar la casilla para leer y aceptar los terminos de uso");
+		chkTerminos= new JCheckBox("Aceptar y ver términos de uso");
 		linea_7.add(chkTerminos);
 		
 		/*linea 8*/
