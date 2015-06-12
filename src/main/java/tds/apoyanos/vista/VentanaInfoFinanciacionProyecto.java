@@ -192,45 +192,53 @@ public class VentanaInfoFinanciacionProyecto extends JFrame {
 		JButton button = new JButton("¡¡Apoyar Proyecto!!");
 		button.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				
 				DefaultTableModel dtm = (DefaultTableModel) tbRecompensas.getModel(); 
-				String nombreRecompensa = String.valueOf(dtm.getValueAt(tbRecompensas.getSelectedRow(),0));
-				double cantidadRecompensa = (Double) dtm.getValueAt(tbRecompensas.getSelectedRow(),1);
-				int idRecompensa = (int) dtm.getValueAt(tbRecompensas.getSelectedRow(),3);
-				
-				Recompensa re = buscarRecompensa(idRecompensa);
-				String nombreProyecto = proyecto.getNombre();
-				
-				if ((re.getMaximoParticipantes() == 0) || (re.getApoyos().size() < re.getMaximoParticipantes())){
-					//se puede
-					//Ventana confirmación
-					int n = JOptionPane.showConfirmDialog(
-						    null,
-						    "¿Deseas apoyar el siguiente proyecto con la recompensa seleccionada?",
-						    "An Inane Question",
-						    JOptionPane.YES_NO_OPTION);
-					if(n==0){
-						//Apoyar el proyecto
-						try {
-							controlador.apoyarProyecto(nombreProyecto, nombreRecompensa, cantidadRecompensa, "");
-						} catch (InvalidStateException | InvalidArgumentException e1) {
-							// TODO Auto-generated catch block
-							e1.printStackTrace();
-						}
-						//Ir al listado de proyectos en financiación
-	                    VentanaPrincipalApoyanos ventanaPrincipal;
-						try {
-							ventanaPrincipal = new VentanaPrincipalApoyanos("Financiación","Todos");
-		                    ventanaPrincipal.setVisible(true);
-		                    setVisible(false); //you can't see me!
-		                    dispose(); //Destroy the JFrame object
-						} catch (InvalidArgumentException e1) {
-							// TODO Auto-generated catch block
-							e1.printStackTrace();
-						}
-
-					}
+				if (tbRecompensas.getSelectedRow()==-1){
+					//Alerta
+					new VentanaMensajes("Para Apoyar un proyecto debe seleccionar primero una recompensa.");
 				} else {
-					new VentanaMensajes("La recompensa elegida ha llegado a su máximo de apoyos.");
+					//TODO VA BIEN
+					String nombreRecompensa = String.valueOf(dtm.getValueAt(tbRecompensas.getSelectedRow(),0));
+					double cantidadRecompensa = (Double) dtm.getValueAt(tbRecompensas.getSelectedRow(),1);
+					int idRecompensa = (int) dtm.getValueAt(tbRecompensas.getSelectedRow(),3);
+					
+					Recompensa re = buscarRecompensa(idRecompensa);
+					String nombreProyecto = proyecto.getNombre();
+					
+					if ((re.getMaximoParticipantes() == 0) || (re.getApoyos().size() < re.getMaximoParticipantes())){
+						//se puede
+						//Ventana confirmación
+						int n = JOptionPane.showConfirmDialog(
+							    null,
+							    "¿Deseas apoyar el siguiente proyecto con la recompensa seleccionada?",
+							    "An Inane Question",
+							    JOptionPane.YES_NO_OPTION);
+						if(n==0){
+							//Apoyar el proyecto
+							try {
+								controlador.apoyarProyecto(nombreProyecto, nombreRecompensa, cantidadRecompensa, "");
+							} catch (InvalidStateException | InvalidArgumentException e1) {
+								// TODO Auto-generated catch block
+								e1.printStackTrace();
+							}
+							//Ir al listado de proyectos en financiación
+		                    VentanaPrincipalApoyanos ventanaPrincipal;
+							try {
+								ventanaPrincipal = new VentanaPrincipalApoyanos("Financiación","Todos");
+			                    ventanaPrincipal.setVisible(true);
+			                    setVisible(false); //you can't see me!
+			                    dispose(); //Destroy the JFrame object
+							} catch (InvalidArgumentException e1) {
+								// TODO Auto-generated catch block
+								e1.printStackTrace();
+							}
+
+						}
+					} else {
+						new VentanaMensajes("La recompensa elegida ha llegado a su máximo de apoyos.");
+					}
+					///
 				}
 
 			}
