@@ -68,7 +68,7 @@ public class ControladorTest  {
         recompensas.add(new RecompensaVista("R3", "Pinto la bici como tú quieras", 500, 1));
         //Registramos el proyecto
         Controlador.getUnicaInstancia().crearProyecto("El mejor proyecto", "Quiero una bici", 4000,
-                new GregorianCalendar(2015,05,12), "Otros", recompensas);
+                new GregorianCalendar(2015,05,13), "Otros", recompensas);
         assertTrue(Controlador.getUnicaInstancia().esCreado("El mejor proyecto"));
 
         //Registramos un proyecto sin recompensas
