@@ -173,7 +173,7 @@ public class VentanaPreguntasRespuestas extends JFrame {
 		panelDer.add(lblPregunta);
 		
 		JLabel label = new JLabel("Respuesta:");
-		label.setVisible(false);
+		//label.setVisible(false);
 		label.setBounds(35, 263, 100, 16);
 		panelDer.add(label);
 		
