@@ -26,6 +26,8 @@ public class RecompensaTest {
         proyecto = new Proyecto("P1", "p1", usuario1, 1000, new GregorianCalendar(2015, 06,31),Categoria.DEPORTES);
         R1 = new Recompensa("R1", "Descripcion reshulona",proyecto, 20, 1);
         R2 = new Recompensa("R2", "Descripcion reshulona 2",proyecto, 25);
+        R1.registrarPersistencia();
+        R2.registrarPersistencia();
     }
 
     @Test
@@ -36,15 +38,21 @@ public class RecompensaTest {
     @Test
     public void testApoyar() throws InvalidStateException, InvalidArgumentException {
 
-        thrown.expect(InvalidArgumentException.class);
-        R1.apoyar(usuario2,15,"");
+        try {
+            R1.apoyar(usuario2, 15, "");
+        } catch ( InvalidArgumentException e) {
+            assertEquals(e.getClass(),InvalidArgumentException.class);
+        }
 
         R1.apoyar(usuario2,20,"");
         assertTrue(R1.getMecenas().contains(usuario2));
 
-        thrown.expect(InvalidStateException.class);
         Usuario usu3 = new Usuario("u3","u3","u3", "u3@tds.com", "u3", "u3");
+        try {
         R1.apoyar(usu3,25,"");
+        } catch ( InvalidStateException e) {
+            assertEquals(e.getClass(),InvalidStateException.class);
+        }
     }
 
 }
