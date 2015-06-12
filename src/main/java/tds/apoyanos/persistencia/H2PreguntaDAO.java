@@ -33,9 +33,9 @@ public class H2PreguntaDAO implements PreguntaDAO {
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
         String fecha = sdf.format(pregunta.getFecha().getTime());
 
-        String emisor = new Integer(pregunta.getEmisor().getId()).toString();
-        String receptor = new Integer(pregunta.getReceptor().getId()).toString();
-        String proyecto = new Integer (pregunta.getProyecto().getId()).toString();
+        String emisor = Integer.toString(pregunta.getEmisor().getId());
+        String receptor = Integer.toString(pregunta.getReceptor().getId());
+        String proyecto = Integer.toString(pregunta.getProyecto().getId());
         ePregunta.setPropiedades(
                 new ArrayList<Propiedad>(Arrays.asList(
                         new Propiedad("asunto", pregunta.getAsunto()),

@@ -31,15 +31,15 @@ public class H2ProyectoDAO implements ProyectoDAO {
         Entidad  eProyecto = new Entidad();
         eProyecto.setNombre("proyecto"); /*"tipo" de entidad */
 		/* crear propiedades y rellenar datos */
-        String creador = new Integer(proyecto.getCreador().getId()).toString();
-        String cantMinima = new Double(proyecto.getCantidadMinima()).toString();
-        String cantRecaudada = new Double(proyecto.getCantidadRecaudada()).toString();
+        String creador = Integer.toString(proyecto.getCreador().getId());
+        String cantMinima = Double.toString(proyecto.getCantidadMinima());
+        String cantRecaudada = Double.toString(proyecto.getCantidadRecaudada());
 
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
         Calendar fecha = proyecto.getPlazoFinanciacion();
         String plazofinanciacion = sdf.format(fecha.getTime());
 
-        String numVotos = new Integer(proyecto.getNumvotos()).toString();
+        String numVotos = Integer.toString(proyecto.getNumvotos());
         String estado = proyecto.getEstado().name();
         String categoria = proyecto.getCategoria().getNombre();
 

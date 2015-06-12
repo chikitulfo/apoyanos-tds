@@ -30,9 +30,9 @@ public class H2RecompensaDAO implements RecompensaDAO {
         Entidad  eRecompensa = new Entidad();
         eRecompensa.setNombre("recompensa"); /*"tipo" de entidad */
 		/* crear propiedades y rellenar datos */
-        String cantMinima = new Double(recompensa.getCantidadMinima()).toString();
-        String maxParticip = new Integer(recompensa.getMaximoParticipantes()).toString();
-        String proyecto = new Integer(recompensa.getProyecto().getId()).toString();
+        String cantMinima = Double.toString(recompensa.getCantidadMinima());
+        String maxParticip = Integer.toString(recompensa.getMaximoParticipantes());
+        String proyecto = Integer.toString(recompensa.getProyecto().getId());
 
         StringBuilder apoyos = new StringBuilder();
         for ( Apoyo a : recompensa.getApoyos()){

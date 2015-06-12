@@ -32,8 +32,8 @@ public class H2NotificacionDAO implements NotificacionDAO {
 		/* crear propiedades y rellenar datos */
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
         String tiempo = sdf.format(notificacion.getTiempo().getTime());
-        String leida = new Boolean(notificacion.isLeida()).toString();
-        String proyecto = new Integer (notificacion.getProyecto().getId()).toString();
+        String leida = Boolean.valueOf(notificacion.isLeida()).toString();
+        String proyecto = Integer.toString(notificacion.getProyecto().getId());
         eNotificacion.setPropiedades(
                 new ArrayList<Propiedad>(Arrays.asList(
                         new Propiedad("descripcion", notificacion.getDescripcion()),

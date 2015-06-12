@@ -45,7 +45,7 @@ public class CatalogoProyectos {
     }
 
     public Proyecto getProyecto(int id) {
-        return proyectos_nombre.get(id);
+        return proyectos_id.get(id);
     }
 
     public boolean esRegistrado(String nombre) {

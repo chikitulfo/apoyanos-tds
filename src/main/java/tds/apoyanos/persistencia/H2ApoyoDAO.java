@@ -32,9 +32,9 @@ public class H2ApoyoDAO implements ApoyoDAO {
 		/* crear propiedades y rellenar datos */
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
         String fecha = sdf.format(apoyo.getFecha().getTime());
-        String cantidad = new Double(apoyo.getCantidad()).toString();
-        String usuario = new Integer (apoyo.getUsuario().getId()).toString();
-        String recompensa = new Integer (apoyo.getRecompensa().getId()).toString();
+        String cantidad = Double.toString(apoyo.getCantidad());
+        String usuario = Integer.toString(apoyo.getUsuario().getId());
+        String recompensa = Integer.toString(apoyo.getRecompensa().getId());
         eApoyo.setPropiedades(
                 new ArrayList<Propiedad>(Arrays.asList(
                         new Propiedad("comentario", apoyo.getComentario()),

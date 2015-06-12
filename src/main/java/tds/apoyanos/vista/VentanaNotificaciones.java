@@ -1,6 +1,7 @@
 package tds.apoyanos.vista;
 
 import tds.apoyanos.controlador.Controlador;
+import tds.apoyanos.exceptions.InvalidArgumentException;
 import tds.apoyanos.modelo.Notificacion;
 
 import javax.swing.*;
@@ -129,7 +130,9 @@ public class VentanaNotificaciones extends JFrame {
 				int index = ((JTable) mouseEvent.getSource()).rowAtPoint(mouseEvent.getPoint());
 				if(index >=0){
 					Notificacion n = listaNotificacion.get(index);
-					n.marcarLeida();
+					try {
+						controlador.marcarNotificacionLeida(n.getId());
+					} catch (InvalidArgumentException e) {}
 					DefaultTableModel dtmR = (DefaultTableModel) table.getModel();
 					dtmR.fireTableRowsUpdated(index,index);
 					new VentanaMensajes(n.getDescripcion());

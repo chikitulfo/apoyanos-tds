@@ -30,7 +30,7 @@ public enum Categoria {
     public static Categoria valueOfNombre(String nombre) throws InvalidArgumentException {
         synchronized(Categoria.class) {
             if (map == null) {
-                map = new HashMap();
+                map = new HashMap<>();
                 for (Categoria v : values()) {
                     map.put(v.nombre, v);
                 }

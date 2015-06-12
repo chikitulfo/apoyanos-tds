@@ -43,7 +43,7 @@ public class Notificacion {
     }
 
     public void marcarLeida(){
-        if (this.leida == false) {
+        if (!this.leida) {
             this.leida = true;
             this.actualizarPersistencia();
         }

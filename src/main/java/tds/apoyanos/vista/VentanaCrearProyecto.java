@@ -1,25 +1,25 @@
 package tds.apoyanos.vista;
 
-import javax.swing.*;
+import com.toedter.calendar.JDateChooser;
+import tds.apoyanos.controlador.Controlador;
+import tds.apoyanos.exceptions.InvalidArgumentException;
+import tds.apoyanos.modelo.Usuario;
 
+import javax.swing.*;
+import javax.swing.border.LineBorder;
+import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-//import java.text.DecimalFormat;
-//import java.text.SimpleDateFormat;
-import java.util.GregorianCalendar;
-import java.util.LinkedList;
-
-//import javax.swing.border.BevelBorder;
-import javax.swing.border.LineBorder;
-import javax.swing.table.DefaultTableModel;
-
-import tds.apoyanos.controlador.Controlador;
-import tds.apoyanos.exceptions.InvalidArgumentException;
-import tds.apoyanos.modelo.*;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
-import com.toedter.calendar.JDateChooser;
+import java.util.GregorianCalendar;
+import java.util.LinkedList;
+import java.util.Objects;
+
+//import java.text.DecimalFormat;
+//import java.text.SimpleDateFormat;
+//import javax.swing.border.BevelBorder;
 
 @SuppressWarnings("serial")
 public class VentanaCrearProyecto extends JFrame{
@@ -642,7 +642,7 @@ public class VentanaCrearProyecto extends JFrame{
 		GregorianCalendar fechaProyecto = new GregorianCalendar();
 		GregorianCalendar ahora = new GregorianCalendar();
 		todoOk=(!listaRecompensas.isEmpty());
-		todoOk=((textImporte.getText()!="####.##") && (textImporte.getText().trim().length()!=0));
+		todoOk=((!Objects.equals(textImporte.getText(), "####.##")) && (textImporte.getText().trim().length()!=0));
 		todoOk=(txtDescripcionProyecto.getText().trim().length()!=0);
 		todoOk=(!controlador.esCreado(textProyecto.getText()) && (textProyecto.getText().trim().length()!=0));
 		fechaProyecto.setTime(fechaFin.getDate());
