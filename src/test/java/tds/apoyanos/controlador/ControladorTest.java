@@ -67,19 +67,21 @@ public class ControladorTest  {
         recompensas.add(new RecompensaVista("R2", "Tu nombre en mi bici como sponsor", 200, 10));
         recompensas.add(new RecompensaVista("R3", "Pinto la bici como tú quieras", 500, 1));
         //Registramos el proyecto
+        GregorianCalendar manana= new GregorianCalendar();
+        manana.add(GregorianCalendar.DAY_OF_YEAR, 1);
         Controlador.getUnicaInstancia().crearProyecto("El mejor proyecto", "Quiero una bici", 4000,
-                new GregorianCalendar(2015,05,13), "Otros", recompensas);
+                manana, "Otros", recompensas);
         assertTrue(Controlador.getUnicaInstancia().esCreado("El mejor proyecto"));
 
         //Registramos un proyecto sin recompensas
         try {
-            Controlador.getUnicaInstancia().crearProyecto("p", "a", 20, new GregorianCalendar(2015, 07, 12), "Otros", null);
+            Controlador.getUnicaInstancia().crearProyecto("p", "a", 20, manana, "Otros", null);
         } catch (InvalidArgumentException e) {}
         assertFalse(Controlador.getUnicaInstancia().esCreado("p"));
 
         //Registramos un proyecto con categoria errónea
         try {
-            Controlador.getUnicaInstancia().crearProyecto("p","a", 20, new GregorianCalendar(2015,07,12), "CATEGORIAFALSA", recompensas);
+            Controlador.getUnicaInstancia().crearProyecto("p","a", 20, manana, "CATEGORIAFALSA", recompensas);
         } catch (InvalidArgumentException e) {}
         assertFalse(Controlador.getUnicaInstancia().esCreado("p"));
 
