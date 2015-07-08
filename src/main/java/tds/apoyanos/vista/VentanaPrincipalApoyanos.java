@@ -28,6 +28,8 @@ public class VentanaPrincipalApoyanos extends JFrame {
 	private ModeloTabla modeloVistaFinanciacion;
 	private JTable tbListadoProyectosVotacion;
 	private JTable tbListadoProyectosFinanciacion;
+	private JScrollPane scrollPane = new JScrollPane();
+	private JButton btnMasInfo = new JButton("Más Información");
 
 	private LinkedList<Proyecto> listaProyectos;
 //	private Proyecto proyecto;
@@ -46,12 +48,7 @@ public class VentanaPrincipalApoyanos extends JFrame {
 		getContentPane().setBackground(SystemColor.window);
 		
 		getContentPane().setBackground(Color.WHITE);
-		getContentPane().setLayout(null);
-		
-		
-		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(100, 105, 794, 248);
-		getContentPane().add(scrollPane);
+		getContentPane().setLayout(new BoxLayout(getContentPane(), BoxLayout.Y_AXIS));
 		
 		
 		if (fase.equals("Votación")){
@@ -92,23 +89,60 @@ public class VentanaPrincipalApoyanos extends JFrame {
 			scrollPane.setViewportView(tbListadoProyectosFinanciacion);
 			vistaTablaFinanciacion();
 		}
-		
-		JLabel lbTitulo = new JLabel();
 		/*
 		 * según se utilize y según los datos de entrada en la creación el texto será distinto
 		 * 
 		 * 
 		 * */
+		if (listaProyectos.isEmpty())
+			btnMasInfo.setEnabled(false);
+		panel_texto.setMaximumSize(new Dimension(1024, 300));
+		panel_texto.setBackground(Color.WHITE);
+		
+		getContentPane().add(panel_texto);
+		panel_texto.setLayout(new BoxLayout(panel_texto, BoxLayout.X_AXIS));
+		rigidArea.setSize(new Dimension(100, 50));
+		rigidArea.setPreferredSize(new Dimension(100, 50));
+		rigidArea.setMaximumSize(new Dimension(100, 50));
+		rigidArea.setMinimumSize(new Dimension(100, 50));
+		
+		panel_texto.add(rigidArea);
+		
+		JLabel lbTitulo = new JLabel();
+		lbTitulo.setHorizontalTextPosition(SwingConstants.LEFT);
+		lbTitulo.setBackground(Color.WHITE);
+		panel_texto.add(lbTitulo);
 		lbTitulo.setText("Listado de proyectos en " + fase + " - " + categoria + ".");
 		lbTitulo.setHorizontalAlignment(SwingConstants.LEFT);
 		lbTitulo.setFont(new Font("Lucida Grande", Font.PLAIN, 18));
-		lbTitulo.setBounds(100, 59, 794, 34);
-		getContentPane().add(lbTitulo);
+		panelTabla.setBackground(Color.WHITE);
+		panelTabla.setMaximumSize(new Dimension(1024, 700));
 		
-		JButton btnMasInfo = new JButton("Más Información");
+		getContentPane().add(panelTabla);
+		panelTabla.setLayout(new BoxLayout(panelTabla, BoxLayout.X_AXIS));
+		panelTabla.add(horizontalStrut_1);
+		scrollPane.setMaximumSize(new Dimension(1024, 700));
+		panelTabla.add(scrollPane);
+		panelTabla.add(horizontalStrut);
+		verticalStrut.setPreferredSize(new Dimension(0, 40));
+		verticalStrut.setMinimumSize(new Dimension(0, 40));
+		
+		getContentPane().add(verticalStrut);
+		panelBoton.setBackground(Color.WHITE);
+		
+		getContentPane().add(panelBoton);
+		panelBoton.setLayout(new BoxLayout(panelBoton, BoxLayout.X_AXIS));
+		btnMasInfo.setHorizontalTextPosition(SwingConstants.CENTER);
+		panelBoton.add(btnMasInfo);
+		
 		btnMasInfo.setEnabled(true);
-		if (listaProyectos.isEmpty())
-			btnMasInfo.setEnabled(false);
+		panel.setBackground(Color.WHITE);
+		
+		getContentPane().add(panel);
+		panel.setLayout(new BoxLayout(panel, BoxLayout.X_AXIS));
+		verticalStrut_1.setPreferredSize(new Dimension(0, 40));
+		
+		panel.add(verticalStrut_1);
 		
 		
 		
@@ -149,8 +183,6 @@ public class VentanaPrincipalApoyanos extends JFrame {
 				}
 			}
 		});
-		btnMasInfo.setBounds(398, 394, 200, 40);
-		getContentPane().add(btnMasInfo);
 
 						
 		//Características del JFrame
@@ -268,4 +300,13 @@ public class VentanaPrincipalApoyanos extends JFrame {
 			return Integer.compare(proyecto.getDiasRestantes(),t1.getDiasRestantes());
 		}
 	};
+	private final JPanel panel_texto = new JPanel();
+	private final JPanel panelTabla = new JPanel();
+	private final Component horizontalStrut = Box.createHorizontalStrut(100);
+	private final Component horizontalStrut_1 = Box.createHorizontalStrut(100);
+	private final JPanel panelBoton = new JPanel();
+	private final Component rigidArea = Box.createRigidArea(new Dimension(20, 20));
+	private final Component verticalStrut = Box.createVerticalStrut(20);
+	private final JPanel panel = new JPanel();
+	private final Component verticalStrut_1 = Box.createVerticalStrut(20);
 }
