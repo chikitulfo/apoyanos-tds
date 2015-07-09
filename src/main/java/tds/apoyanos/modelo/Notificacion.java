@@ -1,9 +1,6 @@
 package tds.apoyanos.modelo;
 
 
-import tds.apoyanos.Config;
-import tds.apoyanos.persistencia.DAOException;
-import tds.apoyanos.persistencia.FactoriaDAO;
 
 import java.util.GregorianCalendar;
 
@@ -45,7 +42,6 @@ public class Notificacion {
     public void marcarLeida(){
         if (!this.leida) {
             this.leida = true;
-            this.actualizarPersistencia();
         }
     }
 
@@ -67,19 +63,4 @@ public class Notificacion {
         }
     }
 
-    public void registrarPersistencia(){
-        try {
-            FactoriaDAO.getFactoriaDAO(Config.TipoDAO).getNotificacionDAO().registrar(this);
-        } catch (DAOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public void actualizarPersistencia(){
-        try {
-            FactoriaDAO.getFactoriaDAO(Config.TipoDAO).getNotificacionDAO().actualizarNotificacion(this);
-        } catch (DAOException e) {
-            e.printStackTrace();
-        }
-    }
 }

@@ -1,9 +1,7 @@
 package tds.apoyanos.modelo;
 
-import tds.apoyanos.Config;
 import tds.apoyanos.exceptions.InvalidStateException;
-import tds.apoyanos.persistencia.DAOException;
-import tds.apoyanos.persistencia.FactoriaDAO;
+
 
 import java.util.GregorianCalendar;
 
@@ -29,7 +27,6 @@ public class Pregunta {
     public void addRespuesta(String respuesta) throws InvalidStateException {
         if (this.respuesta == null) {
             this.respuesta = respuesta;
-			this.actualizarPersistencia();
         } else {
             throw new InvalidStateException("La pregunta ya está contestada");
         }
@@ -90,22 +87,6 @@ public class Pregunta {
 	public void setReceptor(Usuario receptor) {
 		if ( this.receptor == null) {
 			this.receptor = receptor;
-		}
-	}
-
-	public void registrarPersistencia(){
-		try {
-			FactoriaDAO.getFactoriaDAO(Config.TipoDAO).getPreguntaDAO().registrar(this);
-		} catch (DAOException e) {
-			e.printStackTrace();
-		}
-	}
-
-	public void actualizarPersistencia(){
-		try {
-			FactoriaDAO.getFactoriaDAO(Config.TipoDAO).getPreguntaDAO().actualizarPregunta(this);
-		} catch (DAOException e) {
-			e.printStackTrace();
 		}
 	}
 

@@ -3,8 +3,6 @@ package tds.apoyanos.modelo;
 import tds.apoyanos.Config;
 import tds.apoyanos.exceptions.InvalidArgumentException;
 import tds.apoyanos.exceptions.InvalidStateException;
-import tds.apoyanos.persistencia.DAOException;
-import tds.apoyanos.persistencia.FactoriaDAO;
 
 import java.util.*;
 import java.util.concurrent.TimeUnit;
@@ -188,11 +186,6 @@ public class Proyecto {
         if (estado==null && !recompensas.isEmpty()) {
             estado = Estado.VOTACION;
             Collections.sort(recompensas);
-            this.registrarPersistencia();
-            for (Recompensa r : recompensas) {
-                r.registrarPersistencia();
-            }
-            this.actualizarPersistencia();
             return true;
         }
         else {
@@ -225,18 +218,15 @@ public class Proyecto {
         if (plazoFinanciacion.before(comprobacion)) {
             if ( estaEnVotacion() || !esFinanciado()) {
                 estado = Estado.CANCELADO;
-                this.actualizarPersistencia();
                 notificarUsuarios("El proyecto \""+nombre+"\" ha sido cancelado antes de alcanzar su meta de "
                         + cantidadMinima + "€." +
                         "\nLo sentimos");
-                actualizarPersistencia();
             } else if ( esFinanciado() && estaEnFinanciacion()) {
                 estado = Estado.COMPLETADO;
                 notificarUsuarios("El proyecto \""+nombre+"\" ha finalizado la campaña logrando recaudar un total de "
                         +cantidadRecaudada+"€ sobre un mínimo de "+cantidadMinima+"." +
                         "\nLa comisión que se retendrá asciende a "+calcularComision()+"€"+
                         "\n¡Fantásticas noticias!");
-                actualizarPersistencia();
             }
         }
     }
@@ -253,35 +243,17 @@ public class Proyecto {
                     "\n¡Fantásticas noticias!" +
                     "\nLa campaña continúa hasta vencer el plazo.");
         }
-        this.actualizarPersistencia();
     }
 
     private void notificarUsuarios(String Mensaje){
         for (Recompensa r : recompensas) {
             for ( Usuario u :r.getMecenas()) {
                 Notificacion notificacion = new Notificacion(this,Mensaje);
-                notificacion.registrarPersistencia();
                 u.addNotificacion(notificacion);
             }
         }
         Notificacion notificacion = new Notificacion(this,Mensaje);
-        notificacion.registrarPersistencia();
         creador.addNotificacion(notificacion);
     }
 
-    public void registrarPersistencia(){
-        try {
-            FactoriaDAO.getFactoriaDAO(Config.TipoDAO).getProyectoDAO().registrar(this);
-        } catch (DAOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public void actualizarPersistencia(){
-        try {
-            FactoriaDAO.getFactoriaDAO(Config.TipoDAO).getProyectoDAO().actualizarProyecto(this);
-        } catch (DAOException e) {
-            e.printStackTrace();
-        }
-    }
 }

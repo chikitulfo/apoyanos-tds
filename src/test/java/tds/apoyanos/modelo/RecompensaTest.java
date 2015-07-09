@@ -26,8 +26,6 @@ public class RecompensaTest {
         proyecto = new Proyecto("P1", "p1", usuario1, 1000, new GregorianCalendar(2015, 06,31),Categoria.DEPORTES);
         R1 = new Recompensa("R1", "Descripcion reshulona",proyecto, 20, 1);
         R2 = new Recompensa("R2", "Descripcion reshulona 2",proyecto, 25);
-        R1.registrarPersistencia();
-        R2.registrarPersistencia();
     }
 
     @Test

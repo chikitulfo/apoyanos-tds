@@ -1,10 +1,8 @@
 package tds.apoyanos.modelo;
 
-import tds.apoyanos.Config;
+
 import tds.apoyanos.exceptions.InvalidArgumentException;
 import tds.apoyanos.exceptions.InvalidStateException;
-import tds.apoyanos.persistencia.DAOException;
-import tds.apoyanos.persistencia.FactoriaDAO;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -104,16 +102,13 @@ public class Usuario {
     public void addProyectoCreado(Proyecto proyecto) {
         if (!proyectosCreados.contains(proyecto)) {
             proyectosCreados.add(proyecto);
-            actualizarPersistencia();
         }
     }
 
     public void votar(Proyecto p) throws InvalidStateException {
         if (!votos.contains(p)){
             p.addVoto();
-            p.actualizarPersistencia();
             votos.add(p);
-            this.actualizarPersistencia();
         }
     }
 
@@ -121,13 +116,11 @@ public class Usuario {
             throws InvalidStateException, InvalidArgumentException {
         Apoyo apoyo = p.apoyar(this,nRecompensa,cantidad,comentario);
         apoyos.add(apoyo);
-        this.actualizarPersistencia();
     }
 
     public void addPreguntaEmitida(Pregunta pregunta) throws InvalidArgumentException {
         if (pregunta.getEmisor() == this) {
             preguntasEmitidas.add(pregunta);
-            this.actualizarPersistencia();
         }
         else {
             throw new InvalidArgumentException("La pregunta no pertenece a este usuario");
@@ -136,15 +129,12 @@ public class Usuario {
 
     public void hacerPregunta(Proyecto proyecto, Usuario emisor, String asunto, String cuerpo) throws InvalidArgumentException {
         Pregunta pregunta = new Pregunta(emisor, this, asunto, cuerpo, proyecto);
-        pregunta.registrarPersistencia();
         emisor.addPreguntaEmitida(pregunta);
         preguntasRecibidas.add(pregunta);
-        this.actualizarPersistencia();
     }
 
     public void addNotificacion (Notificacion notificacion) {
         notificaciones.addFirst(notificacion);
-        this.actualizarPersistencia();
     }
 
     public void responderPregunta(int idPregunta, String respuesta)
@@ -194,21 +184,6 @@ public class Usuario {
         this.preguntasRecibidas = new LinkedList<>(preguntasRecibidas);
     }
 
-    public void registrarPersistencia(){
-        try {
-            FactoriaDAO.getFactoriaDAO(Config.TipoDAO).getUsuarioDAO().registrar(this);
-        } catch (DAOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public void actualizarPersistencia(){
-        try {
-            FactoriaDAO.getFactoriaDAO(Config.TipoDAO).getUsuarioDAO().actualizarUsuario(this);
-        } catch (DAOException e) {
-            e.printStackTrace();
-        }
-    }
 
     public boolean isVotado(Proyecto p) {
         return this.votos.contains(p);
