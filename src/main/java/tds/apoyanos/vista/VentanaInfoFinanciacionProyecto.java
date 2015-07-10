@@ -288,6 +288,14 @@ public class VentanaInfoFinanciacionProyecto extends JFrame {
 		getContentPane().add(lblSiTienesAlguna);
 		
 		JButton btnPreguntas = new JButton("Preguntas");
+		btnPreguntas.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+                VentanaPreguntasRespuestas ventanaPrincipal = new VentanaPreguntasRespuestas(proyecto);
+                ventanaPrincipal.setVisible(true);
+                setVisible(false); //you can't see me!
+                dispose(); //Destroy the JFrame object
+			}
+		});
 		btnPreguntas.setBounds(706, 317, 117, 29);
 		getContentPane().add(btnPreguntas);
 		

@@ -139,9 +139,9 @@ public final class Controlador implements IFinanciacionListener {
         if (p==null) {
             throw new InvalidArgumentException("Proyecto inexistente");
         }
-        usuario.votar(p);
         //Actualizar persistencia de proyecto y usuario si no estaba ya votado
         if (!usuario.isVotado(p)){
+        	usuario.votar(p);
         	this.actualizarPersistencia(p);
         	this.actualizarPersistencia(usuario);
         }
@@ -339,6 +339,8 @@ public final class Controlador implements IFinanciacionListener {
             for (umu.tds.cargador.Ingreso ingreso : pexterno.getIngreso()) {
             	boolean estaFinanciado = p.esFinanciado();   
                 p.addFinanciacionExterna(ingreso.getImporte());
+                //Actualizar persistencia del proyecto
+                this.actualizarPersistencia(p);
                 //Si hay financiación externa y completa el proyecto esta genera notificaciones (proyecto pasa a financiado)
                 //registrar las notificaciones y actualizar al creador del proyecto y sus mecenas
                 if (!estaFinanciado && p.esFinanciado()){
